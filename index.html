@@ -381,19 +381,20 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
 
       <!-- SOFA -->
       <div class="prod-card reveal">
-        <div class="prod-img" onclick="openProdImg('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=90')">
-          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=90" alt="Sofas" loading="lazy"/>
+        <div class="prod-img" onclick="togglePrice(this.nextElementSibling.querySelector('.price-btn'))" style="cursor:pointer;position:relative">
+          <img src="sofa2.jpg" alt="Sofas" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=90'"/>
+          <div style="position:absolute;bottom:12px;right:12px;background:rgba(201,168,76,.9);color:#0E0E0E;font-size:11px;font-weight:700;padding:6px 12px;border-radius:100px;letter-spacing:.5px">👆 Tap for Price</div>
         </div>
         <div class="prod-body">
           <div class="prod-cat">Living Room</div>
           <div class="prod-name">Sofas & Sectionals</div>
           <button class="price-btn" onclick="togglePrice(this)">🏷️ Tap to See Price</button>
           <div class="price-reveal">
-            <div class="price-amount">KSh 85,000</div>
-            <div class="price-note">7 Seater · Custom sizes available</div>
+            <div class="price-amount">KSh 120,000</div>
+            <div class="price-note">7 Seater (3+2+2) · Custom sizes available</div>
           </div>
-          <div class="prod-desc">Custom-upholstered sofas in any size or fabric. L-shaped, 3-seater, recliner &amp; more.</div>
-          <a class="prod-link" href="https://wa.me/254702894439?text=Hello!%20I'd%20like%20to%20order%20a%207%20seater%20sofa%20at%20KSh%2085%2C000." target="_blank">Inquire Now →</a>
+          <div class="prod-desc">Premium recliner sofas custom-upholstered in any fabric. L-shaped, 3-seater, recliner &amp; more.</div>
+          <a class="prod-link" href="https://wa.me/254702894439?text=Hello!%20I'd%20like%20to%20order%20a%207%20seater%20sofa%20at%20KSh%20120%2C000." target="_blank">Inquire Now →</a>
         </div>
       </div>
 
@@ -755,4 +756,4 @@ function submitForm(){
 }
 </script>
 </body>
-                                                                           </html>
+</html>
