@@ -119,14 +119,13 @@ section{padding:96px 5%}
 .prod-body{padding:18px 20px 22px}
 .prod-cat{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
 .prod-name{font-family:var(--serif);font-size:20px;font-weight:600;margin-bottom:10px}
-/* Price reveal */
-.price-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:7px 14px;border-radius:100px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;margin-bottom:12px;letter-spacing:.3px;user-select:none}
-.price-btn:hover{background:rgba(201,168,76,.18)}
-.price-reveal{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease;opacity:0}
-.price-reveal.show{max-height:60px;opacity:1}
-.price-amount{color:var(--gold);font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.2}
-.price-note{font-size:12px;color:var(--muted);margin-top:2px}
-.prod-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;margin-top:10px}
+/* Flyer price badge */
+.flyer-wrap{position:relative;border-radius:8px;overflow:hidden;cursor:pointer}
+.flyer-wrap img{width:100%;display:block;transition:transform .3s}
+.flyer-wrap:hover img{transform:scale(1.02)}
+.flyer-price{position:absolute;bottom:12px;left:12px;background:linear-gradient(135deg,var(--gold-d),var(--gold));color:var(--dark);padding:8px 14px;border-radius:var(--r)}
+.flyer-price-amount{font-family:var(--serif);font-size:20px;font-weight:700;line-height:1;display:block}
+.flyer-price-note{font-size:10px;font-weight:600;opacity:.8;display:block;margin-top:2px}
 .prod-link{font-size:12px;color:var(--gold);font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:gap .2s}
 .prod-link:hover{gap:8px}
 .prod-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold-d));transform:scaleX(0);transition:transform .4s;transform-origin:left}
@@ -407,10 +406,9 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
         <div class="prod-body">
           <div class="prod-cat">Dining</div>
           <div class="prod-name">Dining Sets</div>
-          <button class="price-btn" onclick="togglePrice(this)">🏷️ Tap to See Price</button>
-          <div class="price-reveal">
-            <div class="price-amount">KSh 180,000</div>
-            <div class="price-note">8 Seater · Custom sizes available</div>
+          <div class="price-tag">
+            <span class="price-tag-amount">KSh 180,000</span>
+            <span class="price-tag-note">8 Seater · Custom sizes available</span>
           </div>
           <div class="prod-desc">Elegant tables and chairs with intricate wood carving. True Kenyan craftsmanship.</div>
           <a class="prod-link" href="https://wa.me/254702894439?text=Hello!%20I'd%20like%20to%20order%20an%208%20seater%20dining%20table." target="_blank">Inquire Now →</a>
@@ -443,10 +441,9 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
         <div class="prod-body">
           <div class="prod-cat">Storage</div>
           <div class="prod-name">Wardrobes & Cabinets</div>
-          <button class="price-btn" onclick="togglePrice(this)">🏷️ Tap to See Price</button>
-          <div class="price-reveal">
-            <div class="price-amount">KSh 25,000</div>
-            <div class="price-note">Cabinet · Custom sizes available</div>
+          <div class="price-tag">
+            <span class="price-tag-amount">KSh 25,000</span>
+            <span class="price-tag-note">Cabinet · Custom sizes available</span>
           </div>
           <div class="prod-desc">TV units, wardrobes, and kitchen cabinets designed to maximize space and style.</div>
           <a class="prod-link" href="https://wa.me/254702894439?text=Hello!%20I'd%20like%20to%20order%20a%20cabinet%20at%20KSh%2025%2C000." target="_blank">Inquire Now →</a>
@@ -479,10 +476,9 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
         <div class="prod-body">
           <div class="prod-cat">Office</div>
           <div class="prod-name">Office Furniture</div>
-          <button class="price-btn" onclick="togglePrice(this)">🏷️ Tap to See Price</button>
-          <div class="price-reveal">
-            <div class="price-amount">Custom Order</div>
-            <div class="price-note">WhatsApp us for pricing</div>
+          <div class="price-tag">
+            <span class="price-tag-amount">Custom Order</span>
+            <span class="price-tag-note">WhatsApp for pricing</span>
           </div>
           <div class="prod-desc">Desks, boardroom tables, and reception counters built for productivity.</div>
           <a class="prod-link" href="https://wa.me/254702894439?text=Hello!%20I'd%20like%20to%20order%20office%20furniture." target="_blank">Inquire Now →</a>
@@ -500,14 +496,38 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
     <h2 class="s-title reveal">Our Latest Offers</h2>
     <p class="s-sub reveal">Browse our premium furniture collections — tap any flyer to view full size.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:48px">
-      <img src="IMG-20260610-WA0232.jpg" onclick="openProdImg('IMG-20260610-WA0232.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Chesterfield Beds" class="reveal"/>
-      <img src="IMG-20260610-WA0228.jpg" onclick="openProdImg('IMG-20260610-WA0228.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Mocket Beds" class="reveal d1"/>
-      <img src="IMG-20260610-WA0233.jpg" onclick="openProdImg('IMG-20260610-WA0233.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Beds Collection" class="reveal d2"/>
-      <img src="IMG-20260610-WA0231.jpg" onclick="openProdImg('IMG-20260610-WA0231.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Luxury Couches" class="reveal"/>
-      <img src="IMG-20260610-WA0224.jpg" onclick="openProdImg('IMG-20260610-WA0224.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="L-Shaped Sofas" class="reveal d1"/>
-      <img src="IMG-20260610-WA0229.jpg" onclick="openProdImg('IMG-20260610-WA0229.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Weekend Special" class="reveal d2"/>
-      <img src="IMG-20260610-WA0227.jpg" onclick="openProdImg('IMG-20260610-WA0227.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Sofas" class="reveal"/>
-      <img src="IMG-20260610-WA0234.jpg" onclick="openProdImg('IMG-20260610-WA0234.jpg')" style="width:100%;border-radius:8px;cursor:pointer;transition:transform .3s,opacity .3s" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" loading="lazy" alt="Baby Beds" class="reveal d1"/>
+      <div class="flyer-wrap reveal" onclick="openProdImg('IMG-20260610-WA0232.jpg')">
+        <img src="IMG-20260610-WA0232.jpg" loading="lazy" alt="Chesterfield Beds"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 75,000</span><span class="flyer-price-note">Chesterfield Bed</span></div>
+      </div>
+      <div class="flyer-wrap reveal d1" onclick="openProdImg('IMG-20260610-WA0228.jpg')">
+        <img src="IMG-20260610-WA0228.jpg" loading="lazy" alt="Mocket Beds"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 40,000</span><span class="flyer-price-note">Mocket Bed</span></div>
+      </div>
+      <div class="flyer-wrap reveal d2" onclick="openProdImg('IMG-20260610-WA0233.jpg')">
+        <img src="IMG-20260610-WA0233.jpg" loading="lazy" alt="Beds Collection"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 70,000 – 110,000</span><span class="flyer-price-note">Mahogany Bed 4×6 – 5×6</span></div>
+      </div>
+      <div class="flyer-wrap reveal" onclick="openProdImg('IMG-20260610-WA0231.jpg')">
+        <img src="IMG-20260610-WA0231.jpg" loading="lazy" alt="Luxury Couches"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 65,000</span><span class="flyer-price-note">Luxury Couches</span></div>
+      </div>
+      <div class="flyer-wrap reveal d1" onclick="openProdImg('IMG-20260610-WA0224.jpg')">
+        <img src="IMG-20260610-WA0224.jpg" loading="lazy" alt="L-Shaped Sofas"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 75,000</span><span class="flyer-price-note">L-Shaped Sofa</span></div>
+      </div>
+      <div class="flyer-wrap reveal d2" onclick="openProdImg('IMG-20260610-WA0229.jpg')">
+        <img src="IMG-20260610-WA0229.jpg" loading="lazy" alt="Weekend Special"/>
+        <div class="flyer-price"><span class="flyer-price-amount">Weekend Deal!</span><span class="flyer-price-note">Special Offer — WhatsApp for Price</span></div>
+      </div>
+      <div class="flyer-wrap reveal" onclick="openProdImg('IMG-20260610-WA0227.jpg')">
+        <img src="IMG-20260610-WA0227.jpg" loading="lazy" alt="Sofas"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 120,000</span><span class="flyer-price-note">7 Seater Sofa (3+2+2)</span></div>
+      </div>
+      <div class="flyer-wrap reveal d1" onclick="openProdImg('IMG-20260610-WA0234.jpg')">
+        <img src="IMG-20260610-WA0234.jpg" loading="lazy" alt="Baby Beds"/>
+        <div class="flyer-price"><span class="flyer-price-amount">KSh 65,000</span><span class="flyer-price-note">Modern Baby Beds</span></div>
+      </div>
     </div>
     <div style="text-align:center;margin-top:40px">
       <a class="btn btn-gold reveal" href="https://wa.me/254702894439?text=Hello!%20I%20saw%20your%20collections%20and%20I'd%20like%20to%20order." target="_blank">Order Any Item →</a>
