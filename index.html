@@ -130,16 +130,6 @@ section{padding:96px 5%}
 .prod-link:hover{gap:8px}
 .prod-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,var(--gold),var(--gold-d));transform:scaleX(0);transition:transform .4s;transform-origin:left}
 .prod-card:hover::after{transform:scaleX(1)}
-.prod-desc{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:14px}
-.price-btn{display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);font-size:12px;font-weight:600;padding:8px 14px;border-radius:100px;cursor:pointer;margin-bottom:10px;transition:all .2s;letter-spacing:.3px;font-family:var(--sans);width:100%}
-.price-btn:hover{background:rgba(201,168,76,.2)}
-.price-reveal{display:none;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:var(--r);padding:10px 14px;margin-bottom:12px}
-.price-reveal.show{display:block}
-.price-amount{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--gold);line-height:1}
-.price-note{font-size:11px;color:var(--muted);margin-top:3px;letter-spacing:.3px}
-.price-tag{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:var(--r);padding:10px 14px;margin-bottom:12px}
-.price-tag-amount{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--gold);display:block;line-height:1}
-.price-tag-note{font-size:11px;color:var(--muted);display:block;margin-top:3px;letter-spacing:.3px}
 
 /* ══ GALLERY ══ */
 #gallery{background:var(--d2)}
@@ -427,8 +417,8 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
 
       <!-- BEDS -->
       <div class="prod-card reveal d2">
-        <div class="prod-img" onclick="openProdImg('bed2.jpg')">
-          <img src="bed2.jpg" alt="Beds" loading="lazy"/>
+        <div class="prod-img" onclick="openProdImg('https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&q=90')">
+          <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&q=90" alt="Beds" loading="lazy"/>
         </div>
         <div class="prod-body">
           <div class="prod-cat">Bedroom</div>
@@ -564,27 +554,6 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.05);padding
       <img src="office.jpg" onclick="openLightbox(9)" alt="DVF" loading="lazy"/>
       <img src="IMG-20260608-WA0025.jpg" onclick="openLightbox(10)" alt="DVF" loading="lazy"/>
       <img src="IMG-20260608-WA0026.jpg" onclick="openLightbox(11)" alt="DVF" loading="lazy"/>
-      <img src="sofa.jpg" onclick="openLightbox(12)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0018.jpg" onclick="openLightbox(13)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0019.jpg" onclick="openLightbox(14)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0020.jpg" onclick="openLightbox(15)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0021.jpg" onclick="openLightbox(16)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0022.jpg" onclick="openLightbox(17)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0023.jpg" onclick="openLightbox(18)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0024.jpg" onclick="openLightbox(19)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0027.jpg" onclick="openLightbox(20)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0028.jpg" onclick="openLightbox(21)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0030.jpg" onclick="openLightbox(22)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0031.jpg" onclick="openLightbox(23)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0033.jpg" onclick="openLightbox(24)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0034.jpg" onclick="openLightbox(25)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260608-WA0035.jpg" onclick="openLightbox(26)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260609-WA0024.jpg" onclick="openLightbox(27)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260610-WA0002.jpg" onclick="openLightbox(28)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260610-WA0009.jpg" onclick="openLightbox(29)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260610-WA0226.jpg" onclick="openLightbox(30)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260611-WA0028.jpg" onclick="openLightbox(31)" alt="DVF" loading="lazy"/>
-      <img src="IMG-20260611-WA0029.jpg" onclick="openLightbox(32)" alt="DVF" loading="lazy"/>
     </div>
     <div style="text-align:center;margin-top:40px">
       <a class="btn btn-gold reveal" href="https://wa.me/254702894439?text=Hello!%20I%20saw%20your%20gallery%20and%20I'd%20like%20to%20order." target="_blank">Order Something Like This →</a>
@@ -805,7 +774,7 @@ function togglePrice(btn){
 }
 
 // Lightbox
-const imgs=['IMG-20260608-WA0029.jpg','IMG-20260608-WA0032.jpg','1780924105500.jpg','bed.jpg','bed2.jpg','1780924052578.jpg','cabinet.jpg','1780923972950.jpg','1780923820434.jpg','office.jpg','IMG-20260608-WA0025.jpg','IMG-20260608-WA0026.jpg','sofa.jpg','IMG-20260608-WA0018.jpg','IMG-20260608-WA0019.jpg','IMG-20260608-WA0020.jpg','IMG-20260608-WA0021.jpg','IMG-20260608-WA0022.jpg','IMG-20260608-WA0023.jpg','IMG-20260608-WA0024.jpg','IMG-20260608-WA0027.jpg','IMG-20260608-WA0028.jpg','IMG-20260608-WA0030.jpg','IMG-20260608-WA0031.jpg','IMG-20260608-WA0033.jpg','IMG-20260608-WA0034.jpg','IMG-20260608-WA0035.jpg','IMG-20260609-WA0024.jpg','IMG-20260610-WA0002.jpg','IMG-20260610-WA0009.jpg','IMG-20260610-WA0226.jpg','IMG-20260611-WA0028.jpg','IMG-20260611-WA0029.jpg'];
+const imgs=['IMG-20260608-WA0029.jpg','IMG-20260608-WA0032.jpg','1780924105500.jpg','bed.jpg','bed2.jpg','1780924052578.jpg','cabinet.jpg','1780923972950.jpg','1780923820434.jpg','office.jpg','IMG-20260608-WA0025.jpg','IMG-20260608-WA0026.jpg'];
 let cur=0;
 function openLightbox(i){cur=i;document.getElementById('lightbox-img').src=imgs[i];document.getElementById('lightbox').classList.add('open')}
 function openProdImg(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').classList.add('open')}
