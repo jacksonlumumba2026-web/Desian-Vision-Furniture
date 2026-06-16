@@ -80,8 +80,20 @@
 
       <!-- Products -->
       <div>
+        <!-- Category photo cards (all-products view) -->
+        <div id="catCards" class="cat-cards-row" style="display:none"></div>
+        <!-- Category banner (single-category view) -->
+        <div id="catBanner" class="cat-banner" style="display:none">
+          <img id="catBannerImg" src="" alt="" onerror="this.src='sofa.jpg'">
+          <div class="cat-banner-overlay">
+            <div id="catBannerIcon" class="cat-banner-icon"></div>
+            <div id="catBannerName" class="cat-banner-name"></div>
+            <div id="catBannerDesc" class="cat-banner-desc"></div>
+            <div id="catBannerCount" class="cat-banner-count"></div>
+          </div>
+        </div>
         <div class="shop-toolbar">
-          <span class="shop-count" id="shopCount">19 products</span>
+          <span class="shop-count" id="shopCount"></span>
           <select class="sort-select" id="sortSelect" onchange="applyFilters()">
             <option value="featured">Featured</option>
             <option value="price-asc">Price: Low to High</option>
@@ -91,9 +103,7 @@
         </div>
         <div class="filter-chips" id="filterChips"></div>
         <div class="shop-grid" id="shopGrid"></div>
-        <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
-          <button class="btn btn-outline btn-lg" onclick="loadMore()">Load More Products</button>
-        </div>
+        <div class="pagination" id="pagination"></div>
       </div>
     </div>
   </div>
@@ -159,8 +169,10 @@
 <script src="js/data.js"></script>
 <script src="js/app.js"></script>
 <script>
+const ITEMS_PER_PAGE = 8;
+let currentPage = 1;
 let filtered = [...PRODUCTS];
-let shown = 9;
+let activeCat = null;
 
 function updatePriceLabel(v) {
   document.getElementById('priceLabel').textContent = 'KSh ' + parseInt(v).toLocaleString();
@@ -175,10 +187,13 @@ function onCatAllChange() {
 function applyFilters() {
   const cats = Array.from(document.querySelectorAll('.cat-filter:checked')).map(c => c.value);
   const allChecked = cats.length === 0;
-  if (!allChecked) document.getElementById('catAll').checked = false;
+  if (allChecked) document.getElementById('catAll').checked = true;
+  else document.getElementById('catAll').checked = false;
   const maxPrice = parseInt(document.getElementById('priceRange').value);
   const minRating = parseFloat(document.querySelector('input[name="minRating"]:checked')?.value || '0');
   const sort = document.getElementById('sortSelect').value;
+
+  activeCat = cats.length === 1 ? cats[0] : null;
 
   filtered = PRODUCTS.filter(p => {
     const catOk = allChecked || cats.includes(p.cat);
@@ -191,27 +206,95 @@ function applyFilters() {
   else if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
   else if (sort === 'rating') filtered.sort((a, b) => b.rating - a.rating);
 
-  shown = 9;
+  currentPage = 1;
+  renderCategoryDisplay();
   renderShop();
   renderChips(cats);
+}
+
+function renderCategoryDisplay() {
+  const banner = document.getElementById('catBanner');
+  const cards = document.getElementById('catCards');
+
+  if (activeCat) {
+    const cat = CATEGORIES.find(c => c.id === activeCat);
+    if (cat && banner) {
+      document.getElementById('catBannerImg').src = resolveImg(cat.img);
+      document.getElementById('catBannerIcon').textContent = cat.icon;
+      document.getElementById('catBannerName').textContent = cat.name;
+      document.getElementById('catBannerDesc').textContent = cat.desc;
+      document.getElementById('catBannerCount').textContent = filtered.length + ' products available';
+      banner.style.display = 'block';
+    }
+    if (cards) cards.style.display = 'none';
+  } else {
+    if (banner) banner.style.display = 'none';
+    if (cards) {
+      cards.style.display = 'flex';
+      cards.innerHTML = CATEGORIES.map(cat => {
+        const cnt = PRODUCTS.filter(p => p.cat === cat.id).length;
+        return `<a class="cat-card" href="shop.html?cat=${cat.id}">
+          <img src="${resolveImg(cat.img)}" alt="${cat.name}" onerror="this.src='sofa.jpg'">
+          <div class="cat-card-overlay">
+            <div class="cat-card-icon">${cat.icon}</div>
+            <div class="cat-card-name">${cat.name}</div>
+            <div class="cat-card-count">${cnt} items</div>
+          </div>
+        </a>`;
+      }).join('');
+    }
+  }
 }
 
 function renderShop() {
   const grid = document.getElementById('shopGrid');
   const count = document.getElementById('shopCount');
-  const loadWrap = document.getElementById('loadMoreWrap');
-  const slice = filtered.slice(0, shown);
-  count.textContent = `Showing ${Math.min(shown, filtered.length)} of ${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
-  if (filtered.length === 0) {
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / ITEMS_PER_PAGE));
+  currentPage = Math.min(currentPage, totalPages);
+  const start = (currentPage - 1) * ITEMS_PER_PAGE;
+  const end = Math.min(start + ITEMS_PER_PAGE, total);
+  const slice = filtered.slice(start, end);
+
+  if (total === 0) {
+    count.textContent = '0 products';
     grid.innerHTML = '<div style="text-align:center;padding:3rem;color:#666;grid-column:1/-1"><p>No products match your filters.</p><button class="btn btn-outline" onclick="clearFilters()" style="margin-top:1rem">Clear Filters</button></div>';
   } else {
+    count.textContent = 'Showing ' + (start + 1) + '–' + end + ' of ' + total + ' product' + (total !== 1 ? 's' : '');
     grid.innerHTML = slice.map(renderProductCard).join('');
   }
-  loadWrap.style.display = filtered.length > shown ? 'block' : 'none';
+  renderPagination(currentPage, totalPages);
   initReveal();
 }
 
-function loadMore() { shown += 6; renderShop(); }
+function renderPagination(page, total) {
+  const el = document.getElementById('pagination');
+  if (!el || total <= 1) { if (el) el.innerHTML = ''; return; }
+  const delta = window.innerWidth < 576 ? 1 : 2;
+  const range = [];
+  for (let i = Math.max(1, page - delta); i <= Math.min(total, page + delta); i++) range.push(i);
+
+  let html = '<button class="page-btn" ' + (page === 1 ? 'disabled' : '') + ' onclick="goToPage(' + (page - 1) + ')">← Prev</button>';
+  if (range[0] > 1) {
+    html += '<button class="page-btn" onclick="goToPage(1)">1</button>';
+    if (range[0] > 2) html += '<span class="page-ellipsis">…</span>';
+  }
+  range.forEach(function(p) {
+    html += '<button class="page-btn' + (p === page ? ' active' : '') + '" onclick="goToPage(' + p + ')">' + p + '</button>';
+  });
+  if (range[range.length - 1] < total) {
+    if (range[range.length - 1] < total - 1) html += '<span class="page-ellipsis">…</span>';
+    html += '<button class="page-btn" onclick="goToPage(' + total + ')">' + total + '</button>';
+  }
+  html += '<button class="page-btn" ' + (page === total ? 'disabled' : '') + ' onclick="goToPage(' + (page + 1) + ')">Next →</button>';
+  el.innerHTML = html;
+}
+
+function goToPage(page) {
+  currentPage = page;
+  renderShop();
+  document.querySelector('.shop-layout')?.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
 
 function clearFilters() {
   document.getElementById('catAll').checked = true;
@@ -221,7 +304,9 @@ function clearFilters() {
   document.querySelector('input[name="minRating"][value="0"]').checked = true;
   document.getElementById('sortSelect').value = 'featured';
   filtered = [...PRODUCTS];
-  shown = 9;
+  activeCat = null;
+  currentPage = 1;
+  renderCategoryDisplay();
   renderShop();
   document.getElementById('filterChips').innerHTML = '';
 }
@@ -231,12 +316,12 @@ function renderChips(cats) {
   if (cats.length === 0) { el.innerHTML = ''; return; }
   el.innerHTML = cats.map(c => {
     const cat = CATEGORIES.find(x => x.id === c);
-    return `<span class="filter-chip">${cat ? cat.name : c} <button onclick="removeCat('${c}')">×</button></span>`;
+    return '<span class="filter-chip">' + (cat ? cat.name : c) + ' <button onclick="removeCat(\'' + c + '\')">×</button></span>';
   }).join('');
 }
 
 function removeCat(cat) {
-  const cb = document.querySelector(`.cat-filter[value="${cat}"]`);
+  const cb = document.querySelector('.cat-filter[value="' + cat + '"]');
   if (cb) cb.checked = false;
   applyFilters();
 }
@@ -245,16 +330,18 @@ function toggleMobileFilter() {
   document.getElementById('filterSidebar').classList.toggle('mob-open');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
   const params = new URLSearchParams(window.location.search);
   const cat = params.get('cat');
   if (cat) {
     document.getElementById('catAll').checked = false;
-    const cb = document.querySelector(`.cat-filter[value="${cat}"]`);
-    if (cb) { cb.checked = true; }
+    const cb = document.querySelector('.cat-filter[value="' + cat + '"]');
+    if (cb) cb.checked = true;
+    activeCat = cat;
     filtered = PRODUCTS.filter(p => p.cat === cat);
     renderChips([cat]);
   }
+  renderCategoryDisplay();
   renderShop();
 
   if (window.innerWidth <= 992) {

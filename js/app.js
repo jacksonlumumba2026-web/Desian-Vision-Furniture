@@ -16,7 +16,8 @@
       if (o.badge !== undefined) p.badge = o.badge;
     });
     const customs = JSON.parse(localStorage.getItem('dvf_admin_products') || '[]');
-    customs.forEach(p => { if (!PRODUCTS.find(x => x.id === p.id)) PRODUCTS.push(p); });
+    // New admin products appear first
+    customs.slice().reverse().forEach(p => { if (!PRODUCTS.find(x => x.id === p.id)) PRODUCTS.unshift(p); });
   } catch(e) {}
 })();
 
