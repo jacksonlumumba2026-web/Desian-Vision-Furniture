@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery – Desian Vision Furniture</title>
+  <meta name="description" content="Browse our gallery of premium custom furniture — sofas, beds, dining sets and more made in Nairobi.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-inner wrap">
+    <a class="nav-brand" href="index.html"><img src="logo.png" alt="DVF" onerror="this.style.display='none'"> Desian Vision</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li class="has-dropdown"><a href="#">Categories ▾</a>
+        <div class="dropdown">
+          <a href="shop.html?cat=sofas">🛋️ Sofas & Sectionals</a>
+          <a href="shop.html?cat=beds">🛏️ Beds & Headboards</a>
+          <a href="shop.html?cat=dining">🍽️ Dining Sets</a>
+          <a href="shop.html?cat=storage">🗄️ Wardrobes & Storage</a>
+          <a href="shop.html?cat=bedroom">🪞 Bedroom Accessories</a>
+        </div>
+      </li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button onclick="openSearch()">🔍</button>
+      <button onclick="openWishlist()" style="position:relative">♡<span id="wishBadge" class="nav-badge hidden">0</span></button>
+      <button onclick="openCart()" style="position:relative">🛒<span id="cartBadge" class="nav-badge hidden">0</span></button>
+      <a href="account.html">👤</a>
+    </div>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>Our Portfolio</h1>
+    <nav class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span class="current">Gallery</span></nav>
+  </div>
+</div>
+
+<section class="section">
+  <div class="wrap">
+    <!-- Filter Tabs -->
+    <div class="gallery-filter-tabs">
+      <button class="gallery-tab active" onclick="filterGallery('all',this)">All</button>
+      <button class="gallery-tab" onclick="filterGallery('sofas',this)">🛋️ Sofas</button>
+      <button class="gallery-tab" onclick="filterGallery('beds',this)">🛏️ Beds</button>
+      <button class="gallery-tab" onclick="filterGallery('storage',this)">🗄️ Storage</button>
+      <button class="gallery-tab" onclick="filterGallery('other',this)">Other</button>
+    </div>
+
+    <!-- Masonry Grid -->
+    <div class="gallery-masonry" id="galleryGrid"></div>
+
+    <!-- WhatsApp CTA -->
+    <div style="text-align:center;padding:3rem 0 0">
+      <p style="color:#666;margin-bottom:1.5rem;font-size:1rem">See something you love? Order it on WhatsApp!</p>
+      <a href="https://wa.me/254702894439?text=Hello%20DVF!%20I%20saw%20your%20gallery%20and%20I%27d%20like%20to%20order%20furniture." class="btn btn-wa btn-lg" target="_blank">💬 Order on WhatsApp</a>
+      <a href="shop.html" class="btn btn-outline btn-lg" style="margin-left:1rem">Browse Products</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLb()">×</button>
+  <button class="lightbox-prev" onclick="lbMove(-1)">‹</button>
+  <img class="lightbox-img" id="lbImg" src="" alt="Gallery Image">
+  <button class="lightbox-next" onclick="lbMove(1)">›</button>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div><div class="footer-brand-name">Desian Vision Furniture</div><p class="footer-desc">Premium custom furniture crafted with passion in Nairobi, Kenya.</p><div class="footer-social"><a href="https://www.facebook.com/profile.php?id=61550647002330" target="_blank">f</a><a href="https://www.instagram.com/desian_visionfurnitures" target="_blank">ig</a><a href="https://wa.me/254702894439" target="_blank">wa</a></div></div>
+      <div><div class="footer-heading">Shop</div><ul class="footer-links"><li><a href="shop.html?cat=sofas">Sofas</a></li><li><a href="shop.html?cat=beds">Beds</a></li><li><a href="shop.html?cat=dining">Dining</a></li><li><a href="shop.html?cat=storage">Storage</a></li></ul></div>
+      <div><div class="footer-heading">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><div class="footer-contact-item"><span>📞</span><span>0702 894 439</span></div><div class="footer-contact-item"><span>📍</span><span>Githurai 45, Nairobi</span></div></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="wrap">© 2026 <span>Desian Vision Furniture</span>. All rights reserved.</div></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-hd"><h3>Shopping Cart</h3><button class="sidebar-close" id="cartCloseBtn">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-ft">
+    <div class="cart-total-row"><span>Total</span><span class="amount" id="cartTotal">KSh 0</span></div>
+    <a href="cart.html" class="btn btn-outline" style="width:100%;margin-bottom:0.75rem;justify-content:center;display:flex">View Cart</a>
+    <button class="btn btn-primary" style="width:100%" onclick="cartCheckout()">Order via WhatsApp 💬</button>
+  </div>
+</div>
+<div class="wish-overlay" id="wishOverlay"></div>
+<div class="wish-sidebar" id="wishSidebar">
+  <div class="wish-hd"><h3>My Wishlist</h3><button class="sidebar-close" id="wishCloseBtn">×</button></div>
+  <div class="wish-items" id="wishItems"></div>
+</div>
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search furniture..." class="search-input" autocomplete="off"><button id="searchClose" class="search-close-btn">×</button></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-header"><span style="font-family:'Cormorant Garamond',serif;font-weight:700;color:#1E5631;font-size:1.2rem">Desian Vision</span><button class="mob-drawer-close" id="drawerClose">×</button></div>
+  <nav class="mob-nav-links"><a href="index.html">Home</a><a href="shop.html">Shop All</a><a href="gallery.html">Gallery</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="https://wa.me/254702894439" style="color:#25D366">💬 WhatsApp</a></nav>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+// Gallery data with categories
+const GALLERY = [
+  {img:'sofa.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0019.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0020.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0021.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0024.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0025.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0026.jpg', cat:'beds'},
+  {img:'IMG-20260608-WA0027.jpg', cat:'beds'},
+  {img:'IMG-20260608-WA0028.jpg', cat:'beds'},
+  {img:'IMG-20260608-WA0030.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0031.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0032.jpg', cat:'sofas'},
+  {img:'IMG-20260608-WA0033.jpg', cat:'sofas'},
+  {img:'IMG-20260609-WA0024.jpg', cat:'sofas'},
+  {img:'IMG-20260609-WA0025.jpg', cat:'sofas'},
+  {img:'IMG-20260609-WA0033.jpg', cat:'sofas'},
+  {img:'IMG-20260609-WA0037.jpg', cat:'sofas'},
+  {img:'IMG-20260610-WA0002.jpg', cat:'sofas'},
+  {img:'IMG-20260610-WA0009.jpg', cat:'sofas'},
+  {img:'1780923820434.jpg', cat:'other'},
+  {img:'1780923972950.jpg', cat:'storage'},
+  {img:'1780924052578.jpg', cat:'other'},
+  {img:'1780924105500.jpg', cat:'sofas'},
+  {img:'IMG-20260613-WA0009.jpg', cat:'other'},
+  {img:'bed.jpg', cat:'beds'},
+  {img:'bed2.jpg', cat:'beds'},
+  {img:'cabinet.jpg', cat:'storage'},
+];
+
+let lbList = GALLERY;
+let lbIdx = 0;
+
+function openLb(imgs, idx) {
+  lbList = imgs;
+  lbIdx = idx;
+  document.getElementById('lbImg').src = lbList[lbIdx].img;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLb() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbMove(d) {
+  lbIdx = (lbIdx + d + lbList.length) % lbList.length;
+  document.getElementById('lbImg').src = lbList[lbIdx].img;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLb();
+  if (e.key === 'ArrowLeft') lbMove(-1);
+  if (e.key === 'ArrowRight') lbMove(1);
+});
+
+function renderGallery(items) {
+  const grid = document.getElementById('galleryGrid');
+  grid.innerHTML = items.map((item, i) => `
+    <div class="gallery-item" onclick="openLb(lbList, ${i})">
+      <img src="${item.img}" alt="DVF Furniture" loading="lazy" onerror="this.closest('.gallery-item').style.display='none'">
+      <div class="gallery-item-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+    </div>
+  `).join('');
+}
+
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.gallery-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  lbList = cat === 'all' ? GALLERY : GALLERY.filter(g => g.cat === cat);
+  renderGallery(lbList);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  lbList = GALLERY;
+  renderGallery(GALLERY);
+});
+</script>
+</body>
+</html>

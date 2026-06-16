@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout – Desian Vision Furniture</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-inner wrap">
+    <a class="nav-brand" href="index.html"><img src="logo.png" alt="DVF" onerror="this.style.display='none'"> Desian Vision</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button onclick="openCart()" style="position:relative">🛒<span id="cartBadge" class="nav-badge hidden">0</span></button>
+      <span id="wishBadge" style="display:none"></span>
+    </div>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>Checkout</h1>
+    <nav class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><a href="cart.html">Cart</a><span class="sep">/</span><span class="current">Checkout</span></nav>
+  </div>
+</div>
+
+<!-- Thank You Modal -->
+<div class="lightbox" id="thankYouModal">
+  <div style="background:white;border-radius:20px;padding:2.5rem;max-width:500px;width:90%;text-align:center;position:relative">
+    <div style="font-size:4rem;margin-bottom:1rem">✅</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;color:#1E5631;margin-bottom:0.75rem">Order Placed!</h2>
+    <p style="color:#666;margin-bottom:0.375rem;font-size:0.9rem">Order Reference: <strong id="orderRef">DVF-2026-001</strong></p>
+    <p style="color:#666;margin-bottom:1.5rem;font-size:0.9rem" id="thankMsg">We'll contact you via WhatsApp to confirm delivery.</p>
+    <div style="background:#F8F9FA;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;text-align:left;font-size:0.85rem" id="mpesaBox">
+      <p style="font-weight:700;margin-bottom:0.875rem;color:#1E5631">📱 M-Pesa Payment Instructions:</p>
+      <div class="mpesa-step"><span>1.</span><span>Go to M-Pesa → Lipa Na M-Pesa → Pay Bill</span></div>
+      <div class="mpesa-step"><span>2.</span><span>Business Number: <strong>400200</strong></span></div>
+      <div class="mpesa-step"><span>3.</span><span>Account Number: <strong id="mpesaAcct">DVF001</strong></span></div>
+      <div class="mpesa-step"><span>4.</span><span>Amount: <strong id="mpesaAmt">KSh 0</strong></span></div>
+      <div class="mpesa-step"><span>5.</span><span>Enter PIN and send — you'll receive a confirmation SMS</span></div>
+    </div>
+    <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+      <a href="index.html" class="btn btn-primary">Back to Home</a>
+      <a href="shop.html" class="btn btn-outline">Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+<section class="section" style="padding-top:3rem">
+  <div class="wrap">
+    <div id="emptyCheck" style="display:none;text-align:center;padding:4rem 0">
+      <div style="font-size:3rem;margin-bottom:1rem">🛒</div>
+      <h2>Your cart is empty</h2>
+      <a href="shop.html" class="btn btn-primary" style="margin-top:1rem">Browse Products</a>
+    </div>
+    <div class="checkout-layout" id="checkoutWrap">
+      <div>
+        <!-- Customer Info -->
+        <div class="checkout-card">
+          <h3>📋 Your Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name *</label>
+              <input type="text" class="form-input" id="coName" placeholder="e.g. John Doe" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">WhatsApp Number *</label>
+              <input type="tel" class="form-input" id="coPhone" placeholder="e.g. 0712 345 678" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address (optional)</label>
+            <input type="email" class="form-input" id="coEmail" placeholder="john@example.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Delivery Address *</label>
+            <input type="text" class="form-input" id="coAddress" placeholder="Street, Estate, Area in Nairobi" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Order Notes (optional)</label>
+            <textarea class="form-textarea" id="coNotes" placeholder="Specific colors, sizes, delivery time preferences..."></textarea>
+          </div>
+        </div>
+
+        <!-- Delivery -->
+        <div class="checkout-card">
+          <h3>🚚 Delivery Option</h3>
+          <div class="payment-option selected" id="del-nairobi" onclick="selectDel('nairobi',this)">
+            <input type="radio" name="delivery" value="nairobi" checked>
+            <div>
+              <div class="payment-option-label">Nairobi Delivery — <span style="color:#1E5631;font-weight:700">FREE</span></div>
+              <div class="payment-option-desc">All Nairobi areas including Githurai, Kasarani, Thika Road, CBD & more</div>
+            </div>
+          </div>
+          <div class="payment-option" id="del-outside" onclick="selectDel('outside',this)">
+            <input type="radio" name="delivery" value="outside">
+            <div>
+              <div class="payment-option-label">Outside Nairobi</div>
+              <div class="payment-option-desc">Contact us on WhatsApp for a delivery quote to your location</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="checkout-card">
+          <h3>💳 Payment Method</h3>
+          <div class="payment-option selected" id="pm-mpesa" onclick="selectPay('mpesa',this)">
+            <input type="radio" name="payment" value="mpesa" checked>
+            <div>
+              <div class="payment-option-label">📱 M-Pesa (Lipa Na M-Pesa)</div>
+              <div class="payment-option-desc">Pay via Paybill 400200 after placing your order</div>
+            </div>
+          </div>
+          <div class="payment-option" id="pm-wa" onclick="selectPay('wa',this)">
+            <input type="radio" name="payment" value="wa">
+            <div>
+              <div class="payment-option-label">💬 Order & Pay via WhatsApp</div>
+              <div class="payment-option-desc">Send your order to WhatsApp, discuss and pay on delivery or M-Pesa</div>
+            </div>
+          </div>
+          <div class="payment-option" id="pm-cod" onclick="selectPay('cod',this)">
+            <input type="radio" name="payment" value="cod">
+            <div>
+              <div class="payment-option-label">💵 Cash on Delivery</div>
+              <div class="payment-option-desc">Pay cash when furniture arrives at your door (Nairobi only)</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;justify-content:center;display:flex" onclick="placeOrder()">
+          Place Order →
+        </button>
+        <p style="text-align:center;margin-top:0.75rem;font-size:0.8rem;color:#999">By placing an order you agree to be contacted via WhatsApp for delivery confirmation</p>
+      </div>
+
+      <!-- Order Summary -->
+      <div>
+        <div class="order-summary" style="position:sticky;top:90px">
+          <h3>Your Order</h3>
+          <div id="coItems"></div>
+          <hr style="border:none;border-top:1px solid #E5E7EB;margin:1rem 0">
+          <div class="summary-row"><span>Subtotal</span><span id="coSubtotal">KSh 0</span></div>
+          <div class="summary-row"><span>Delivery</span><span id="coDelivery" style="color:#1E5631;font-weight:600">FREE</span></div>
+          <div class="summary-row total"><span>Total</span><span class="amount" id="coTotal">KSh 0</span></div>
+          <div style="margin-top:1rem;background:#F0FFF4;border-radius:8px;padding:1rem;font-size:0.8rem;color:#1E5631">
+            ✓ Free Nairobi delivery<br>✓ Assembly included<br>✓ Handcrafted to order
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div><div class="footer-brand-name">Desian Vision Furniture</div><p class="footer-desc">Premium custom furniture in Nairobi.</p></div>
+      <div><div class="footer-heading">Shop</div><ul class="footer-links"><li><a href="shop.html">All Products</a></li><li><a href="shop.html?cat=sofas">Sofas</a></li><li><a href="shop.html?cat=beds">Beds</a></li></ul></div>
+      <div><div class="footer-heading">Help</div><ul class="footer-links"><li><a href="contact.html">Contact Us</a></li><li><a href="about.html">About DVF</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><div class="footer-contact-item"><span>📞</span><span>0702 894 439</span></div></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="wrap">© 2026 <span>Desian Vision Furniture</span>. All rights reserved.</div></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-hd"><h3>Shopping Cart</h3><button class="sidebar-close" id="cartCloseBtn">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-ft">
+    <div class="cart-total-row"><span>Total</span><span class="amount" id="cartTotal">KSh 0</span></div>
+    <button class="btn btn-primary" style="width:100%" onclick="cartCheckout()">Order via WhatsApp 💬</button>
+  </div>
+</div>
+<div class="wish-overlay" id="wishOverlay" style="display:none"></div>
+<div class="wish-sidebar" id="wishSidebar" style="display:none"></div>
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search..." class="search-input"><button id="searchClose" class="search-close-btn">×</button></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-header"><span style="font-family:'Cormorant Garamond',serif;font-weight:700;color:#1E5631;font-size:1.2rem">Desian Vision</span><button class="mob-drawer-close" id="drawerClose">×</button></div>
+  <nav class="mob-nav-links"><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="cart.html">Cart</a><a href="contact.html">Contact</a></nav>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+let selectedPay = 'mpesa';
+let selectedDel = 'nairobi';
+let orderCount = parseInt(localStorage.getItem('dvf_orders_count') || '0');
+
+function selectPay(method, el) {
+  selectedPay = method;
+  ['pm-mpesa','pm-wa','pm-cod'].forEach(id => document.getElementById(id)?.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input[type="radio"]').checked = true;
+}
+
+function selectDel(type, el) {
+  selectedDel = type;
+  ['del-nairobi','del-outside'].forEach(id => document.getElementById(id)?.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input[type="radio"]').checked = true;
+  document.getElementById('coDelivery').textContent = type === 'nairobi' ? 'FREE' : 'Quote via WhatsApp';
+}
+
+function validate() {
+  const name = document.getElementById('coName').value.trim();
+  const phone = document.getElementById('coPhone').value.trim();
+  const address = document.getElementById('coAddress').value.trim();
+  if (!name) { showToast('Please enter your full name', 'error'); document.getElementById('coName').focus(); return false; }
+  if (!phone) { showToast('Please enter your WhatsApp number', 'error'); document.getElementById('coPhone').focus(); return false; }
+  if (!address) { showToast('Please enter your delivery address', 'error'); document.getElementById('coAddress').focus(); return false; }
+  return true;
+}
+
+function placeOrder() {
+  if (!validate()) return;
+  const cart = getCart();
+  if (!cart.length) { showToast('Your cart is empty', 'error'); return; }
+
+  orderCount++;
+  localStorage.setItem('dvf_orders_count', orderCount);
+  const ref = 'DVF-' + new Date().getFullYear() + '-' + String(orderCount).padStart(3,'0');
+  const name = document.getElementById('coName').value.trim();
+  const phone = document.getElementById('coPhone').value.trim();
+  const address = document.getElementById('coAddress').value.trim();
+  const notes = document.getElementById('coNotes').value.trim();
+  const total = getCartTotal();
+
+  // Save order
+  const orders = JSON.parse(localStorage.getItem('dvf_orders') || '[]');
+  orders.unshift({
+    ref, date: new Date().toLocaleDateString('en-KE'),
+    items: cart.map(i => { const p = PRODUCTS.find(x => x.id === i.id); return p ? i.qty + 'x ' + p.name : ''; }).filter(Boolean),
+    total, status: 'Confirmed', payment: selectedPay
+  });
+  localStorage.setItem('dvf_orders', JSON.stringify(orders));
+
+  if (selectedPay === 'wa') {
+    let msg = `Hello DVF! 🛒 *New Order — ${ref}*\n\n`;
+    msg += `👤 *Customer:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n`;
+    if (notes) msg += `📝 *Notes:* ${notes}\n`;
+    msg += `\n*Items:*\n`;
+    cart.forEach(item => {
+      const p = PRODUCTS.find(x => x.id === item.id);
+      if (p) msg += `• ${item.qty}x ${p.name} — ${p.price > 0 ? 'KSh ' + (p.price * item.qty).toLocaleString() : 'Custom'}\n`;
+    });
+    if (total > 0) msg += `\n💰 *Total: KSh ${total.toLocaleString()}*`;
+    msg += `\n🚚 *Delivery:* ${selectedDel === 'nairobi' ? 'Nairobi (Free)' : 'Outside Nairobi'}\n💳 *Payment:* WhatsApp/Flexible`;
+    clearCart();
+    window.open('https://wa.me/254702894439?text=' + encodeURIComponent(msg), '_blank');
+    return;
+  }
+
+  // Show thank you modal
+  document.getElementById('orderRef').textContent = ref;
+  if (selectedPay === 'mpesa') {
+    document.getElementById('mpesaBox').style.display = 'block';
+    document.getElementById('mpesaAcct').textContent = ref.replace('DVF-','DVF');
+    document.getElementById('mpesaAmt').textContent = total > 0 ? 'KSh ' + total.toLocaleString() : 'As agreed';
+    document.getElementById('thankMsg').textContent = 'Complete M-Pesa payment below, then we\'ll confirm and schedule delivery.';
+  } else {
+    document.getElementById('mpesaBox').style.display = 'none';
+    document.getElementById('thankMsg').textContent = 'We\'ll call you to confirm delivery date and collect cash on arrival.';
+  }
+  document.getElementById('thankYouModal').classList.add('open');
+  clearCart();
+}
+
+function renderSummary() {
+  const cart = getCart();
+  if (!cart.length) {
+    document.getElementById('emptyCheck').style.display = 'block';
+    document.getElementById('checkoutWrap').style.display = 'none';
+    return;
+  }
+  const items = document.getElementById('coItems');
+  items.innerHTML = cart.map(item => {
+    const p = PRODUCTS.find(x => x.id === item.id);
+    if (!p) return '';
+    return `<div style="display:flex;gap:0.75rem;margin-bottom:0.875rem;align-items:center">
+      <img src="${p.imgs[0]}" style="width:52px;height:52px;object-fit:cover;border-radius:8px;flex-shrink:0" onerror="this.src='sofa.jpg'">
+      <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:0.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div><div style="font-size:0.8rem;color:#666">Qty: ${item.qty}</div></div>
+      <div style="font-weight:700;color:#1E5631;font-size:0.875rem;white-space:nowrap">${p.price > 0 ? fmt(p.price * item.qty) : 'Custom'}</div>
+    </div>`;
+  }).join('');
+  const total = getCartTotal();
+  document.getElementById('coSubtotal').textContent = fmt(total);
+  document.getElementById('coTotal').textContent = fmt(total);
+}
+
+document.addEventListener('DOMContentLoaded', renderSummary);
+</script>
+</body>
+</html>
