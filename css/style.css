@@ -447,11 +447,19 @@ h4 { font-size: 1.25rem; }
   z-index: 2;
 }
 
-.badge-new { background: var(--green); color: white; }
-.badge-hot { background: #e53935; color: white; }
-.badge-popular { background: var(--gold); color: var(--dark); }
-.badge-sale { background: #f57c00; color: white; }
-.badge-custom { background: #7B1FA2; color: white; }
+.badge-new      { background: var(--green); color: white; }
+.badge-hot      { background: #e53935; color: white; }
+.badge-popular  { background: var(--gold); color: var(--dark); }
+.badge-sale     { background: #f57c00; color: white; }
+.badge-custom   { background: #7B1FA2; color: white; }
+.badge-special  { background: linear-gradient(90deg, #D4AF37, #f0c840); color: white; }
+.badge-best     { background: #7C3AED; color: white; }
+.badge-limited  { background: #DC2626; color: white; }
+.badge-made     { background: #0369A1; color: white; }
+.badge-flash    { background: #EA580C; color: white; }
+.badge-weekend  { background: #059669; color: white; }
+.badge-offer    { background: #D4AF37; color: white; }
+.badge-seller   { background: #7C3AED; color: white; }
 
 /* =====================================================
    10. Product Card
@@ -2172,4 +2180,53 @@ input[type="range"]::-webkit-slider-thumb {
   .section-title { font-size: 1.75rem; }
   .quick-contacts { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* =====================================================
+   42. Horizontal Scroll Carousels
+   ===================================================== */
+.testi-scroll {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.related-scroll {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .testi-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+  }
+  .testi-scroll::-webkit-scrollbar { display: none; }
+  .testi-scroll .testi-card {
+    min-width: 280px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+
+  .related-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+  }
+  .related-scroll::-webkit-scrollbar { display: none; }
+  .related-scroll .prod-card {
+    min-width: 220px;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
 }

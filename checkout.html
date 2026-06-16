@@ -42,11 +42,11 @@
     <p style="color:#666;margin-bottom:1.5rem;font-size:0.9rem" id="thankMsg">We'll contact you via WhatsApp to confirm delivery.</p>
     <div style="background:#F8F9FA;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;text-align:left;font-size:0.85rem" id="mpesaBox">
       <p style="font-weight:700;margin-bottom:0.875rem;color:#1E5631">📱 M-Pesa Payment Instructions:</p>
-      <div class="mpesa-step"><span>1.</span><span>Go to M-Pesa → Lipa Na M-Pesa → Pay Bill</span></div>
-      <div class="mpesa-step"><span>2.</span><span>Business Number: <strong>400200</strong></span></div>
-      <div class="mpesa-step"><span>3.</span><span>Account Number: <strong id="mpesaAcct">DVF001</strong></span></div>
-      <div class="mpesa-step"><span>4.</span><span>Amount: <strong id="mpesaAmt">KSh 0</strong></span></div>
-      <div class="mpesa-step"><span>5.</span><span>Enter PIN and send — you'll receive a confirmation SMS</span></div>
+      <div class="mpesa-step"><span>1.</span><span>Go to M-Pesa → Send Money</span></div>
+      <div class="mpesa-step"><span>2.</span><span>Enter Number: <strong>0702 894 439</strong></span></div>
+      <div class="mpesa-step"><span>3.</span><span>Amount: <strong id="mpesaAmt">KSh 0</strong></span></div>
+      <div class="mpesa-step"><span>4.</span><span>Reference: <strong id="mpesaAcct">DVF001</strong></span></div>
+      <div class="mpesa-step"><span>5.</span><span>Enter PIN and send — screenshot and WhatsApp us to confirm</span></div>
     </div>
     <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
       <a href="index.html" class="btn btn-primary">Back to Home</a>
@@ -116,8 +116,8 @@
           <div class="payment-option selected" id="pm-mpesa" onclick="selectPay('mpesa',this)">
             <input type="radio" name="payment" value="mpesa" checked>
             <div>
-              <div class="payment-option-label">📱 M-Pesa (Lipa Na M-Pesa)</div>
-              <div class="payment-option-desc">Pay via Paybill 400200 after placing your order</div>
+              <div class="payment-option-label">📱 M-Pesa (Send Money)</div>
+              <div class="payment-option-desc">Send M-Pesa to 0702 894 439 after placing your order</div>
             </div>
           </div>
           <div class="payment-option" id="pm-wa" onclick="selectPay('wa',this)">

@@ -1,5 +1,32 @@
 // DVF App.js - Shared functionality for all pages
 
+// ===== ADMIN DATA MERGE =====
+// Merges admin-added products and price overrides into PRODUCTS at runtime
+(function mergeAdminData() {
+  if (typeof PRODUCTS === 'undefined') return;
+  try {
+    const overrides = JSON.parse(localStorage.getItem('dvf_price_overrides') || '{}');
+    PRODUCTS.forEach(p => {
+      const o = overrides[p.id];
+      if (!o) return;
+      if (o.price !== undefined)  p.price    = o.price;
+      if (o.oldPrice !== undefined) p.oldPrice = o.oldPrice;
+      if (o.name)    p.name  = o.name;
+      if (o.desc)    p.desc  = o.desc;
+      if (o.badge !== undefined) p.badge = o.badge;
+    });
+    const customs = JSON.parse(localStorage.getItem('dvf_admin_products') || '[]');
+    customs.forEach(p => { if (!PRODUCTS.find(x => x.id === p.id)) PRODUCTS.push(p); });
+  } catch(e) {}
+})();
+
+// Resolve image src: checks localStorage for admin-uploaded base64 image first
+function resolveImg(filename) {
+  if (!filename) return 'sofa.jpg';
+  if (filename.startsWith('data:')) return filename;
+  return localStorage.getItem('dvf_img_' + filename) || filename;
+}
+
 // ===== CART SYSTEM =====
 function getCart() { return JSON.parse(localStorage.getItem('dvf_cart') || '[]'); }
 function saveCart(c) { localStorage.setItem('dvf_cart', JSON.stringify(c)); updateAllBadges(); }
@@ -61,7 +88,7 @@ function renderCartSidebar() {
     if (!p) return '';
     const price = p.price > 0 ? fmt(p.price) : 'Call for Price';
     return `<div class="cart-item">
-      <img src="${p.imgs[0]}" alt="${p.name}" class="cart-item-img" onerror="this.src='sofa.jpg'">
+      <img src="${resolveImg(p.imgs[0])}" alt="${p.name}" class="cart-item-img" onerror="this.src='sofa.jpg'">
       <div class="cart-item-info">
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-price">${price}</div>
@@ -142,7 +169,7 @@ function renderWishlistSidebar() {
     const p = PRODUCTS.find(x => x.id === id);
     if (!p) return '';
     return `<div class="wish-item">
-      <img src="${p.imgs[0]}" alt="${p.name}" class="wish-item-img" onerror="this.src='sofa.jpg'">
+      <img src="${resolveImg(p.imgs[0])}" alt="${p.name}" class="wish-item-img" onerror="this.src='sofa.jpg'">
       <div class="wish-item-info">
         <div class="wish-item-name">${p.name}</div>
         <div class="wish-item-price">${p.price > 0 ? fmt(p.price) : 'Call for Price'}</div>
@@ -238,7 +265,7 @@ function doSearch(query) {
   }
   res.innerHTML = matches.map(p => `
     <a href="product.html?id=${p.id}" class="search-result-item" onclick="closeSearch()">
-      <img src="${p.imgs[0]}" alt="${p.name}" class="search-result-img" onerror="this.src='sofa.jpg'">
+      <img src="${resolveImg(p.imgs[0])}" alt="${p.name}" class="search-result-img" onerror="this.src='sofa.jpg'">
       <div>
         <div class="search-result-name">${p.name}</div>
         <div class="search-result-price">${p.price > 0 ? fmt(p.price) : 'Call for Price'}</div>
@@ -247,8 +274,24 @@ function doSearch(query) {
 }
 
 // ===== PRODUCT CARD RENDERER =====
+function badgeClass(badge) {
+  if (!badge) return '';
+  const b = badge.toLowerCase();
+  if (b.includes('special') || b.includes('today')) return 'badge-special';
+  if (b.includes('hot'))    return 'badge-hot';
+  if (b.includes('sale'))   return 'badge-sale';
+  if (b.includes('flash'))  return 'badge-flash';
+  if (b.includes('new'))    return 'badge-new';
+  if (b.includes('best') || b.includes('seller')) return 'badge-seller';
+  if (b.includes('limited'))return 'badge-limited';
+  if (b.includes('weekend'))return 'badge-weekend';
+  if (b.includes('offer'))  return 'badge-offer';
+  if (b.includes('custom')) return 'badge-made';
+  return 'badge-new';
+}
+
 function renderProductCard(p) {
-  const badgeHtml = p.badge ? `<span class="prod-badge badge-${p.badge}">${p.badge}</span>` : '';
+  const badgeHtml = p.badge ? `<span class="prod-badge ${badgeClass(p.badge)}">${p.badge}</span>` : '';
   const priceHtml = p.price > 0
     ? `<span class="prod-price">${fmt(p.price)}</span>${p.oldPrice > 0 ? `<span class="prod-old-price">${fmt(p.oldPrice)}</span>` : ''}`
     : `<span class="prod-price-custom">Call for Price</span>`;
@@ -257,7 +300,7 @@ function renderProductCard(p) {
     <div class="prod-img-wrap">
       ${badgeHtml}
       <button class="prod-wish ${wished ? 'active' : ''}" data-wish="${p.id}" onclick="toggleWishlist(${p.id})" aria-label="Wishlist">♥</button>
-      <a href="product.html?id=${p.id}"><img src="${p.imgs[0]}" alt="${p.name}" loading="lazy" onerror="this.src='sofa.jpg'"></a>
+      <a href="product.html?id=${p.id}"><img src="${resolveImg(p.imgs[0])}" alt="${p.name}" loading="lazy" onerror="this.src='sofa.jpg'"></a>
     </div>
     <div class="prod-body">
       <div class="prod-name">${p.name}</div>
