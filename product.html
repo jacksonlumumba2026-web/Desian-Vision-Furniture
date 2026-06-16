@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product – Desian Vision Furniture</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-inner wrap">
+    <a class="nav-brand" href="index.html"><img src="logo.png" alt="DVF" onerror="this.style.display='none'"> Desian Vision</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li class="has-dropdown"><a href="#">Categories ▾</a>
+        <div class="dropdown">
+          <a href="shop.html?cat=sofas">🛋️ Sofas & Sectionals</a>
+          <a href="shop.html?cat=beds">🛏️ Beds & Headboards</a>
+          <a href="shop.html?cat=dining">🍽️ Dining Sets</a>
+          <a href="shop.html?cat=storage">🗄️ Wardrobes & Storage</a>
+          <a href="shop.html?cat=bedroom">🪞 Bedroom Accessories</a>
+        </div>
+      </li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button onclick="openSearch()">🔍</button>
+      <button onclick="openWishlist()" style="position:relative">♡<span id="wishBadge" class="nav-badge hidden">0</span></button>
+      <button onclick="openCart()" style="position:relative">🛒<span id="cartBadge" class="nav-badge hidden">0</span></button>
+      <a href="account.html">👤</a>
+    </div>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero" style="padding:40px 0;min-height:auto">
+  <div class="wrap">
+    <nav class="breadcrumb" id="pdBreadcrumb">
+      <a href="index.html">Home</a><span class="sep">/</span>
+      <a href="shop.html">Shop</a><span class="sep">/</span>
+      <span class="current" id="bcName">Product</span>
+    </nav>
+  </div>
+</div>
+
+<section class="section" style="padding-top:2.5rem">
+  <div class="wrap">
+    <div id="notFound" style="display:none;text-align:center;padding:4rem 0">
+      <div style="font-size:3rem;margin-bottom:1rem">😕</div>
+      <h2>Product not found</h2>
+      <p style="color:#666;margin:1rem 0">The product you're looking for doesn't exist.</p>
+      <a href="shop.html" class="btn btn-primary">Browse All Products</a>
+    </div>
+
+    <div class="prod-detail-layout" id="pdWrap">
+      <!-- Image Gallery -->
+      <div class="prod-gallery">
+        <div class="prod-main-img-wrap" onclick="openLightbox(lbIdx)">
+          <img id="mainImg" src="" alt="" class="prod-main-img" onerror="this.src='sofa.jpg'">
+        </div>
+        <div class="prod-thumbs" id="thumbsWrap"></div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="prod-info">
+        <div style="font-size:0.8rem;color:#666;margin-bottom:0.5rem">
+          <a href="shop.html" style="color:#1E5631">Shop</a> / <span id="pdCatName"></span>
+        </div>
+        <h1 class="prod-detail-name" id="pdName">Loading...</h1>
+        <div class="prod-detail-rating">
+          <span class="prod-stars" id="pdStars">★★★★★</span>
+          <span class="prod-reviews" id="pdReviews">(0 reviews)</span>
+        </div>
+        <div class="prod-detail-price-wrap">
+          <span class="prod-detail-price" id="pdPrice"></span>
+          <span class="prod-detail-old" id="pdOld"></span>
+        </div>
+        <p class="prod-detail-desc" id="pdDesc"></p>
+
+        <div class="color-selector" id="colorSelector">
+          <div class="color-selector-label">Available Colors:</div>
+          <div class="color-options" id="pdColors"></div>
+        </div>
+
+        <div class="qty-selector">
+          <span class="qty-label">Quantity:</span>
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <span class="qty-num" id="pdQty">1</span>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+        </div>
+
+        <div class="prod-detail-btns">
+          <button class="btn btn-primary btn-lg" id="btnAddCart" onclick="doAddCart()">🛒 Add to Cart</button>
+          <button class="btn btn-wa btn-lg" onclick="doOrderWA()">💬 Order via WhatsApp</button>
+          <button class="btn btn-outline btn-lg" id="btnWish" onclick="doToggleWish()">♡ Add to Wishlist</button>
+        </div>
+
+        <div class="prod-delivery-badges">
+          <div class="del-badge">🚚 Free Nairobi Delivery</div>
+          <div class="del-badge">📦 Assembly Included</div>
+          <div class="del-badge">✋ Handcrafted</div>
+        </div>
+
+        <div style="margin-top:2rem;background:#F8F9FA;border-radius:12px;padding:1.5rem" id="specsBox">
+          <h4 style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:1rem">Specifications</h4>
+          <div id="pdSpecs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tabs -->
+<section class="section section-alt" style="padding:40px 0">
+  <div class="wrap">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('desc',this)">Description</button>
+      <button class="tab-btn" onclick="switchTab('reviews',this)">Customer Reviews</button>
+    </div>
+    <div id="tabDesc" class="tab-panel active">
+      <p id="tabDescText" style="color:#666;line-height:1.8;max-width:720px;font-size:1rem"></p>
+      <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap" id="tabCtas"></div>
+    </div>
+    <div id="tabReviews" class="tab-panel">
+      <div class="grid-2">
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"I highly recommend their services. They understood my vision and executed the design perfectly."</p><div class="testi-author"><div class="testi-avatar">B</div><div><div class="testi-name">Ben Kisilu</div><div class="testi-src">Facebook · March 2025</div></div></div></div>
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Durable furniture that brings elegance to the home. True Kenyan craftsmanship at its finest."</p><div class="testi-author"><div class="testi-avatar">I</div><div><div class="testi-name">Inrafted Enterprises</div><div class="testi-src">Facebook · March 2025</div></div></div></div>
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Best place for modern home furnishings in Githurai 45. Diverse fabrics for all tastes."</p><div class="testi-author"><div class="testi-avatar">T</div><div><div class="testi-name">The Turn Business Complex</div><div class="testi-src">Facebook · March 2025</div></div></div></div>
+        <div class="testi-card"><div class="testi-stars">★★★★★</div><p class="testi-text">"Exceptional customer care and high quality products. The dressing table is both functional and stylish."</p><div class="testi-author"><div class="testi-avatar">S</div><div><div class="testi-name">SILVA Packers and Movers</div><div class="testi-src">Facebook · March 2025</div></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Related Products -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-header">
+      <span class="section-eyebrow">You May Also Like</span>
+      <h2 class="section-title">Related Products</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem" id="relatedGrid"></div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <button class="lightbox-prev" onclick="lbMove(-1)">‹</button>
+  <img class="lightbox-img" id="lbImg" src="" alt="">
+  <button class="lightbox-next" onclick="lbMove(1)">›</button>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Desian Vision Furniture</div>
+        <p class="footer-desc">Premium custom furniture crafted with passion in Nairobi, Kenya.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/profile.php?id=61550647002330" target="_blank">f</a>
+          <a href="https://www.instagram.com/desian_visionfurnitures" target="_blank">ig</a>
+          <a href="https://wa.me/254702894439" target="_blank">wa</a>
+        </div>
+      </div>
+      <div><div class="footer-heading">Shop</div><ul class="footer-links"><li><a href="shop.html?cat=sofas">Sofas</a></li><li><a href="shop.html?cat=beds">Beds</a></li><li><a href="shop.html?cat=dining">Dining</a></li><li><a href="shop.html?cat=storage">Storage</a></li></ul></div>
+      <div><div class="footer-heading">Company</div><ul class="footer-links"><li><a href="about.html">About</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><div class="footer-contact-item"><span>📞</span><span>0702 894 439</span></div><div class="footer-contact-item"><span>📍</span><span>Githurai 45, Nairobi</span></div></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="wrap">© 2026 <span>Desian Vision Furniture</span>. All rights reserved.</div></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-hd"><h3>Shopping Cart</h3><button class="sidebar-close" id="cartCloseBtn">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-ft">
+    <div class="cart-total-row"><span>Total</span><span class="amount" id="cartTotal">KSh 0</span></div>
+    <a href="cart.html" class="btn btn-outline" style="width:100%;margin-bottom:0.75rem;justify-content:center;display:flex">View Cart</a>
+    <button class="btn btn-primary" style="width:100%" onclick="cartCheckout()">Order via WhatsApp 💬</button>
+  </div>
+</div>
+<div class="wish-overlay" id="wishOverlay"></div>
+<div class="wish-sidebar" id="wishSidebar">
+  <div class="wish-hd"><h3>My Wishlist</h3><button class="sidebar-close" id="wishCloseBtn">×</button></div>
+  <div class="wish-items" id="wishItems"></div>
+</div>
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search furniture..." class="search-input" autocomplete="off"><button id="searchClose" class="search-close-btn">×</button></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-header"><span style="font-family:'Cormorant Garamond',serif;font-weight:700;color:#1E5631;font-size:1.2rem">Desian Vision</span><button class="mob-drawer-close" id="drawerClose">×</button></div>
+  <nav class="mob-nav-links">
+    <a href="index.html">Home</a><a href="shop.html">Shop All</a>
+    <a href="gallery.html">Gallery</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+    <a href="https://wa.me/254702894439" style="color:#25D366">💬 WhatsApp</a>
+  </nav>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+let currentProd = null;
+let lbImages = [];
+let lbIdx = 0;
+let qty = 1;
+
+function changeQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('pdQty').textContent = qty;
+}
+
+function doAddCart() {
+  if (currentProd) { addToCart(currentProd.id, qty); openCart(); }
+}
+
+function doOrderWA() {
+  if (!currentProd) return;
+  const msg = `Hello DVF! 🛒\n\nI'm interested in:\n*${currentProd.name}*\n${currentProd.price > 0 ? 'Price: KSh ' + (currentProd.price * qty).toLocaleString() + ' (Qty: ' + qty + ')' : 'Custom price enquiry'}\n\nPlease confirm availability and delivery. Thank you!`;
+  window.open('https://wa.me/254702894439?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function doToggleWish() {
+  if (!currentProd) return;
+  toggleWishlist(currentProd.id);
+  document.getElementById('btnWish').textContent = isWishlisted(currentProd.id) ? '♥ In Wishlist' : '♡ Add to Wishlist';
+}
+
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab' + id.charAt(0).toUpperCase() + id.slice(1)).classList.add('active');
+}
+
+function selectThumb(idx) {
+  lbIdx = idx;
+  document.getElementById('mainImg').src = lbImages[idx];
+  document.querySelectorAll('.prod-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+}
+
+function openLightbox(idx) {
+  lbIdx = idx;
+  document.getElementById('lbImg').src = lbImages[lbIdx];
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function lbMove(d) {
+  lbIdx = (lbIdx + d + lbImages.length) % lbImages.length;
+  document.getElementById('lbImg').src = lbImages[lbIdx];
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') lbMove(-1);
+  if (e.key === 'ArrowRight') lbMove(1);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const id = parseInt(new URLSearchParams(window.location.search).get('id'));
+  const p = PRODUCTS.find(x => x.id === id);
+
+  if (!p) {
+    document.getElementById('pdWrap').style.display = 'none';
+    document.getElementById('notFound').style.display = 'block';
+    return;
+  }
+
+  currentProd = p;
+  lbImages = p.imgs;
+  document.title = p.name + ' – Desian Vision Furniture';
+
+  document.getElementById('bcName').textContent = p.name;
+  document.getElementById('pdCatName').textContent = (CATEGORIES.find(c => c.id === p.cat) || {name: p.cat}).name;
+  document.getElementById('pdName').textContent = p.name;
+  document.getElementById('pdStars').textContent = renderStars(p.rating);
+  document.getElementById('pdReviews').textContent = '(' + p.reviews + ' reviews)';
+  document.getElementById('tabDescText').textContent = p.desc;
+
+  const priceEl = document.getElementById('pdPrice');
+  const oldEl = document.getElementById('pdOld');
+  if (p.price > 0) {
+    priceEl.textContent = fmt(p.price);
+    if (p.oldPrice > 0) { oldEl.textContent = fmt(p.oldPrice); oldEl.style.display = 'inline'; }
+    document.getElementById('tabCtas').innerHTML = `<button class="btn btn-primary" onclick="doAddCart()">🛒 Add to Cart</button><button class="btn btn-wa" onclick="doOrderWA()">💬 Order on WhatsApp</button>`;
+  } else {
+    priceEl.textContent = 'Call for Price';
+    priceEl.style.color = '#666';
+    document.getElementById('btnAddCart').style.display = 'none';
+    document.getElementById('tabCtas').innerHTML = `<a href="https://wa.me/254702894439?text=${encodeURIComponent('Hello DVF! I\'d like a quote for: ' + p.name)}" class="btn btn-wa" target="_blank">💬 Get a Quote on WhatsApp</a>`;
+  }
+
+  // Images
+  document.getElementById('mainImg').src = p.imgs[0];
+  document.getElementById('mainImg').alt = p.name;
+  if (p.imgs.length > 1) {
+    document.getElementById('thumbsWrap').innerHTML = p.imgs.map((img, i) =>
+      `<div class="prod-thumb ${i === 0 ? 'active' : ''}" onclick="selectThumb(${i})"><img src="${img}" alt="${p.name}" onerror="this.src='sofa.jpg'"></div>`
+    ).join('');
+  }
+
+  // Colors
+  document.getElementById('pdColors').innerHTML = p.colors.map((c, i) =>
+    `<span class="color-opt ${i === 0 ? 'active' : ''}" onclick="document.querySelectorAll('.color-opt').forEach(x=>x.classList.remove('active'));this.classList.add('active')">${c}</span>`
+  ).join('');
+
+  // Specs
+  document.getElementById('pdSpecs').innerHTML = Object.entries(p.specs).map(([k, v]) =>
+    `<div style="display:flex;gap:1rem;margin-bottom:0.5rem;font-size:0.875rem"><span style="font-weight:600;min-width:110px;color:#1E5631;text-transform:capitalize">${k}:</span><span style="color:#555">${v}</span></div>`
+  ).join('');
+
+  // Wishlist state
+  if (isWishlisted(p.id)) document.getElementById('btnWish').textContent = '♥ In Wishlist';
+
+  // Related
+  const related = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id).slice(0, 4);
+  const fallback = related.length < 4 ? [...related, ...PRODUCTS.filter(x => x.id !== p.id && !related.includes(x)).slice(0, 4 - related.length)] : related;
+  document.getElementById('relatedGrid').innerHTML = fallback.map(renderProductCard).join('');
+
+  initReveal();
+});
+</script>
+</body>
+</html>

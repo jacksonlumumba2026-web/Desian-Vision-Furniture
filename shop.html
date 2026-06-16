@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop – Desian Vision Furniture</title>
+  <meta name="description" content="Browse all premium custom furniture: sofas, beds, dining sets, wardrobes. Free delivery in Nairobi.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-inner wrap">
+    <a class="nav-brand" href="index.html"><img src="logo.png" alt="DVF" onerror="this.style.display='none'"> Desian Vision</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li class="has-dropdown"><a href="#">Categories ▾</a>
+        <div class="dropdown">
+          <a href="shop.html?cat=sofas">🛋️ Sofas & Sectionals</a>
+          <a href="shop.html?cat=beds">🛏️ Beds & Headboards</a>
+          <a href="shop.html?cat=dining">🍽️ Dining Sets</a>
+          <a href="shop.html?cat=storage">🗄️ Wardrobes & Storage</a>
+          <a href="shop.html?cat=bedroom">🪞 Bedroom Accessories</a>
+        </div>
+      </li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button onclick="openSearch()">🔍</button>
+      <button onclick="openWishlist()" style="position:relative">♡<span id="wishBadge" class="nav-badge hidden">0</span></button>
+      <button onclick="openCart()" style="position:relative">🛒<span id="cartBadge" class="nav-badge hidden">0</span></button>
+      <a href="account.html">👤</a>
+    </div>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>Shop All Furniture</h1>
+    <nav class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span class="current">Shop</span></nav>
+  </div>
+</div>
+
+<section class="section" style="padding-top:2rem">
+  <div class="wrap">
+    <div style="margin-bottom:1rem" id="mobileFilterToggleWrap">
+      <button class="btn btn-outline btn-sm" id="filterToggleBtn" onclick="toggleMobileFilter()">⚙ Filters</button>
+    </div>
+    <div class="shop-layout">
+      <!-- Filter Sidebar -->
+      <aside class="filter-sidebar" id="filterSidebar">
+        <div class="filter-section">
+          <div class="filter-title">Category</div>
+          <label class="filter-checkbox-label"><input type="checkbox" id="catAll" checked onchange="onCatAllChange()"> All Products</label>
+          <label class="filter-checkbox-label"><input type="checkbox" value="sofas" class="cat-filter" onchange="applyFilters()"> 🛋️ Sofas & Sectionals</label>
+          <label class="filter-checkbox-label"><input type="checkbox" value="beds" class="cat-filter" onchange="applyFilters()"> 🛏️ Beds & Headboards</label>
+          <label class="filter-checkbox-label"><input type="checkbox" value="dining" class="cat-filter" onchange="applyFilters()"> 🍽️ Dining Sets</label>
+          <label class="filter-checkbox-label"><input type="checkbox" value="storage" class="cat-filter" onchange="applyFilters()"> 🗄️ Wardrobes & Storage</label>
+          <label class="filter-checkbox-label"><input type="checkbox" value="bedroom" class="cat-filter" onchange="applyFilters()"> 🪞 Bedroom Accessories</label>
+        </div>
+        <div class="filter-section">
+          <div class="filter-title">Max Price</div>
+          <input type="range" id="priceRange" min="0" max="200000" step="5000" value="200000" oninput="updatePriceLabel(this.value);applyFilters()">
+          <div class="price-range-display"><span>KSh 0</span><span id="priceLabel">KSh 200,000</span></div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-title">Minimum Rating</div>
+          <label class="filter-checkbox-label"><input type="radio" name="minRating" value="0" checked onchange="applyFilters()"> All Ratings</label>
+          <label class="filter-checkbox-label"><input type="radio" name="minRating" value="4" onchange="applyFilters()"> ★ 4+ Stars</label>
+          <label class="filter-checkbox-label"><input type="radio" name="minRating" value="4.5" onchange="applyFilters()"> ★ 4.5+ Stars</label>
+        </div>
+        <div class="filter-section">
+          <button class="btn btn-outline btn-sm" onclick="clearFilters()" style="width:100%">× Clear All Filters</button>
+        </div>
+      </aside>
+
+      <!-- Products -->
+      <div>
+        <div class="shop-toolbar">
+          <span class="shop-count" id="shopCount">19 products</span>
+          <select class="sort-select" id="sortSelect" onchange="applyFilters()">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+        <div class="filter-chips" id="filterChips"></div>
+        <div class="shop-grid" id="shopGrid"></div>
+        <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+          <button class="btn btn-outline btn-lg" onclick="loadMore()">Load More Products</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Desian Vision Furniture</div>
+        <p class="footer-desc">Premium custom furniture crafted with passion in Nairobi, Kenya.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/profile.php?id=61550647002330" target="_blank">f</a>
+          <a href="https://www.instagram.com/desian_visionfurnitures" target="_blank">ig</a>
+          <a href="https://www.tiktok.com/@desianvis0702894439davis" target="_blank">tk</a>
+          <a href="https://wa.me/254702894439" target="_blank">wa</a>
+        </div>
+      </div>
+      <div><div class="footer-heading">Shop</div><ul class="footer-links"><li><a href="shop.html?cat=sofas">Sofas & Sectionals</a></li><li><a href="shop.html?cat=beds">Beds & Headboards</a></li><li><a href="shop.html?cat=dining">Dining Sets</a></li><li><a href="shop.html?cat=storage">Wardrobes</a></li></ul></div>
+      <div><div class="footer-heading">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li><li><a href="account.html">My Account</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div>
+        <div class="footer-contact-item"><span>📍</span><span>Githurai 45 – Mwihoko Road, Nairobi</span></div>
+        <div class="footer-contact-item"><span>📞</span><span>0702 894 439</span></div>
+        <div class="footer-contact-item"><span>🕐</span><span>Mon-Sat: 8AM–7PM | Sun: 10AM–5PM</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="wrap">© 2026 <span>Desian Vision Furniture</span>. All rights reserved.</div></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-hd"><h3>Shopping Cart</h3><button class="sidebar-close" id="cartCloseBtn">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-ft">
+    <div class="cart-total-row"><span>Total</span><span class="amount" id="cartTotal">KSh 0</span></div>
+    <a href="cart.html" class="btn btn-outline" style="width:100%;margin-bottom:0.75rem;justify-content:center;display:flex">View Cart</a>
+    <button class="btn btn-primary" style="width:100%" onclick="cartCheckout()">Order via WhatsApp 💬</button>
+  </div>
+</div>
+<div class="wish-overlay" id="wishOverlay"></div>
+<div class="wish-sidebar" id="wishSidebar">
+  <div class="wish-hd"><h3>My Wishlist</h3><button class="sidebar-close" id="wishCloseBtn">×</button></div>
+  <div class="wish-items" id="wishItems"></div>
+</div>
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search furniture..." class="search-input" autocomplete="off"><button id="searchClose" class="search-close-btn">×</button></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-header"><span style="font-family:'Cormorant Garamond',serif;font-weight:700;color:#1E5631;font-size:1.2rem">Desian Vision</span><button class="mob-drawer-close" id="drawerClose">×</button></div>
+  <nav class="mob-nav-links">
+    <a href="index.html">Home</a><a href="shop.html">Shop All</a>
+    <a href="shop.html?cat=sofas">Sofas</a><a href="shop.html?cat=beds">Beds</a>
+    <a href="gallery.html">Gallery</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+    <a href="https://wa.me/254702894439" style="color:#25D366">💬 WhatsApp</a>
+  </nav>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+let filtered = [...PRODUCTS];
+let shown = 9;
+
+function updatePriceLabel(v) {
+  document.getElementById('priceLabel').textContent = 'KSh ' + parseInt(v).toLocaleString();
+}
+
+function onCatAllChange() {
+  const all = document.getElementById('catAll').checked;
+  if (all) document.querySelectorAll('.cat-filter').forEach(c => c.checked = false);
+  applyFilters();
+}
+
+function applyFilters() {
+  const cats = Array.from(document.querySelectorAll('.cat-filter:checked')).map(c => c.value);
+  const allChecked = cats.length === 0;
+  if (!allChecked) document.getElementById('catAll').checked = false;
+  const maxPrice = parseInt(document.getElementById('priceRange').value);
+  const minRating = parseFloat(document.querySelector('input[name="minRating"]:checked')?.value || '0');
+  const sort = document.getElementById('sortSelect').value;
+
+  filtered = PRODUCTS.filter(p => {
+    const catOk = allChecked || cats.includes(p.cat);
+    const priceOk = p.price === 0 || p.price <= maxPrice;
+    const ratingOk = p.rating >= minRating;
+    return catOk && priceOk && ratingOk;
+  });
+
+  if (sort === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+  else if (sort === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+  else if (sort === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+
+  shown = 9;
+  renderShop();
+  renderChips(cats);
+}
+
+function renderShop() {
+  const grid = document.getElementById('shopGrid');
+  const count = document.getElementById('shopCount');
+  const loadWrap = document.getElementById('loadMoreWrap');
+  const slice = filtered.slice(0, shown);
+  count.textContent = `Showing ${Math.min(shown, filtered.length)} of ${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div style="text-align:center;padding:3rem;color:#666;grid-column:1/-1"><p>No products match your filters.</p><button class="btn btn-outline" onclick="clearFilters()" style="margin-top:1rem">Clear Filters</button></div>';
+  } else {
+    grid.innerHTML = slice.map(renderProductCard).join('');
+  }
+  loadWrap.style.display = filtered.length > shown ? 'block' : 'none';
+  initReveal();
+}
+
+function loadMore() { shown += 6; renderShop(); }
+
+function clearFilters() {
+  document.getElementById('catAll').checked = true;
+  document.querySelectorAll('.cat-filter').forEach(c => c.checked = false);
+  document.getElementById('priceRange').value = 200000;
+  updatePriceLabel(200000);
+  document.querySelector('input[name="minRating"][value="0"]').checked = true;
+  document.getElementById('sortSelect').value = 'featured';
+  filtered = [...PRODUCTS];
+  shown = 9;
+  renderShop();
+  document.getElementById('filterChips').innerHTML = '';
+}
+
+function renderChips(cats) {
+  const el = document.getElementById('filterChips');
+  if (cats.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = cats.map(c => {
+    const cat = CATEGORIES.find(x => x.id === c);
+    return `<span class="filter-chip">${cat ? cat.name : c} <button onclick="removeCat('${c}')">×</button></span>`;
+  }).join('');
+}
+
+function removeCat(cat) {
+  const cb = document.querySelector(`.cat-filter[value="${cat}"]`);
+  if (cb) cb.checked = false;
+  applyFilters();
+}
+
+function toggleMobileFilter() {
+  document.getElementById('filterSidebar').classList.toggle('mob-open');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get('cat');
+  if (cat) {
+    document.getElementById('catAll').checked = false;
+    const cb = document.querySelector(`.cat-filter[value="${cat}"]`);
+    if (cb) { cb.checked = true; }
+    filtered = PRODUCTS.filter(p => p.cat === cat);
+    renderChips([cat]);
+  }
+  renderShop();
+
+  if (window.innerWidth <= 992) {
+    document.getElementById('mobileFilterToggleWrap').style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>

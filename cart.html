@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart – Desian Vision Furniture</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav id="mainNav">
+  <div class="nav-inner wrap">
+    <a class="nav-brand" href="index.html"><img src="logo.png" alt="DVF" onerror="this.style.display='none'"> Desian Vision</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li class="has-dropdown"><a href="#">Categories ▾</a>
+        <div class="dropdown">
+          <a href="shop.html?cat=sofas">🛋️ Sofas & Sectionals</a>
+          <a href="shop.html?cat=beds">🛏️ Beds & Headboards</a>
+          <a href="shop.html?cat=dining">🍽️ Dining Sets</a>
+          <a href="shop.html?cat=storage">🗄️ Wardrobes & Storage</a>
+          <a href="shop.html?cat=bedroom">🪞 Bedroom Accessories</a>
+        </div>
+      </li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button onclick="openSearch()">🔍</button>
+      <button onclick="openWishlist()" style="position:relative">♡<span id="wishBadge" class="nav-badge hidden">0</span></button>
+      <button onclick="openCart()" style="position:relative">🛒<span id="cartBadge" class="nav-badge hidden">0</span></button>
+      <a href="account.html">👤</a>
+    </div>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="wrap">
+    <h1>Shopping Cart</h1>
+    <nav class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span class="current">Cart</span></nav>
+  </div>
+</div>
+
+<section class="section" style="padding-top:3rem">
+  <div class="wrap">
+    <!-- Empty State -->
+    <div id="emptyState" style="display:none;text-align:center;padding:5rem 0">
+      <div style="font-size:4rem;margin-bottom:1.5rem">🛒</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;margin-bottom:1rem">Your cart is empty</h2>
+      <p style="color:#666;margin-bottom:2rem">Discover our beautiful handcrafted furniture collection</p>
+      <a href="shop.html" class="btn btn-primary btn-lg">Browse Products</a>
+    </div>
+
+    <!-- Cart Content -->
+    <div class="cart-page-layout" id="cartContent">
+      <div>
+        <!-- Cart Items -->
+        <div class="cart-table">
+          <div class="cart-table-head">
+            <span>Product</span><span>Price</span><span>Quantity</span><span>Total</span>
+          </div>
+          <div id="cartRows"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:1.5rem;flex-wrap:wrap;gap:0.75rem">
+          <a href="shop.html" class="btn btn-outline">← Continue Shopping</a>
+          <button class="btn btn-sm" style="color:#e53935;border:1px solid #e53935;border-radius:6px;padding:0.5rem 1rem;background:none" onclick="if(confirm('Clear your cart?')){clearCart();renderPage()}">🗑 Clear Cart</button>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div class="summary-row"><span>Subtotal</span><span id="pgSubtotal">KSh 0</span></div>
+          <div class="summary-row"><span>Delivery (Nairobi)</span><span style="color:#1E5631;font-weight:600">FREE ✓</span></div>
+          <div class="summary-row" id="promoRow" style="display:none"><span style="color:#e53935">Promo Discount</span><span id="pgDiscount" style="color:#e53935">-KSh 0</span></div>
+          <div class="summary-row total"><span>Total</span><span class="amount" id="pgTotal">KSh 0</span></div>
+
+          <!-- Promo Code -->
+          <div style="margin:1.25rem 0">
+            <label style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.5rem">Promo Code</label>
+            <div class="promo-row">
+              <input type="text" class="promo-input" id="promoInput" placeholder="e.g. DVF2026">
+              <button class="btn btn-outline btn-sm" onclick="applyPromo()">Apply</button>
+            </div>
+            <div id="promoMsg" style="font-size:0.8rem;margin-top:0.375rem"></div>
+          </div>
+
+          <a href="checkout.html" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;display:flex;margin-bottom:0.75rem">Proceed to Checkout →</a>
+          <button class="btn btn-wa btn-lg" style="width:100%;justify-content:center;display:flex" onclick="cartCheckout()">💬 Order via WhatsApp</button>
+          <p style="text-align:center;margin-top:0.875rem;font-size:0.75rem;color:#999">🔒 Secure | Free Nairobi Delivery | Assembly Included</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- You Might Like -->
+<section class="section section-alt" id="youMightLike">
+  <div class="wrap">
+    <div class="section-header">
+      <span class="section-eyebrow">Keep Shopping</span>
+      <h2 class="section-title">You Might Also Like</h2>
+    </div>
+    <div class="grid-4" id="suggestedGrid"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div><div class="footer-brand-name">Desian Vision Furniture</div><p class="footer-desc">Premium custom furniture crafted in Nairobi, Kenya.</p><div class="footer-social"><a href="https://www.facebook.com/profile.php?id=61550647002330" target="_blank">f</a><a href="https://wa.me/254702894439" target="_blank">wa</a></div></div>
+      <div><div class="footer-heading">Shop</div><ul class="footer-links"><li><a href="shop.html?cat=sofas">Sofas</a></li><li><a href="shop.html?cat=beds">Beds</a></li><li><a href="shop.html?cat=dining">Dining</a></li></ul></div>
+      <div><div class="footer-heading">Company</div><ul class="footer-links"><li><a href="about.html">About Us</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><div class="footer-heading">Contact</div><div class="footer-contact-item"><span>📞</span><span>0702 894 439</span></div><div class="footer-contact-item"><span>📍</span><span>Githurai 45, Nairobi</span></div></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><div class="wrap">© 2026 <span>Desian Vision Furniture</span>. All rights reserved.</div></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-hd"><h3>Shopping Cart</h3><button class="sidebar-close" id="cartCloseBtn">×</button></div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-ft">
+    <div class="cart-total-row"><span>Total</span><span class="amount" id="cartTotal">KSh 0</span></div>
+    <a href="cart.html" class="btn btn-outline" style="width:100%;margin-bottom:0.75rem;justify-content:center;display:flex">View Cart</a>
+    <button class="btn btn-primary" style="width:100%" onclick="cartCheckout()">Order via WhatsApp 💬</button>
+  </div>
+</div>
+<div class="wish-overlay" id="wishOverlay"></div>
+<div class="wish-sidebar" id="wishSidebar">
+  <div class="wish-hd"><h3>My Wishlist</h3><button class="sidebar-close" id="wishCloseBtn">×</button></div>
+  <div class="wish-items" id="wishItems"></div>
+</div>
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="search-input-wrap"><span>🔍</span><input type="text" id="searchInput" placeholder="Search furniture..." class="search-input" autocomplete="off"><button id="searchClose" class="search-close-btn">×</button></div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-header"><span style="font-family:'Cormorant Garamond',serif;font-weight:700;color:#1E5631;font-size:1.2rem">Desian Vision</span><button class="mob-drawer-close" id="drawerClose">×</button></div>
+  <nav class="mob-nav-links"><a href="index.html">Home</a><a href="shop.html">Shop All</a><a href="gallery.html">Gallery</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="https://wa.me/254702894439" style="color:#25D366">💬 WhatsApp</a></nav>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+let promoApplied = false;
+let discountPct = 0;
+
+function applyPromo() {
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  const msg = document.getElementById('promoMsg');
+  if (code === 'DVF2026') {
+    promoApplied = true; discountPct = 0.10;
+    msg.style.color = '#1E5631';
+    msg.textContent = '✓ Code applied! 10% discount added.';
+  } else if (code === '') {
+    msg.style.color = '#e53935'; msg.textContent = 'Please enter a promo code.';
+    return;
+  } else {
+    promoApplied = false; discountPct = 0;
+    msg.style.color = '#e53935'; msg.textContent = '✗ Invalid code. Try DVF2026.';
+  }
+  renderPage();
+}
+
+function renderPage() {
+  const cart = getCart();
+  if (cart.length === 0) {
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('cartContent').style.display = 'none';
+    return;
+  }
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('cartContent').style.display = 'grid';
+
+  document.getElementById('cartRows').innerHTML = cart.map(item => {
+    const p = PRODUCTS.find(x => x.id === item.id);
+    if (!p) return '';
+    const lineTotal = p.price > 0 ? p.price * item.qty : 0;
+    return `<div class="cart-table-row">
+      <div class="cart-row-product">
+        <img src="${p.imgs[0]}" alt="${p.name}" class="cart-row-img" onerror="this.src='sofa.jpg'">
+        <div>
+          <a href="product.html?id=${p.id}" class="cart-row-name" style="color:#222;font-weight:600">${p.name}</a>
+          <button onclick="removeFromCart(${p.id});renderPage()" style="display:block;font-size:0.75rem;color:#e53935;margin-top:4px;background:none;border:none;cursor:pointer;padding:0">Remove</button>
+        </div>
+      </div>
+      <div class="cart-row-price">${p.price > 0 ? fmt(p.price) : 'Custom'}</div>
+      <div class="cart-row-qty">
+        <button onclick="updateQty(${p.id},${item.qty-1});renderPage()" style="width:28px;height:28px;border:1px solid #E5E7EB;border-radius:50%;cursor:pointer;background:none;font-size:1rem">−</button>
+        <span style="margin:0 0.625rem;font-weight:600;min-width:20px;text-align:center">${item.qty}</span>
+        <button onclick="updateQty(${p.id},${item.qty+1});renderPage()" style="width:28px;height:28px;border:1px solid #E5E7EB;border-radius:50%;cursor:pointer;background:none;font-size:1rem">+</button>
+      </div>
+      <div class="cart-row-total">${lineTotal > 0 ? fmt(lineTotal) : '—'}</div>
+    </div>`;
+  }).join('');
+
+  const subtotal = getCartTotal();
+  const discount = promoApplied ? Math.round(subtotal * discountPct) : 0;
+  const total = subtotal - discount;
+
+  document.getElementById('pgSubtotal').textContent = fmt(subtotal);
+  document.getElementById('pgTotal').textContent = fmt(total);
+  const promoRow = document.getElementById('promoRow');
+  if (promoApplied && discount > 0) {
+    promoRow.style.display = 'flex';
+    document.getElementById('pgDiscount').textContent = '-' + fmt(discount);
+  } else {
+    promoRow.style.display = 'none';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderPage();
+  // Suggested products
+  const suggested = PRODUCTS.slice(0, 4);
+  document.getElementById('suggestedGrid').innerHTML = suggested.map(renderProductCard).join('');
+  initReveal();
+});
+</script>
+</body>
+</html>
