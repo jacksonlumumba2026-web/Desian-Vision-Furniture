@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DVF Admin Panel</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --g: #1E5631; --gd: #154024; --gl: #2d7a47;
+      --gold: #D4AF37; --gold2: #b8960f;
+      --red: #DC2626; --orange: #EA580C; --blue: #2563EB;
+      --border: #E5E7EB; --bg: #F1F5F9; --white: #fff; --dark: #111827;
+      --gray: #6B7280; --radius: 10px;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--dark); line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+    input, select, textarea { font-family: inherit; }
+    img { max-width: 100%; }
+
+    /* ---- PIN SCREEN ---- */
+    #pinScreen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--g) 0%, var(--gd) 100%); padding: 1.5rem;
+    }
+    .pin-card {
+      background: var(--white); border-radius: 20px; padding: 2.5rem 2rem;
+      width: 100%; max-width: 380px; text-align: center;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    }
+    .pin-lock { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .pin-title { font-size: 1.6rem; font-weight: 800; color: var(--g); margin-bottom: 0.25rem; }
+    .pin-sub { color: var(--gray); font-size: 0.875rem; margin-bottom: 1.75rem; }
+    .pin-field { position: relative; margin-bottom: 1rem; }
+    .pin-field input {
+      width: 100%; padding: 13px 44px 13px 16px; border: 2px solid var(--border);
+      border-radius: 10px; font-size: 1rem; letter-spacing: 0.12em;
+      text-align: center; outline: none; transition: border-color .2s;
+    }
+    .pin-field input:focus { border-color: var(--g); }
+    .pin-eye {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 1.1rem; color: var(--gray); cursor: pointer;
+    }
+    .pin-btn {
+      width: 100%; padding: 13px; background: var(--g); color: white;
+      border-radius: 10px; font-size: 1rem; font-weight: 700;
+      transition: background .2s; margin-bottom: 0.5rem;
+    }
+    .pin-btn:hover { background: var(--gd); }
+    .pin-err { color: var(--red); font-size: 0.825rem; margin-top: 0.5rem; display: none; }
+    .pin-hint { font-size: 0.75rem; color: #aaa; margin-top: 1rem; }
+
+    /* ---- ADMIN WRAP ---- */
+    #adminWrap { display: none; }
+    #adminWrap.on { display: block; }
+
+    /* ---- HEADER ---- */
+    .adm-hd {
+      background: var(--g); color: white; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; position: sticky; top: 0; z-index: 200;
+    }
+    .adm-hd-brand { font-size: 1rem; font-weight: 800; }
+    .adm-hd-brand span { color: var(--gold); }
+    .adm-hd-right { display: flex; gap: 0.75rem; align-items: center; }
+    .adm-hd-link {
+      padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600;
+      background: rgba(255,255,255,.12); color: white; border: 1px solid rgba(255,255,255,.2);
+      transition: background .2s; cursor: pointer;
+    }
+    .adm-hd-link:hover { background: rgba(255,255,255,.22); }
+
+    /* ---- TAB NAV ---- */
+    .adm-tabs {
+      background: white; border-bottom: 1px solid var(--border);
+      overflow-x: auto; scrollbar-width: none;
+    }
+    .adm-tabs::-webkit-scrollbar { display: none; }
+    .adm-tabs-inner { display: flex; padding: 0 1.5rem; min-width: max-content; }
+    .adm-tab {
+      padding: 14px 18px; font-size: 0.875rem; font-weight: 600; color: var(--gray);
+      border-bottom: 3px solid transparent; white-space: nowrap;
+      transition: all .2s; cursor: pointer;
+    }
+    .adm-tab.on { color: var(--g); border-bottom-color: var(--g); }
+    .adm-tab:hover { color: var(--g); }
+
+    /* ---- CONTENT ---- */
+    .adm-body { padding: 1.5rem; max-width: 1200px; margin: 0 auto; }
+    .adm-panel { display: none; }
+    .adm-panel.on { display: block; }
+
+    /* ---- CARDS ---- */
+    .ac {
+      background: white; border-radius: 12px; padding: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 1.5rem;
+    }
+    .ac-title {
+      font-size: 1rem; font-weight: 700; color: var(--g);
+      border-bottom: 1px solid var(--border); padding-bottom: 0.875rem; margin-bottom: 1.25rem;
+    }
+
+    /* ---- STATS ---- */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card {
+      background: white; border-radius: 12px; padding: 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06); text-align: center;
+      border-top: 3px solid var(--g);
+    }
+    .stat-card.gold  { border-top-color: var(--gold); }
+    .stat-card.orange { border-top-color: var(--orange); }
+    .stat-card.blue  { border-top-color: var(--blue); }
+    .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--g); line-height: 1; }
+    .stat-card.gold .stat-num  { color: var(--gold2); }
+    .stat-card.orange .stat-num { color: var(--orange); }
+    .stat-card.blue .stat-num  { color: var(--blue); }
+    .stat-label { font-size: 0.78rem; color: var(--gray); margin-top: 0.3rem; font-weight: 500; }
+
+    /* ---- BUTTONS ---- */
+    .btn { display: inline-flex; align-items: center; gap: 0.375rem; padding: 9px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: none; transition: all .2s; }
+    .btn-g  { background: var(--g);   color: white; }
+    .btn-g:hover  { background: var(--gd); }
+    .btn-gold { background: var(--gold); color: white; }
+    .btn-gold:hover { background: var(--gold2); }
+    .btn-out { background: transparent; color: var(--g); border: 1.5px solid var(--g); }
+    .btn-out:hover { background: var(--g); color: white; }
+    .btn-red { background: #FEF2F2; color: var(--red); border: 1.5px solid #FECACA; }
+    .btn-red:hover { background: var(--red); color: white; }
+    .btn-orange { background: #FFF7ED; color: var(--orange); border: 1.5px solid #FED7AA; }
+    .btn-orange:hover { background: var(--orange); color: white; }
+    .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+
+    /* ---- TABLE ---- */
+    .tbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .tbl th { text-align: left; padding: 10px 12px; border-bottom: 2px solid var(--border); color: var(--gray); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+    .tbl td { padding: 10px 12px; border-bottom: 1px solid #F3F4F6; vertical-align: middle; }
+    .tbl tr:last-child td { border-bottom: none; }
+    .tbl tr:hover td { background: #F9FAFB; }
+    .tbl-img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; display: block; }
+    .badge-pill {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+    }
+    .badge-new      { background: #D1FAE5; color: #059669; }
+    .badge-hot      { background: #FEE2E2; color: #DC2626; }
+    .badge-sale     { background: #FEF3C7; color: #B45309; }
+    .badge-special  { background: linear-gradient(90deg,#D4AF37,#f0c840); color: #fff; }
+    .badge-best     { background: #EDE9FE; color: #7C3AED; }
+    .badge-limited  { background: #FEE2E2; color: #DC2626; }
+    .badge-custom   { background: #E0F2FE; color: #0369A1; }
+    .type-pill-static { background: #EDE9FE; color: #7C3AED; font-size: .72rem; padding: 2px 8px; border-radius: 20px; }
+    .type-pill-custom { background: #D1FAE5; color: #059669; font-size: .72rem; padding: 2px 8px; border-radius: 20px; }
+
+    /* ---- FORM ---- */
+    .fg { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .fg-full { grid-column: 1 / -1; }
+    .fl { display: block; font-size: 0.8rem; font-weight: 600; color: #374151; margin-bottom: 0.375rem; }
+    .fi, .fs, .fta {
+      width: 100%; padding: 10px 12px; border: 1.5px solid var(--border);
+      border-radius: 8px; font-size: 0.875rem; outline: none;
+      transition: border-color .2s; background: white; color: var(--dark);
+    }
+    .fi:focus, .fs:focus, .fta:focus { border-color: var(--g); }
+    .fta { min-height: 80px; resize: vertical; }
+    .fh { font-size: 0.72rem; color: #9CA3AF; margin-top: 0.3rem; line-height: 1.4; }
+    .badge-radio-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .badge-radio { cursor: pointer; }
+    .badge-radio input { display: none; }
+    .badge-radio span {
+      display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 0.78rem;
+      font-weight: 700; border: 2px solid var(--border); transition: all .15s; cursor: pointer;
+    }
+    .badge-radio input:checked + span { border-color: var(--g); background: var(--g); color: white; }
+    .badge-radio.special input:checked + span { border-color: var(--gold); background: var(--gold); color: white; }
+    .badge-radio.hot    input:checked + span { border-color: var(--red); background: var(--red); color: white; }
+    .badge-radio.sale   input:checked + span { border-color: var(--orange); background: var(--orange); color: white; }
+
+    /* ---- IMAGE UPLOAD ---- */
+    .img-upload-area {
+      border: 2px dashed var(--border); border-radius: 12px; padding: 1.5rem;
+      text-align: center; cursor: pointer; transition: all .2s;
+      position: relative;
+    }
+    .img-upload-area:hover, .img-upload-area.drag { border-color: var(--g); background: #F0FFF4; }
+    .img-upload-area input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .img-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .img-upload-txt { font-size: 0.875rem; color: var(--gray); }
+    .img-upload-hint { font-size: 0.75rem; color: #aaa; margin-top: 0.25rem; }
+    .img-previews { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+    .img-preview-item {
+      position: relative; width: 90px; height: 90px;
+      border-radius: 8px; overflow: hidden; border: 2px solid var(--border);
+    }
+    .img-preview-item img { width: 100%; height: 100%; object-fit: cover; }
+    .img-preview-rm {
+      position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,.6);
+      color: white; border-radius: 50%; width: 20px; height: 20px;
+      font-size: 0.75rem; display: flex; align-items: center; justify-content: center; cursor: pointer;
+    }
+    .img-preview-main { position: absolute; bottom: 2px; left: 2px; background: var(--g); color: white; font-size: 0.6rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; }
+
+    /* ---- MODAL ---- */
+    .modal-ov {
+      position: fixed; inset: 0; background: rgba(0,0,0,.55);
+      z-index: 999; display: none; align-items: flex-start;
+      justify-content: center; padding: 1rem; overflow-y: auto;
+    }
+    .modal-ov.on { display: flex; }
+    .modal-box {
+      background: white; border-radius: 16px; width: 100%; max-width: 660px;
+      margin: auto; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+    }
+    .modal-hd {
+      padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: white; z-index: 1;
+    }
+    .modal-hd-title { font-size: 1.1rem; font-weight: 800; color: var(--g); }
+    .modal-close { font-size: 1.5rem; cursor: pointer; color: var(--gray); line-height: 1; }
+    .modal-body { padding: 1.5rem; }
+    .modal-ft {
+      padding: 1rem 1.5rem; border-top: 1px solid var(--border);
+      display: flex; gap: 0.75rem; justify-content: flex-end;
+    }
+
+    /* ---- SPECIALS ---- */
+    .special-card {
+      background: linear-gradient(135deg, #FFF7ED, #FEF3C7);
+      border: 2px solid #FCD34D; border-radius: 12px; padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 0.875rem;
+    }
+    .special-card img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+    .special-card-info { flex: 1; min-width: 0; }
+    .special-card-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem; }
+    .special-card-price { color: var(--g); font-weight: 700; font-size: 0.875rem; }
+    .special-card-old { color: #999; text-decoration: line-through; font-size: 0.8rem; margin-left: 0.5rem; }
+    .special-badge { background: var(--gold); color: white; font-size: 0.7rem; font-weight: 800; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+
+    /* ---- PRICE TABLE ---- */
+    .price-inp { width: 120px; padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 7px; font-size: 0.875rem; }
+    .price-inp:focus { outline: none; border-color: var(--g); }
+    .saved-tick { color: #059669; font-size: 0.8rem; font-weight: 700; display: none; }
+
+    /* ---- ORDERS ---- */
+    .order-row {
+      background: #F9FAFB; border-radius: 10px; padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem; border-left: 4px solid var(--g);
+    }
+    .order-row-hd { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.4rem; }
+    .order-ref { font-weight: 800; color: var(--g); font-size: 0.9rem; }
+    .order-status { padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; background: #D1FAE5; color: #059669; }
+    .order-meta { font-size: 0.82rem; color: #555; }
+
+    /* ---- CODE PREVIEW ---- */
+    .code-pre {
+      background: #1E1E1E; color: #D4D4D4; border-radius: 10px;
+      padding: 1.25rem; font-family: 'Courier New', monospace; font-size: 0.78rem;
+      max-height: 280px; overflow-y: auto; white-space: pre; margin-top: 1rem;
+      border: 1px solid #333;
+    }
+
+    /* ---- TOAST ---- */
+    .adm-toast {
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+      background: var(--g); color: white; padding: 0.875rem 1.25rem;
+      border-radius: 10px; font-size: 0.875rem; font-weight: 600;
+      transform: translateY(100px); opacity: 0; transition: all .3s;
+      box-shadow: 0 8px 24px rgba(0,0,0,.2); max-width: 320px;
+    }
+    .adm-toast.on { transform: translateY(0); opacity: 1; }
+    .adm-toast.err { background: var(--red); }
+    .adm-toast.ok  { background: #059669; }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 640px) {
+      .adm-body { padding: 1rem; }
+      .fg { grid-template-columns: 1fr; }
+      .fg-full { grid-column: auto; }
+      .tbl-hide { display: none; }
+      .price-inp { width: 90px; }
+    }
+    @media (max-width: 400px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- ===== PIN SCREEN ===== -->
+<div id="pinScreen">
+  <div class="pin-card">
+    <div class="pin-lock">🔒</div>
+    <div class="pin-title">DVF Admin</div>
+    <div class="pin-sub">Enter your PIN to access the admin panel</div>
+    <div class="pin-field">
+      <input type="password" id="pinInp" placeholder="Enter PIN" maxlength="30"
+             onkeydown="if(event.key==='Enter')checkPin()">
+      <span class="pin-eye" onclick="togglePinEye()">👁️</span>
+    </div>
+    <button class="pin-btn" onclick="checkPin()">Enter Admin Panel →</button>
+    <div class="pin-err" id="pinErr">❌ Incorrect PIN. Try again.</div>
+    <div class="pin-hint">Default PIN: <strong>DVF2026</strong></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN PANEL ===== -->
+<div id="adminWrap">
+
+  <!-- Header -->
+  <div class="adm-hd">
+    <div class="adm-hd-brand">DVF <span>Admin Panel</span></div>
+    <div class="adm-hd-right">
+      <a href="index.html" target="_blank" class="adm-hd-link">View Site ↗</a>
+      <button class="adm-hd-link" onclick="logout()">🔒 Logout</button>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="adm-tabs">
+    <div class="adm-tabs-inner">
+      <button class="adm-tab on"   onclick="goTab('dashboard',this)">📊 Dashboard</button>
+      <button class="adm-tab"       onclick="goTab('products',this)">📦 Products</button>
+      <button class="adm-tab"       onclick="goTab('specials',this)">⭐ Today's Specials</button>
+      <button class="adm-tab"       onclick="goTab('prices',this)">💰 Prices</button>
+      <button class="adm-tab"       onclick="goTab('orders',this)">📋 Orders</button>
+      <button class="adm-tab"       onclick="goTab('settings',this)">⚙️ Settings</button>
+      <button class="adm-tab"       onclick="goTab('export',this)">📤 Export</button>
+    </div>
+  </div>
+
+  <div class="adm-body">
+
+    <!-- ========== DASHBOARD ========== -->
+    <div class="adm-panel on" id="panel-dashboard">
+      <div class="stats-row" id="dStats"></div>
+      <div class="ac">
+        <div class="ac-title">⚡ Quick Actions</div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="btn btn-g"    onclick="openProdModal()">+ Add Product</button>
+          <button class="btn btn-gold" onclick="goTab('specials',qTab('specials'))">⭐ Set Today's Special</button>
+          <button class="btn btn-out"  onclick="goTab('prices',qTab('prices'))">Edit Prices</button>
+          <button class="btn btn-out"  onclick="goTab('orders',qTab('orders'))">View Orders</button>
+          <button class="btn btn-out"  onclick="goTab('export',qTab('export'))">Export data.js</button>
+        </div>
+      </div>
+      <div class="ac">
+        <div class="ac-title">📦 Products Overview</div>
+        <div id="dProdList"></div>
+      </div>
+    </div>
+
+    <!-- ========== PRODUCTS ========== -->
+    <div class="adm-panel" id="panel-products">
+      <div class="ac">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+          <div style="font-weight:800;color:var(--g);font-size:1rem">📦 All Products</div>
+          <button class="btn btn-g" onclick="openProdModal()">+ Add New Product</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th class="tbl-hide">Category</th>
+                <th>Price</th>
+                <th class="tbl-hide">Badge</th>
+                <th class="tbl-hide">Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="prodTBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TODAY'S SPECIALS ========== -->
+    <div class="adm-panel" id="panel-specials">
+      <div class="ac">
+        <div class="ac-title">⭐ Today's Specials Manager</div>
+        <p style="color:var(--gray);font-size:.875rem;margin-bottom:1.25rem">
+          Mark products as "Today's Special" with a discount. They appear with a golden badge on the site.
+          To make changes visible to all customers, export and upload data.js.
+        </p>
+        <div style="background:#FFFBEB;border:1px solid #FCD34D;border-radius:10px;padding:1rem;margin-bottom:1.5rem;font-size:.875rem">
+          <strong>💡 Tip:</strong> Specials set here are saved on your device instantly. To show them to ALL customers, go to
+          <button class="btn btn-sm btn-gold" style="margin-left:.5rem" onclick="goTab('export',qTab('export'))">Export data.js ↗</button>
+        </div>
+        <div id="specialsList"></div>
+      </div>
+
+      <div class="ac">
+        <div class="ac-title">⭐ Set a New Special Offer</div>
+        <div style="max-width:500px">
+          <div style="margin-bottom:1rem">
+            <label class="fl">Select Product</label>
+            <select class="fs" id="specialProdSel"></select>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div>
+              <label class="fl">Special Price (KSh)</label>
+              <input type="number" class="fi" id="specialPrice" placeholder="e.g. 38000">
+            </div>
+            <div>
+              <label class="fl">Discount % (optional)</label>
+              <input type="number" class="fi" id="specialDisc" placeholder="e.g. 15" min="0" max="99" oninput="calcSpecialPrice()">
+            </div>
+          </div>
+          <div style="margin-bottom:1rem">
+            <label class="fl">Badge Label</label>
+            <select class="fs" id="specialBadge">
+              <option value="Today's Special">⭐ Today's Special</option>
+              <option value="Flash Sale">🔥 Flash Sale</option>
+              <option value="Special Offer">🎁 Special Offer</option>
+              <option value="Weekend Deal">🎉 Weekend Deal</option>
+              <option value="Limited Offer">⏳ Limited Offer</option>
+            </select>
+          </div>
+          <button class="btn btn-gold" onclick="saveSpecial()">⭐ Set as Special</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PRICES ========== -->
+    <div class="adm-panel" id="panel-prices">
+      <div class="ac">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+          <div style="font-weight:800;color:var(--g);font-size:1rem">💰 Update Product Prices</div>
+          <button class="btn btn-g" onclick="saveAllPrices()">Save All Changes</button>
+        </div>
+        <p style="color:var(--gray);font-size:.875rem;margin-bottom:1.25rem">Edit the price of any product. Leave "Old Price" blank to hide the strikethrough.</p>
+        <div style="overflow-x:auto">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Current Price</th>
+                <th>New Price (KSh)</th>
+                <th>Old/Was (KSh)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="priceTBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ORDERS ========== -->
+    <div class="adm-panel" id="panel-orders">
+      <div class="ac">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem">
+          <div style="font-weight:800;color:var(--g);font-size:1rem">📋 Customer Orders</div>
+          <button class="btn btn-red btn-sm" onclick="clearOrders()">Clear All</button>
+        </div>
+        <div id="ordersList"></div>
+      </div>
+    </div>
+
+    <!-- ========== SETTINGS ========== -->
+    <div class="adm-panel" id="panel-settings">
+      <div class="ac">
+        <div class="ac-title">🔑 Change Admin PIN</div>
+        <div style="max-width:360px">
+          <div style="margin-bottom:1rem">
+            <label class="fl">Current PIN</label>
+            <input type="password" class="fi" id="oldPin" placeholder="Enter current PIN">
+          </div>
+          <div style="margin-bottom:1rem">
+            <label class="fl">New PIN</label>
+            <input type="password" class="fi" id="newPin1" placeholder="Min 4 characters">
+          </div>
+          <div style="margin-bottom:1.5rem">
+            <label class="fl">Confirm New PIN</label>
+            <input type="password" class="fi" id="newPin2" placeholder="Repeat new PIN">
+          </div>
+          <button class="btn btn-g" onclick="changePin()">Update PIN</button>
+        </div>
+      </div>
+      <div class="ac">
+        <div class="ac-title">🗑️ Data Management</div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem">
+          <button class="btn btn-red" onclick="nukeCustomProds()">Delete All Custom Products</button>
+          <button class="btn btn-red" onclick="nukePriceOverrides()">Reset All Prices</button>
+          <button class="btn btn-red" onclick="nukeImages()">Clear Uploaded Images</button>
+          <button class="btn btn-red" onclick="clearOrders()">Clear All Orders</button>
+        </div>
+        <p style="font-size:.8rem;color:var(--red)">⚠️ These actions are permanent and cannot be undone.</p>
+      </div>
+    </div>
+
+    <!-- ========== EXPORT ========== -->
+    <div class="adm-panel" id="panel-export">
+      <div class="ac">
+        <div class="ac-title">📤 Export Updated data.js</div>
+        <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+          <strong style="color:var(--blue)">📌 How to update the live site for all customers:</strong>
+          <ol style="margin-top:.75rem;padding-left:1.25rem;line-height:2.2;font-size:.875rem">
+            <li>Click <strong>"Generate & Download data.js"</strong> below</li>
+            <li>Go to your <strong>GitHub repository</strong></li>
+            <li>Navigate to <code style="background:#E0F2FE;padding:1px 5px;border-radius:4px">js/data.js</code></li>
+            <li>Click <strong>Edit (pencil icon)</strong> → paste the new content → Commit</li>
+            <li>Your site updates within minutes! ✅</li>
+          </ol>
+        </div>
+        <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+          <strong style="color:var(--orange)">🖼️ Note on uploaded images:</strong>
+          <p style="font-size:.875rem;margin-top:.5rem">
+            Images you upload in admin are stored on your device. To make them visible to all customers:
+            download each image using the button in the Products tab and upload them to your GitHub repository.
+            Then enter the filename in the product's image field.
+          </p>
+        </div>
+        <button class="btn btn-gold" style="font-size:1rem;padding:12px 24px" onclick="doExport()">
+          📥 Generate & Download data.js
+        </button>
+        <div id="exportPreview" style="display:none;margin-top:1.25rem">
+          <div style="font-size:.875rem;font-weight:600;color:#374151;margin-bottom:.5rem">Preview:</div>
+          <div class="code-pre" id="exportCode"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /adm-body -->
+</div><!-- /adminWrap -->
+
+<!-- ===== PRODUCT MODAL ===== -->
+<div class="modal-ov" id="prodModal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-title" id="modalTitle">Add New Product</div>
+      <span class="modal-close" onclick="closeProdModal()">×</span>
+    </div>
+    <div class="modal-body">
+      <!-- Image Upload -->
+      <div style="margin-bottom:1.25rem">
+        <label class="fl">Product Photos *</label>
+        <div class="img-upload-area" id="dropZone">
+          <input type="file" accept="image/*" multiple id="imgFileInput" onchange="handleImgUpload(this.files)">
+          <div class="img-upload-icon">📸</div>
+          <div class="img-upload-txt">Click or drag & drop product photos here</div>
+          <div class="img-upload-hint">JPG, PNG, WEBP • Multiple photos allowed • First photo = main image</div>
+        </div>
+        <div class="img-previews" id="imgPreviews"></div>
+      </div>
+
+      <div class="fg">
+        <div class="fg-full">
+          <label class="fl">Product Name *</label>
+          <input type="text" class="fi" id="fName" placeholder="e.g. L-Shaped Sectional Sofa — Charcoal Grey">
+        </div>
+        <div>
+          <label class="fl">Category *</label>
+          <select class="fs" id="fCat">
+            <option value="sofas">🛋️ Sofas & Sectionals</option>
+            <option value="beds">🛏️ Beds & Headboards</option>
+            <option value="dining">🍽️ Dining Sets</option>
+            <option value="storage">🗄️ Wardrobes & Storage</option>
+            <option value="bedroom">🪞 Bedroom Accessories</option>
+          </select>
+        </div>
+        <div>
+          <label class="fl">Price (KSh)</label>
+          <input type="number" class="fi" id="fPrice" placeholder="0 = Call for Price">
+        </div>
+        <div>
+          <label class="fl">Old / Was Price (KSh)</label>
+          <input type="number" class="fi" id="fOldPrice" placeholder="Optional — shows strikethrough">
+        </div>
+        <div>
+          <label class="fl">Rating (1–5)</label>
+          <input type="number" class="fi" id="fRating" value="5" min="1" max="5" step="0.1">
+        </div>
+        <div>
+          <label class="fl">No. of Reviews</label>
+          <input type="number" class="fi" id="fReviews" value="12" min="0">
+        </div>
+
+        <div class="fg-full">
+          <label class="fl">Badge</label>
+          <div class="badge-radio-group" id="badgeGroup">
+            <label class="badge-radio"><input type="radio" name="badge" value=""> <span style="background:#F3F4F6;color:#666">None</span></label>
+            <label class="badge-radio"><input type="radio" name="badge" value="New"> <span class="badge-pill badge-new">New</span></label>
+            <label class="badge-radio hot"><input type="radio" name="badge" value="Hot"> <span class="badge-pill badge-hot">Hot</span></label>
+            <label class="badge-radio sale"><input type="radio" name="badge" value="Sale"> <span class="badge-pill badge-sale">Sale</span></label>
+            <label class="badge-radio special"><input type="radio" name="badge" value="Today's Special"> <span class="badge-pill badge-special">⭐ Today's Special</span></label>
+            <label class="badge-radio"><input type="radio" name="badge" value="Best Seller"> <span class="badge-pill badge-best">Best Seller</span></label>
+            <label class="badge-radio"><input type="radio" name="badge" value="Limited"> <span class="badge-pill badge-limited">Limited</span></label>
+            <label class="badge-radio"><input type="radio" name="badge" value="Custom Made"> <span class="badge-pill badge-custom">Custom Made</span></label>
+          </div>
+          <div style="margin-top:.625rem;display:flex;align-items:center;gap:.5rem">
+            <input type="text" class="fi" id="badgeCustom" placeholder="Or type a custom badge..." style="max-width:240px" oninput="clearBadgeRadio()">
+          </div>
+        </div>
+
+        <div class="fg-full">
+          <label class="fl">Description *</label>
+          <textarea class="fta" id="fDesc" placeholder="Describe the product — materials, customisation options, ideal for..." style="min-height:100px"></textarea>
+        </div>
+        <div class="fg-full">
+          <label class="fl">Available Colors (comma-separated)</label>
+          <input type="text" class="fi" id="fColors" placeholder="Cream Beige, Charcoal Grey, Forest Green, Chocolate Brown">
+        </div>
+        <div class="fg-full">
+          <label class="fl">Specifications (one per line: Key: Value)</label>
+          <textarea class="fta" id="fSpecs" placeholder="material: Premium Velvet Fabric&#10;dimensions: W 240cm × D 90cm × H 85cm&#10;seating: 5–7 persons&#10;delivery: 7–14 working days"></textarea>
+        </div>
+        <div class="fg-full">
+          <label class="fl">Extra image filenames (already on GitHub, comma-separated)</label>
+          <input type="text" class="fi" id="fExtraImgs" placeholder="e.g. sofa2.jpg, IMG-20260608-WA0019.jpg">
+          <div class="fh">Add filenames of images already uploaded to GitHub. These load from the site files.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-out" onclick="closeProdModal()">Cancel</button>
+      <button class="btn btn-g" onclick="saveProd()" id="saveProdBtn">Save Product</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="adm-toast" id="aToast"></div>
+
+<script src="js/data.js"></script>
+<script>
+// ========== CONSTANTS ==========
+const PIN_KEY   = 'dvf_admin_pin';
+const AUTH_KEY  = 'dvf_admin_auth';
+const PRODS_KEY = 'dvf_admin_products';
+const PRICE_KEY = 'dvf_price_overrides';
+const ORDERS_KEY= 'dvf_orders';
+const IMG_PREFIX= 'dvf_img_';
+const DEF_PIN   = 'DVF2026';
+
+// ========== AUTH ==========
+function getPin() { return localStorage.getItem(PIN_KEY) || DEF_PIN; }
+
+function checkPin() {
+  const v = document.getElementById('pinInp').value;
+  if (v === getPin()) {
+    sessionStorage.setItem(AUTH_KEY,'1');
+    document.getElementById('pinScreen').style.display = 'none';
+    document.getElementById('adminWrap').classList.add('on');
+    initAdmin();
+  } else {
+    const e = document.getElementById('pinErr');
+    e.style.display = 'block';
+    document.getElementById('pinInp').value = '';
+    setTimeout(()=> e.style.display='none', 3000);
+  }
+}
+
+function logout() {
+  if (!confirm('Log out of admin panel?')) return;
+  sessionStorage.removeItem(AUTH_KEY);
+  location.reload();
+}
+
+function togglePinEye() {
+  const i = document.getElementById('pinInp');
+  i.type = i.type==='password' ? 'text' : 'password';
+}
+
+// ========== DATA HELPERS ==========
+function getCustomProds() { try { return JSON.parse(localStorage.getItem(PRODS_KEY)||'[]'); } catch(e){return[];} }
+function setCustomProds(a) { localStorage.setItem(PRODS_KEY, JSON.stringify(a)); }
+
+function getPriceOvr() { try { return JSON.parse(localStorage.getItem(PRICE_KEY)||'{}'); } catch(e){return{};} }
+function setPriceOvr(o) { localStorage.setItem(PRICE_KEY, JSON.stringify(o)); }
+
+function getAllProds() {
+  const ov  = getPriceOvr();
+  const base = (typeof PRODUCTS!=='undefined') ? PRODUCTS.map(p => {
+    const r = {...p, _type:'static'};
+    const o = ov[p.id];
+    if (o) {
+      if (o.price!==undefined) r.price = o.price;
+      if (o.oldPrice!==undefined) r.oldPrice = o.oldPrice;
+      if (o.badge!==undefined) r.badge = o.badge;
+      if (o.name) r.name = o.name;
+      if (o.desc) r.desc = o.desc;
+    }
+    return r;
+  }) : [];
+  return [...base, ...getCustomProds().map(p=>({...p,_type:'custom'}))];
+}
+
+function getStoredImg(fname) {
+  return localStorage.getItem(IMG_PREFIX + fname) || null;
+}
+
+function resolveAdminImg(fname) {
+  if (!fname) return 'sofa.jpg';
+  if (fname.startsWith('data:')) return fname;
+  return getStoredImg(fname) || fname;
+}
+
+// ========== TOAST ==========
+function toast(msg, type='ok') {
+  const t = document.getElementById('aToast');
+  t.textContent = msg;
+  t.className = 'adm-toast on ' + type;
+  setTimeout(()=> t.className='adm-toast', 3200);
+}
+
+// ========== TABS ==========
+function qTab(id) { return document.querySelector(`.adm-tab[onclick*="${id}"]`); }
+
+function goTab(id, btn) {
+  document.querySelectorAll('.adm-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.adm-panel').forEach(p=>p.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  document.getElementById('panel-'+id)?.classList.add('on');
+  const fn = {dashboard:renderDash, products:renderProdTable, specials:renderSpecials, prices:renderPriceTable, orders:renderOrders}[id];
+  if (fn) fn();
+}
+
+// ========== DASHBOARD ==========
+function renderDash() {
+  const prods = getAllProds();
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)||'[]');
+  const customs = getCustomProds();
+  const rev = orders.reduce((s,o)=>s+(o.total||0),0);
+
+  document.getElementById('dStats').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${prods.length}</div><div class="stat-label">Total Products</div></div>
+    <div class="stat-card gold"><div class="stat-num">${customs.length}</div><div class="stat-label">Custom Added</div></div>
+    <div class="stat-card orange"><div class="stat-num">${orders.length}</div><div class="stat-label">Orders Received</div></div>
+    <div class="stat-card blue"><div class="stat-num">${rev>0?'KSh '+rev.toLocaleString():'-'}</div><div class="stat-label">Total Revenue</div></div>
+  `;
+
+  document.getElementById('dProdList').innerHTML = `
+    <table class="tbl">
+      <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Badge</th></tr></thead>
+      <tbody>${prods.slice(0,10).map(p=>`<tr>
+        <td><img src="${resolveAdminImg(p.imgs?.[0]||'sofa.jpg')}" class="tbl-img" onerror="this.src='sofa.jpg'"></td>
+        <td><strong>${p.name}</strong></td>
+        <td>${p.cat}</td>
+        <td>${p.price>0?'KSh '+p.price.toLocaleString():'<span style="color:#9CA3AF">Custom</span>'}</td>
+        <td>${p.badge?`<span class="badge-pill badge-${p.badge.toLowerCase().replace(/[^a-z]/g,'').substring(0,7)}">${p.badge}</span>`:'—'}</td>
+      </tr>`).join('')}</tbody>
+    </table>
+    ${prods.length>10?`<div style="text-align:center;margin-top:1rem">
+      <button class="btn btn-out btn-sm" onclick="goTab('products',qTab('products'))">View All ${prods.length} Products →</button>
+    </div>`:''}
+  `;
+}
+
+// ========== PRODUCT TABLE ==========
+function renderProdTable() {
+  const prods = getAllProds();
+  document.getElementById('prodTBody').innerHTML = prods.map(p=>`<tr>
+    <td><img src="${resolveAdminImg(p.imgs?.[0]||'sofa.jpg')}" class="tbl-img" onerror="this.src='sofa.jpg'"></td>
+    <td><strong>${p.name}</strong></td>
+    <td class="tbl-hide">${p.cat}</td>
+    <td>${p.price>0?'KSh '+p.price.toLocaleString():'<span style="color:#9CA3AF">Custom</span>'}</td>
+    <td class="tbl-hide">${p.badge?`<span class="badge-pill">${p.badge}</span>`:'—'}</td>
+    <td class="tbl-hide"><span class="${p._type==='custom'?'type-pill-custom':'type-pill-static'}">${p._type}</span></td>
+    <td>
+      <button class="btn btn-out btn-sm" style="margin-right:4px" onclick="openEditModal(${p.id},'${p._type}')">Edit</button>
+      ${p._type==='custom'?`<button class="btn btn-red btn-sm" onclick="delCustomProd(${p.id})">Delete</button>`:''}
+      ${(p.imgs||[]).some(img=>getStoredImg(img))?`<button class="btn btn-sm" style="background:#F0FFF4;color:#059669;border:1px solid #A7F3D0;margin-left:4px" onclick="downloadProdImgs(${p.id})">⬇️ DL Imgs</button>`:''}
+    </td>
+  </tr>`).join('');
+}
+
+// ========== IMAGE UPLOAD ==========
+let currentImgData = []; // [{fname, b64, size}]
+
+function handleImgUpload(files) {
+  Array.from(files).forEach(file => {
+    const maxBytes = 4 * 1024 * 1024; // 4MB before resize
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        // Resize via canvas if large
+        const MAX = 1200;
+        let w = img.width, h = img.height;
+        if (w > MAX || h > MAX) {
+          const r = Math.min(MAX/w, MAX/h);
+          w = Math.round(w*r); h = Math.round(h*r);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        const b64 = canvas.toDataURL('image/jpeg', 0.82);
+        const fname = 'upload_' + Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9.]/g,'_');
+        localStorage.setItem(IMG_PREFIX + fname, b64);
+        currentImgData.push({fname, b64});
+        renderImgPreviews();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderImgPreviews() {
+  const el = document.getElementById('imgPreviews');
+  el.innerHTML = currentImgData.map((item,i)=>`
+    <div class="img-preview-item">
+      <img src="${item.b64}" alt="Preview">
+      ${i===0?'<div class="img-preview-main">MAIN</div>':''}
+      <div class="img-preview-rm" onclick="removeImgPreview(${i})">×</div>
+    </div>
+  `).join('');
+}
+
+function removeImgPreview(i) {
+  const fname = currentImgData[i].fname;
+  localStorage.removeItem(IMG_PREFIX + fname);
+  currentImgData.splice(i,1);
+  renderImgPreviews();
+}
+
+function downloadProdImgs(id) {
+  const prods = getAllProds();
+  const p = prods.find(x=>x.id==id);
+  if (!p) return;
+  (p.imgs||[]).forEach(fname => {
+    const b64 = getStoredImg(fname);
+    if (!b64) return;
+    const a = document.createElement('a');
+    a.href = b64;
+    a.download = fname;
+    a.click();
+  });
+}
+
+// Drag & drop
+document.addEventListener('DOMContentLoaded', ()=>{
+  const dz = document.getElementById('dropZone');
+  if (!dz) return;
+  ['dragenter','dragover'].forEach(ev => dz.addEventListener(ev, e=>{e.preventDefault();dz.classList.add('drag');}));
+  ['dragleave','drop'].forEach(ev => dz.addEventListener(ev, e=>{dz.classList.remove('drag');}));
+  dz.addEventListener('drop', e=>{
+    e.preventDefault();
+    handleImgUpload(e.dataTransfer.files);
+  });
+});
+
+// ========== PRODUCT MODAL ==========
+let editId = null, editType = null;
+
+function openProdModal(prod) {
+  editId = prod ? prod.id : null;
+  editType = prod ? prod._type : null;
+  document.getElementById('modalTitle').textContent = prod ? 'Edit Product' : 'Add New Product';
+  currentImgData = [];
+  renderImgPreviews();
+
+  if (prod) {
+    document.getElementById('fName').value = prod.name||'';
+    document.getElementById('fCat').value  = prod.cat||'sofas';
+    document.getElementById('fPrice').value    = prod.price||'';
+    document.getElementById('fOldPrice').value = prod.oldPrice||'';
+    document.getElementById('fRating').value   = prod.rating||5;
+    document.getElementById('fReviews').value  = prod.reviews||10;
+    document.getElementById('fDesc').value     = prod.desc||'';
+    document.getElementById('fColors').value   = (prod.colors||[]).join(', ');
+    document.getElementById('fSpecs').value    = Object.entries(prod.specs||{}).map(([k,v])=>`${k}: ${v}`).join('\n');
+    document.getElementById('fExtraImgs').value= (prod.imgs||[]).filter(f=>!f.startsWith('upload_')).join(', ');
+    document.getElementById('badgeCustom').value = '';
+    document.querySelectorAll('input[name="badge"]').forEach(r => r.checked = r.value===(prod.badge||''));
+    // Load existing uploaded images into previews
+    (prod.imgs||[]).forEach(fname=>{
+      const b64 = getStoredImg(fname);
+      if (b64) currentImgData.push({fname, b64});
+    });
+    renderImgPreviews();
+  } else {
+    ['fName','fPrice','fOldPrice','fDesc','fColors','fSpecs','fExtraImgs','badgeCustom'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+    document.getElementById('fCat').value='sofas';
+    document.getElementById('fRating').value='5';
+    document.getElementById('fReviews').value='12';
+    document.querySelectorAll('input[name="badge"]').forEach(r=>r.checked=r.value==='');
+  }
+  document.getElementById('prodModal').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+
+function openEditModal(id, type) {
+  const prods = getAllProds();
+  const p = prods.find(x=>x.id==id && x._type===type);
+  if (p) openProdModal(p);
+}
+
+function closeProdModal() {
+  document.getElementById('prodModal').classList.remove('on');
+  document.body.style.overflow='';
+}
+
+function clearBadgeRadio() {
+  document.querySelectorAll('input[name="badge"]').forEach(r=>r.checked=false);
+}
+
+function saveProd() {
+  const name = document.getElementById('fName').value.trim();
+  const desc = document.getElementById('fDesc').value.trim();
+  if (!name) { toast('Product name is required','err'); return; }
+  if (!desc) { toast('Description is required','err'); return; }
+
+  // Build images list: uploaded first, then extra filenames
+  const imgs = [
+    ...currentImgData.map(i=>i.fname),
+    ...document.getElementById('fExtraImgs').value.split(',').map(s=>s.trim()).filter(Boolean)
+  ];
+  if (!imgs.length) { toast('Add at least one product image','err'); return; }
+
+  // Badge
+  const radioVal = [...document.querySelectorAll('input[name="badge"]')].find(r=>r.checked)?.value || '';
+  const customBadge = document.getElementById('badgeCustom').value.trim();
+  const badge = customBadge || radioVal || null;
+
+  // Specs
+  const specs = {};
+  document.getElementById('fSpecs').value.trim().split('\n').forEach(line=>{
+    const [k,...rest]=line.split(':');
+    if(k&&rest.length) specs[k.trim()]=rest.join(':').trim();
+  });
+
+  const data = {
+    name, cat: document.getElementById('fCat').value,
+    price: parseInt(document.getElementById('fPrice').value)||0,
+    oldPrice: parseInt(document.getElementById('fOldPrice').value)||0,
+    rating: parseFloat(document.getElementById('fRating').value)||5,
+    reviews: parseInt(document.getElementById('fReviews').value)||12,
+    badge, imgs, desc,
+    colors: document.getElementById('fColors').value.split(',').map(s=>s.trim()).filter(Boolean),
+    specs
+  };
+
+  if (editId && editType === 'static') {
+    // Store overrides for static product
+    const ov = getPriceOvr();
+    ov[editId] = { ...(ov[editId]||{}), price:data.price, oldPrice:data.oldPrice, badge:data.badge, name:data.name, desc:data.desc };
+    setPriceOvr(ov);
+    toast('Product updated!');
+  } else if (editId && editType === 'custom') {
+    const customs = getCustomProds();
+    const idx = customs.findIndex(p=>p.id==editId);
+    if (idx!==-1) { customs[idx]={...data, id:editId}; setCustomProds(customs); }
+    toast('Product updated!');
+  } else {
+    // New product
+    const customs = getCustomProds();
+    const maxId = Math.max(0, ...customs.map(p=>p.id||0), ...(typeof PRODUCTS!=='undefined'?PRODUCTS.map(p=>p.id):[0]));
+    customs.push({...data, id:maxId+1});
+    setCustomProds(customs);
+    toast('Product added!');
+  }
+
+  closeProdModal();
+  renderProdTable();
+  renderDash();
+}
+
+function delCustomProd(id) {
+  if (!confirm('Delete this product? Cannot be undone.')) return;
+  setCustomProds(getCustomProds().filter(p=>p.id!==id));
+  renderProdTable(); renderDash();
+  toast('Product deleted');
+}
+
+// ========== SPECIALS ==========
+function renderSpecials() {
+  const prods = getAllProds();
+  const specials = prods.filter(p=>p.badge && (p.badge.toLowerCase().includes('special')||p.badge.toLowerCase().includes('sale')||p.badge.toLowerCase().includes('deal')||p.badge.toLowerCase().includes('offer')));
+
+  const el = document.getElementById('specialsList');
+  if (!specials.length) {
+    el.innerHTML = '<p style="color:var(--gray);text-align:center;padding:2rem 0">No specials set yet. Use the form below to set one.</p>';
+  } else {
+    el.innerHTML = `<div style="margin-bottom:1.25rem;font-weight:700;color:var(--g)">Current Specials (${specials.length})</div>` +
+      specials.map(p=>`
+      <div class="special-card">
+        <img src="${resolveAdminImg(p.imgs?.[0]||'sofa.jpg')}" onerror="this.src='sofa.jpg'" alt="${p.name}">
+        <div class="special-card-info">
+          <div class="special-card-name">${p.name}</div>
+          <div class="special-card-price">
+            KSh ${p.price>0?p.price.toLocaleString():'Custom'}
+            ${p.oldPrice>0?`<span class="special-card-old">KSh ${p.oldPrice.toLocaleString()}</span>`:''}
+            ${p.oldPrice>0&&p.price>0?`<span style="color:var(--red);font-size:.78rem;font-weight:800;margin-left:.5rem">-${Math.round((1-p.price/p.oldPrice)*100)}% OFF</span>`:''}
+          </div>
+        </div>
+        <span class="special-badge">${p.badge}</span>
+        <button class="btn btn-red btn-sm" onclick="removeSpecial(${p.id},'${p._type}')">Remove</button>
+      </div>
+    `).join('');
+  }
+
+  // Populate product selector
+  const sel = document.getElementById('specialProdSel');
+  sel.innerHTML = prods.map(p=>`<option value="${p.id}|${p._type}">${p.name} (${p.price>0?'KSh '+p.price.toLocaleString():'Custom'})</option>`).join('');
+}
+
+function calcSpecialPrice() {
+  const disc = parseInt(document.getElementById('specialDisc').value)||0;
+  if (!disc) return;
+  const sel = document.getElementById('specialProdSel').value;
+  if (!sel) return;
+  const id = parseInt(sel.split('|')[0]);
+  const p = getAllProds().find(x=>x.id===id);
+  if (!p||!p.price) return;
+  document.getElementById('specialPrice').value = Math.round(p.price*(1-disc/100));
+}
+
+function saveSpecial() {
+  const sel = document.getElementById('specialProdSel').value;
+  if (!sel) { toast('Select a product','err'); return; }
+  const [idStr, type] = sel.split('|');
+  const id = parseInt(idStr);
+  const newPrice = parseInt(document.getElementById('specialPrice').value)||0;
+  const badge = document.getElementById('specialBadge').value;
+  const prods = getAllProds();
+  const p = prods.find(x=>x.id===id);
+  if (!p) { toast('Product not found','err'); return; }
+
+  const oldP = newPrice>0&&p.price>0&&newPrice<p.price ? p.price : 0;
+
+  if (type==='custom') {
+    const customs = getCustomProds();
+    const idx = customs.findIndex(x=>x.id===id);
+    if (idx!==-1) {
+      if (newPrice>0) { customs[idx].oldPrice=customs[idx].oldPrice||customs[idx].price; customs[idx].price=newPrice; }
+      customs[idx].badge=badge;
+      setCustomProds(customs);
+    }
+  } else {
+    const ov = getPriceOvr();
+    ov[id] = { ...(ov[id]||{}), badge, ...(newPrice>0?{price:newPrice, oldPrice:oldP||p.oldPrice}:{}) };
+    setPriceOvr(ov);
+  }
+
+  toast(`⭐ ${badge} set on "${p.name}"!`);
+  renderSpecials();
+}
+
+function removeSpecial(id, type) {
+  if (type==='custom') {
+    const customs = getCustomProds();
+    const idx = customs.findIndex(p=>p.id===id);
+    if (idx!==-1) { customs[idx].badge=null; setCustomProds(customs); }
+  } else {
+    const ov = getPriceOvr();
+    if (ov[id]) { ov[id].badge=null; setPriceOvr(ov); }
+    else { const o={}; o[id]={badge:null}; setPriceOvr({...ov,...o}); }
+  }
+  renderSpecials();
+  toast('Special removed');
+}
+
+// ========== PRICE TABLE ==========
+function renderPriceTable() {
+  const prods = getAllProds();
+  document.getElementById('priceTBody').innerHTML = prods.map(p=>`<tr>
+    <td><strong>${p.name}</strong> <span style="font-size:.75rem;color:#9CA3AF">(${p.cat})</span></td>
+    <td style="color:var(--g);font-weight:700">${p.price>0?'KSh '+p.price.toLocaleString():'Custom/Call'}</td>
+    <td><input type="number" class="price-inp" id="np-${p.id}" value="${p.price||''}" placeholder="0=custom"></td>
+    <td><input type="number" class="price-inp" id="op-${p.id}" value="${p.oldPrice||''}" placeholder="optional"></td>
+    <td>
+      <button class="btn btn-out btn-sm" onclick="saveSinglePrice(${p.id},'${p._type}')">Save</button>
+      <span class="saved-tick" id="st-${p.id}">✓ Saved</span>
+    </td>
+  </tr>`).join('');
+}
+
+function saveSinglePrice(id, type) {
+  const np = parseInt(document.getElementById('np-'+id)?.value)||0;
+  const op = parseInt(document.getElementById('op-'+id)?.value)||0;
+  if (type==='custom') {
+    const c=getCustomProds(); const i=c.findIndex(p=>p.id==id);
+    if(i!==-1){c[i].price=np;c[i].oldPrice=op;setCustomProds(c);}
+  } else {
+    const ov=getPriceOvr(); ov[id]={...(ov[id]||{}),price:np,oldPrice:op}; setPriceOvr(ov);
+  }
+  const st=document.getElementById('st-'+id);
+  if(st){st.style.display='inline';setTimeout(()=>st.style.display='none',2000);}
+  toast('Price saved for: '+id);
+}
+
+function saveAllPrices() {
+  getAllProds().forEach(p=>saveSinglePrice(p.id,p._type));
+  toast('All prices saved!');
+}
+
+// ========== ORDERS ==========
+function renderOrders() {
+  const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)||'[]');
+  const el = document.getElementById('ordersList');
+  if (!orders.length) { el.innerHTML='<p style="color:var(--gray);text-align:center;padding:2rem 0">No orders yet.</p>'; return; }
+  el.innerHTML = orders.map(o=>`
+    <div class="order-row">
+      <div class="order-row-hd">
+        <span class="order-ref">${o.ref}</span>
+        <span class="order-status">${o.status||'Confirmed'}</span>
+      </div>
+      <div class="order-meta">
+        📅 ${o.date} &nbsp;|&nbsp; 💰 ${o.total?'KSh '+o.total.toLocaleString():'Custom'} &nbsp;|&nbsp; 💳 ${o.payment||'N/A'}
+        ${o.items&&o.items.length?`<div style="margin-top:.35rem">• ${o.items.join(' • ')}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function clearOrders() {
+  if (!confirm('Clear all orders? This cannot be undone.')) return;
+  localStorage.removeItem(ORDERS_KEY);
+  renderOrders();
+  renderDash();
+  toast('Orders cleared');
+}
+
+// ========== SETTINGS ==========
+function changePin() {
+  const old=document.getElementById('oldPin').value;
+  const n1=document.getElementById('newPin1').value;
+  const n2=document.getElementById('newPin2').value;
+  if (old!==getPin()) { toast('Current PIN is incorrect','err'); return; }
+  if (n1.length<4) { toast('New PIN must be at least 4 characters','err'); return; }
+  if (n1!==n2) { toast('PINs do not match','err'); return; }
+  localStorage.setItem(PIN_KEY,n1);
+  ['oldPin','newPin1','newPin2'].forEach(id=>document.getElementById(id).value='');
+  toast('PIN updated successfully!');
+}
+
+function nukeCustomProds() {
+  if (!confirm('Delete ALL custom products? Cannot be undone.')) return;
+  localStorage.removeItem(PRODS_KEY); renderDash(); toast('Custom products deleted');
+}
+
+function nukePriceOverrides() {
+  if (!confirm('Reset ALL price changes? Cannot be undone.')) return;
+  localStorage.removeItem(PRICE_KEY); renderDash(); toast('Price changes reset');
+}
+
+function nukeImages() {
+  if (!confirm('Delete ALL uploaded images from this device? Cannot be undone.')) return;
+  const keys = Object.keys(localStorage).filter(k=>k.startsWith(IMG_PREFIX));
+  keys.forEach(k=>localStorage.removeItem(k));
+  toast(`Deleted ${keys.length} images`);
+}
+
+// ========== EXPORT ==========
+function doExport() {
+  const prods = getAllProds().map(({_type,...p})=>p);
+
+  const js = `/* =====================================================
+   Desian Vision Furniture (DVF) — Product Data
+   Updated: ${new Date().toLocaleString('en-KE')}
+   ===================================================== */
+
+const PRODUCTS = ${JSON.stringify(prods, null, 2)};
+
+const CATEGORIES = [
+  { id: 'sofas',   name: 'Sofas & Sectionals',  icon: '🛋️' },
+  { id: 'beds',    name: 'Beds & Headboards',    icon: '🛏️' },
+  { id: 'dining',  name: 'Dining Sets',          icon: '🍽️' },
+  { id: 'storage', name: 'Wardrobes & Storage',  icon: '🗄️' },
+  { id: 'bedroom', name: 'Bedroom Accessories',  icon: '🪞' }
+];
+
+const TESTIMONIALS = [
+  { name: 'Ben Kisilu',                text: 'I highly recommend their services. They understood my vision and executed the design perfectly. The quality exceeded my expectations!', stars: 5 },
+  { name: 'Inrafted Enterprises',      text: 'Durable dining sets that bring elegance to the home. True Kenyan craftsmanship at its finest. Worth every shilling.',              stars: 5 },
+  { name: 'The Turn Business Complex', text: 'Best place for modern home furnishings in Githurai 45. Diverse fabrics and designs for all tastes and budgets.',                   stars: 5 },
+  { name: 'SILVA Packers and Movers',  text: 'Exceptional customer care and high quality products. The dressing table is both functional and stylish — love it!',               stars: 5 }
+];
+
+const GALLERY_IMGS = [
+  'sofa.jpg','IMG-20260608-WA0019.jpg','IMG-20260608-WA0020.jpg','IMG-20260608-WA0021.jpg',
+  'IMG-20260608-WA0024.jpg','IMG-20260608-WA0025.jpg','IMG-20260608-WA0026.jpg','IMG-20260608-WA0027.jpg',
+  'IMG-20260608-WA0028.jpg','IMG-20260608-WA0030.jpg','IMG-20260608-WA0031.jpg','IMG-20260608-WA0032.jpg',
+  'IMG-20260608-WA0033.jpg','IMG-20260609-WA0024.jpg','IMG-20260609-WA0025.jpg','IMG-20260609-WA0033.jpg',
+  'IMG-20260609-WA0037.jpg','IMG-20260610-WA0002.jpg','IMG-20260610-WA0009.jpg','1780923820434.jpg',
+  '1780923972950.jpg','1780924052578.jpg','1780924105500.jpg','IMG-20260613-WA0009.jpg',
+  'bed.jpg','bed2.jpg','cabinet.jpg'
+];
+
+const WA_NUMBER = '254702894439';
+
+const BUSINESS = {
+  name:      'Desian Vision Furniture',
+  phone:     '0702 894 439',
+  wa:        '254702894439',
+  address:   'Githurai 45 – Mwihoko Road, Near Fountain Jouner Academy, Nairobi, Kenya',
+  hours:     'Mon–Sat: 8AM–7PM | Sun: 10AM–5PM',
+  facebook:  'https://www.facebook.com/profile.php?id=61550647002330',
+  instagram: 'https://www.instagram.com/desian_visionfurnitures',
+  tiktok:    'https://www.tiktok.com/@desianvis0702894439davis'
+};`;
+
+  document.getElementById('exportPreview').style.display='block';
+  document.getElementById('exportCode').textContent = js.split('\n').slice(0,60).join('\n')+'\n...';
+
+  const blob=new Blob([js],{type:'text/javascript'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='data.js'; a.click();
+  URL.revokeObjectURL(url);
+  toast('data.js downloaded! Upload it to GitHub.');
+}
+
+// ========== INIT ==========
+window.addEventListener('DOMContentLoaded', ()=>{
+  if (sessionStorage.getItem(AUTH_KEY)) {
+    document.getElementById('pinScreen').style.display='none';
+    document.getElementById('adminWrap').classList.add('on');
+    initAdmin();
+  }
+  document.getElementById('pinInp')?.focus();
+});
+
+function initAdmin() { renderDash(); }
+</script>
+</body>
+</html>
