@@ -409,6 +409,11 @@
           <button class="btn btn-out" onclick="testGHConnection()">Test Connection</button>
           <span id="ghTestResult" style="font-size:.85rem"></span>
         </div>
+        <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #E5E7EB">
+          <button class="btn btn-g" onclick="publishNow()">📤 Publish Now — Push All Products Live</button>
+          <div class="fh" style="margin-top:.5rem">Use this right after connecting GitHub for the first time — it pushes every product, price and photo already saved on this device straight to the live site, instead of waiting for the next individual edit.</div>
+          <span id="publishNowResult" style="font-size:.85rem;display:block;margin-top:.4rem"></span>
+        </div>
       </div>
 
       <!-- Admin PIN -->
@@ -1413,6 +1418,26 @@ function bakeLocalOverridesIntoMemory(){
   getCustomProds().forEach(c=>{ if(!PRODUCTS.find(p=>p.id===c.id)) PRODUCTS.push(c); });
   localStorage.removeItem(PRICE_KEY);
   localStorage.removeItem(PRODS_KEY);
+}
+
+// Lets the admin force-push everything already saved on this device the
+// moment GitHub gets connected, instead of needing to re-save each product
+// individually just to trigger the existing per-save sync.
+async function publishNow(){
+  const resultEl = document.getElementById('publishNowResult');
+  if (!isGHReady()) {
+    resultEl.innerHTML = '<span style="color:var(--red)">❌ Connect GitHub above first (token + repo), then click Publish Now.</span>';
+    return;
+  }
+  resultEl.innerHTML = '⏳ Publishing…';
+  const ok = await syncDataJSToGitHub();
+  if (ok) {
+    bakeLocalOverridesIntoMemory();
+    renderDash(); renderProdTable();
+    resultEl.innerHTML = '<span style="color:#059669">✅ Published! Your products are now live for all visitors.</span>';
+  } else {
+    resultEl.innerHTML = '<span style="color:var(--red)">❌ Publish failed — check your token/repo/branch and try again.</span>';
+  }
 }
 
 // Runs after any product/price/special change — pushes data.js live if GitHub
