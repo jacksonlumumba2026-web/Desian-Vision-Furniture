@@ -2400,3 +2400,57 @@ button.page-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
   button.page-btn { min-width: 36px; height: 36px; font-size: 0.82rem; }
   .pagination { gap: 0.35rem; padding-top: 1.5rem; }
 }
+
+/* =====================================================
+   46. Floating "Need Help?" Button (site-wide guidance)
+   ===================================================== */
+.floating-help-btn {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 998;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #25D366;
+  color: white;
+  padding: 0.8rem 1.1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  animation: floatingHelpPulse 2.6s infinite;
+  transition: transform 0.2s;
+}
+.floating-help-btn:hover { transform: scale(1.05); }
+.floating-help-icon { font-size: 1.3rem; line-height: 1; }
+
+@keyframes floatingHelpPulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(37,211,102,0.45); }
+  50% { box-shadow: 0 4px 26px rgba(37,211,102,0.8); }
+}
+
+@media (max-width: 576px) {
+  .floating-help-btn {
+    bottom: 16px;
+    right: 16px;
+    padding: 0.85rem;
+    border-radius: 50%;
+  }
+  .floating-help-text { display: none; }
+}
+
+/* Guidance heading above the category picker on the shop page */
+.cat-picker-heading {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #1E5631;
+  font-weight: 600;
+  margin-bottom: 0.85rem;
+  background: #f0f7f3;
+  border: 1px solid #d8ead9;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+}

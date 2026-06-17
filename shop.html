@@ -81,6 +81,7 @@
       <!-- Products -->
       <div>
         <!-- Category photo cards (all-products view) -->
+        <div id="catPickerHeading" class="cat-picker-heading" style="display:none">👇 Tap a category to narrow your search, or scroll down to see everything</div>
         <div id="catCards" class="cat-cards-row" style="display:none"></div>
         <!-- Category banner (single-category view) -->
         <div id="catBanner" class="cat-banner" style="display:none">
@@ -182,25 +183,11 @@ function toggleMobileFilter() {
   document.getElementById('filterSidebar').classList.toggle('mob-open');
 }
 
-// ── show/hide product grid vs category picker ─────────
-function showProductGrid() {
-  document.getElementById('shopGrid').style.display = '';
-  document.getElementById('pagination').style.display = '';
-  document.querySelector('.shop-toolbar').style.display = '';
-}
-function hideProductGrid() {
-  document.getElementById('shopGrid').innerHTML = '';
-  document.getElementById('pagination').innerHTML = '';
-  document.getElementById('shopCount').textContent = '';
-  document.getElementById('shopGrid').style.display = 'none';
-  document.getElementById('pagination').style.display = 'none';
-  document.querySelector('.shop-toolbar').style.display = 'none';
-}
-
 // ── category banner / picker ──────────────────────────
 function renderCategoryDisplay() {
   const banner = document.getElementById('catBanner');
   const cards  = document.getElementById('catCards');
+  const heading = document.getElementById('catPickerHeading');
 
   if (activeCat) {
     // Single category → show banner photo, hide picker cards
@@ -214,9 +201,11 @@ function renderCategoryDisplay() {
       banner.style.display = 'block';
     }
     if (cards) cards.style.display = 'none';
+    if (heading) heading.style.display = 'none';
   } else {
-    // All-products view → show category picker cards, no products
+    // All-products view → show category picker cards ABOVE all products
     if (banner) banner.style.display = 'none';
+    if (heading) heading.style.display = 'block';
     if (cards) {
       cards.style.display = 'flex';
       cards.innerHTML = CATEGORIES.map(function(cat) {
@@ -235,9 +224,6 @@ function renderCategoryDisplay() {
 
 // ── product grid with pagination ──────────────────────
 function renderShop() {
-  if (!activeCat) { hideProductGrid(); return; }
-  showProductGrid();
-
   const grid  = document.getElementById('shopGrid');
   const count = document.getElementById('shopCount');
   const total = filtered.length;
@@ -338,7 +324,7 @@ function clearFilters() {
   document.querySelector('input[name="minRating"][value="0"]').checked = true;
   document.getElementById('sortSelect').value = 'featured';
   activeCat = null;
-  filtered  = [];
+  filtered  = [...PRODUCTS];
   currentPage = 1;
   renderCategoryDisplay();
   renderShop();
@@ -383,6 +369,9 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('pageHeroTitle').textContent = catObj.icon + ' ' + catObj.name;
       document.getElementById('breadcrumbCurrent').textContent = catObj.name;
     }
+  } else {
+    // No category in URL → show every product, newest first
+    filtered = [...PRODUCTS];
   }
 
   renderCategoryDisplay();
