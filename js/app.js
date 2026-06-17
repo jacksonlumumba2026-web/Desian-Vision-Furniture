@@ -413,6 +413,28 @@ function initFloatingHelp() {
   document.body.appendChild(btn);
 }
 
+// ===== SITEWIDE BENEFITS MARQUEE =====
+// Inserted right under the nav on every page so it's seen immediately by
+// every visitor, instead of being buried partway down a single page.
+function initSiteMarquee() {
+  if (document.getElementById('siteMarquee')) return;
+  const nav = document.getElementById('mainNav');
+  if (!nav) return;
+
+  const items = [
+    '🚚 Free Nairobi Delivery', '📦 Assembly Included', '🌍 We Deliver Across Kenya',
+    '✋ Handcrafted to Order', '🏆 100% Recommended', '💰 Fair Honest Pricing',
+    '🎨 Diverse Designs & Colors', '📞 Always Reachable on WhatsApp'
+  ];
+  const doubled = [...items, ...items];
+
+  const wrap = document.createElement('div');
+  wrap.id = 'siteMarquee';
+  wrap.className = 'marquee-wrap marquee-topbar';
+  wrap.innerHTML = `<div class="marquee-track">${doubled.map(t => `<span class="marquee-item">${t}</span>`).join('')}</div>`;
+  nav.insertAdjacentElement('afterend', wrap);
+}
+
 // ===== TESTIMONIALS AUTO-SLIDE =====
 // Automatically advances any review carousel so visitors don't have to swipe manually
 function initTestiAutoSlide() {
@@ -446,6 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroSlider();
   initReveal();
   initFloatingHelp();
+  initSiteMarquee();
   initTestiAutoSlide();
 
   // Mark active nav link

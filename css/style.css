@@ -2494,6 +2494,15 @@ button.page-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
   white-space: nowrap;
 }
 
+/* Sitewide top-bar variant — sits directly under the nav on every page so the
+   ticker is always visible without scrolling */
+.marquee-topbar {
+  margin-top: 0;
+  border-radius: 0;
+  padding: 0.5rem 0;
+}
+.marquee-topbar .marquee-item { font-size: 0.82rem; }
+
 @keyframes marqueeScroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -2501,5 +2510,6 @@ button.page-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
 
 @media (max-width: 576px) {
   .marquee-item { font-size: 0.82rem; }
+  .marquee-topbar .marquee-item { font-size: 0.72rem; }
   .marquee-track { gap: 1.5rem; animation-duration: 20s; }
 }
