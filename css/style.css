@@ -2187,9 +2187,20 @@ input[type="range"]::-webkit-slider-thumb {
    42. Horizontal Scroll Carousels
    ===================================================== */
 .testi-scroll {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
   gap: 2rem;
+  padding-bottom: 1rem;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+.testi-scroll::-webkit-scrollbar { display: none; }
+.testi-scroll .testi-card {
+  min-width: 320px;
+  flex: 1 0 320px;
+  scroll-snap-align: start;
 }
 
 .related-scroll {
@@ -2199,20 +2210,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 @media (max-width: 768px) {
-  .testi-scroll {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    scrollbar-width: none;
-  }
-  .testi-scroll::-webkit-scrollbar { display: none; }
   .testi-scroll .testi-card {
     min-width: 280px;
-    flex-shrink: 0;
-    scroll-snap-align: start;
+    flex: 0 0 280px;
   }
 
   .related-scroll {
@@ -2453,4 +2453,53 @@ button.page-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
   border: 1px solid #d8ead9;
   border-radius: 8px;
   padding: 0.6rem 1rem;
+}
+
+/* =====================================================
+   47. Attention Nudge (pulsing CTA for hesitant users)
+   ===================================================== */
+.btn-nudge {
+  animation: btnNudgePulse 2.2s infinite;
+}
+.btn-nudge:hover { animation-play-state: paused; }
+
+@keyframes btnNudgePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(30,86,49,0.45); transform: scale(1); }
+  50% { box-shadow: 0 0 0 10px rgba(30,86,49,0); transform: scale(1.04); }
+}
+
+/* =====================================================
+   48. Scrolling Marquee Ticker (delivery & benefits)
+   ===================================================== */
+.marquee-wrap {
+  margin-top: 2.5rem;
+  overflow: hidden;
+  background: var(--green);
+  padding: 0.9rem 0;
+  border-radius: 8px;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 2.5rem;
+  animation: marqueeScroll 28s linear infinite;
+}
+.marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+.marquee-item {
+  flex-shrink: 0;
+  color: white;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 576px) {
+  .marquee-item { font-size: 0.82rem; }
+  .marquee-track { gap: 1.5rem; animation-duration: 20s; }
 }
