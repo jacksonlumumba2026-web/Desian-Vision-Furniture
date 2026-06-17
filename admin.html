@@ -374,9 +374,9 @@
 
       <!-- GitHub Integration -->
       <div class="ac">
-        <div class="ac-title">🐙 GitHub Integration — Auto-Upload Photos</div>
+        <div class="ac-title">🐙 GitHub Integration — Auto-Publish Photos & Products</div>
         <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:10px;padding:1.25rem;margin-bottom:1.5rem;font-size:.875rem">
-          <strong style="color:var(--blue)">How it works:</strong> Enter your GitHub token below. When you upload a product photo in admin, it goes <strong>directly to your GitHub repo</strong> and becomes live on your website for all customers — no extra steps needed!<br><br>
+          <strong style="color:var(--blue)">How it works:</strong> Enter your GitHub token below. Once connected, uploading a photo AND saving a product (or price/special change) both go <strong>directly to your GitHub repo</strong> and become live on your website for all customers automatically — no manual export/paste needed. Without this connected, changes are only saved on this device/browser and won't appear for other visitors.<br><br>
           <strong>To get a GitHub Token:</strong>
           <ol style="padding-left:1.25rem;margin-top:.5rem;line-height:2">
             <li>Go to <strong>GitHub.com → Your Profile → Settings</strong></li>
@@ -1151,26 +1151,29 @@ function saveProd(){
     specs
   };
 
+  let msg;
   if(editId&&editType==='static'){
     const ov=getPriceOvr();
     ov[editId]={...(ov[editId]||{}),price:data.price,oldPrice:data.oldPrice,badge:data.badge,name:data.name,desc:data.desc};
-    setPriceOvr(ov); toast('Product updated!');
+    setPriceOvr(ov); msg='Product updated!';
   } else if(editId&&editType==='custom'){
     const c=getCustomProds(); const i=c.findIndex(p=>p.id==editId);
-    if(i!==-1){c[i]={...data,id:editId};setCustomProds(c);} toast('Product updated!');
+    if(i!==-1){c[i]={...data,id:editId};setCustomProds(c);} msg='Product updated!';
   } else {
     const c=getCustomProds();
     const maxId=Math.max(0,...c.map(p=>p.id||0),...(typeof PRODUCTS!=='undefined'?PRODUCTS.map(p=>p.id):[0]));
-    c.push({...data,id:maxId+1}); setCustomProds(c); toast('Product added!','ok');
+    c.push({...data,id:maxId+1}); setCustomProds(c); msg='Product added!';
   }
 
   closeProdModal(); renderProdTable(); renderDash();
+  syncAndNotify(msg);
 }
 
 function delCustomProd(id){
   if(!confirm('Delete this product?'))return;
   setCustomProds(getCustomProds().filter(p=>p.id!==id));
-  renderProdTable(); renderDash(); toast('Product deleted');
+  renderProdTable(); renderDash();
+  syncAndNotify('Product deleted');
 }
 
 // ===== SPECIALS =====
@@ -1224,13 +1227,15 @@ function saveSpecial(){
   } else {
     const ov=getPriceOvr(); ov[id]={...(ov[id]||{}),badge,...(newPrice>0?{price:newPrice,oldPrice:oldP||p.oldPrice}:{})};setPriceOvr(ov);
   }
-  toast(`⭐ ${badge} set on "${p.name}"!`); renderSpecials();
+  renderSpecials();
+  syncAndNotify(`⭐ ${badge} set on "${p.name}"!`);
 }
 
 function removeSpecial(id,type){
   if(type==='custom'){const c=getCustomProds();const i=c.findIndex(p=>p.id===id);if(i!==-1){c[i].badge=null;setCustomProds(c);}}
   else{const ov=getPriceOvr();ov[id]={...(ov[id]||{}),badge:null};setPriceOvr(ov);}
-  renderSpecials(); toast('Special removed');
+  renderSpecials();
+  syncAndNotify('Special removed');
 }
 
 // ===== PRICE TABLE =====
@@ -1245,16 +1250,20 @@ function renderPriceTable(){
   </tr>`).join('');
 }
 
-function saveSinglePrice(id,type){
+function saveSinglePrice(id,type,skipSync){
   const np=parseInt(document.getElementById('np-'+id)?.value)||0;
   const op=parseInt(document.getElementById('op-'+id)?.value)||0;
   if(type==='custom'){const c=getCustomProds();const i=c.findIndex(p=>p.id==id);if(i!==-1){c[i].price=np;c[i].oldPrice=op;setCustomProds(c);}}
   else{const ov=getPriceOvr();ov[id]={...(ov[id]||{}),price:np,oldPrice:op};setPriceOvr(ov);}
   const st=document.getElementById('st-'+id);
   if(st){st.style.display='inline';setTimeout(()=>st.style.display='none',2000);}
+  if(!skipSync) syncAndNotify('Price saved!');
 }
 
-function saveAllPrices(){ getAllProds().forEach(p=>saveSinglePrice(p.id,p._type)); toast('All prices saved!'); }
+function saveAllPrices(){
+  getAllProds().forEach(p=>saveSinglePrice(p.id,p._type,true));
+  syncAndNotify('All prices saved!');
+}
 
 // ===== ORDERS =====
 function renderOrders(){
@@ -1291,9 +1300,9 @@ function nukePriceOverrides(){ if(!confirm('Reset ALL price changes?'))return; l
 function nukeImages(){ if(!confirm('Delete ALL cached images?'))return; Object.keys(localStorage).filter(k=>k.startsWith(IMG_PFX)).forEach(k=>localStorage.removeItem(k)); toast('Cached images cleared'); }
 
 // ===== EXPORT =====
-function doExport(){
+function buildDataJS(){
   const prods=getAllProds().map(({_type,...p})=>p);
-  const js=`/* =====================================================
+  return `/* =====================================================
    Desian Vision Furniture (DVF) — Product Data
    Updated: ${new Date().toLocaleString('en-KE')}
    ===================================================== */
@@ -1334,13 +1343,93 @@ const BUSINESS = {
   instagram:'https://www.instagram.com/desian_visionfurnitures',
   tiktok:'https://www.tiktok.com/@desianvis0702894439davis'
 };`;
+}
 
+function doExport(){
+  const js=buildDataJS();
   document.getElementById('exportPreview').style.display='block';
   document.getElementById('exportCode').textContent=js.split('\n').slice(0,60).join('\n')+'\n...';
   const blob=new Blob([js],{type:'text/javascript'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='data.js';a.click();URL.revokeObjectURL(url);
   toast('data.js downloaded! Upload to GitHub to update the site.');
+}
+
+// ===== AUTO-SYNC PRODUCT DATA TO GITHUB =====
+// Without this, product/photo changes only ever lived in this browser's
+// localStorage — other devices (and the owner checking from another phone
+// or after clearing the browser) would never see newly added products.
+function utf8ToBase64(str){
+  const bytes=new TextEncoder().encode(str);
+  let bin='';
+  bytes.forEach(b=>bin+=String.fromCharCode(b));
+  return btoa(bin);
+}
+
+async function syncDataJSToGitHub(){
+  if (!isGHReady()) return false;
+  const s=getGHSettings();
+  const branch=s.branch||'main';
+  const path='js/data.js';
+  const content=utf8ToBase64(buildDataJS());
+  try {
+    let sha;
+    const check=await fetch(
+      `https://api.github.com/repos/${s.repo}/contents/${path}?ref=${branch}`,
+      { headers:{ 'Authorization':`Bearer ${s.token}`, 'Accept':'application/vnd.github+json' } }
+    );
+    if (check.ok) { const existing=await check.json(); sha=existing.sha; }
+    const body={ message:'Update product data via admin panel', content, branch };
+    if (sha) body.sha=sha;
+    const res=await fetch(`https://api.github.com/repos/${s.repo}/contents/${path}`, {
+      method:'PUT',
+      headers:{ 'Authorization':`Bearer ${s.token}`, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
+      body:JSON.stringify(body)
+    });
+    return res.ok;
+  } catch(e) {
+    console.error('data.js sync exception:', e);
+    return false;
+  }
+}
+
+// Once a sync succeeds, the repo's data.js permanently contains these
+// changes — fold them into the in-memory PRODUCTS array and clear the
+// local-only overrides so a future page reload (which re-fetches the new
+// data.js) doesn't show duplicate rows for the same product.
+function bakeLocalOverridesIntoMemory(){
+  if (typeof PRODUCTS === 'undefined') return;
+  const ov=getPriceOvr();
+  PRODUCTS.forEach(p=>{
+    const o=ov[p.id];
+    if(o){
+      if(o.price!==undefined) p.price=o.price;
+      if(o.oldPrice!==undefined) p.oldPrice=o.oldPrice;
+      if(o.badge!==undefined) p.badge=o.badge;
+      if(o.name) p.name=o.name;
+      if(o.desc) p.desc=o.desc;
+    }
+  });
+  getCustomProds().forEach(c=>{ if(!PRODUCTS.find(p=>p.id===c.id)) PRODUCTS.push(c); });
+  localStorage.removeItem(PRICE_KEY);
+  localStorage.removeItem(PRODS_KEY);
+}
+
+// Runs after any product/price/special change — pushes data.js live if GitHub
+// is connected, otherwise warns that the change is only saved on this device.
+async function syncAndNotify(successMsg){
+  if (!isGHReady()) {
+    toast(successMsg+' — ⚠️ set up GitHub in Settings to make it live for all customers','info');
+    return;
+  }
+  const ok=await syncDataJSToGitHub();
+  if (ok) {
+    bakeLocalOverridesIntoMemory();
+    renderDash(); renderProdTable();
+    toast(successMsg+' — ✅ live on the website now!','ok');
+  } else {
+    toast(successMsg+' — ⚠️ GitHub sync failed, saved on this device only','err');
+  }
 }
 
 // ===== INIT =====
