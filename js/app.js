@@ -400,6 +400,19 @@ function initCartSidebar() {
   document.getElementById('wishCloseBtn')?.addEventListener('click', closeWishlist);
 }
 
+// ===== FLOATING HELP BUTTON =====
+// Always-visible WhatsApp prompt so hesitant visitors always have an easy way to ask for guidance
+function initFloatingHelp() {
+  if (document.getElementById('floatingHelpBtn')) return;
+  const btn = document.createElement('a');
+  btn.id = 'floatingHelpBtn';
+  btn.className = 'floating-help-btn';
+  btn.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hello DVF! I'm not sure what I'm looking for — can you help me choose? 🙂")}`;
+  btn.target = '_blank';
+  btn.innerHTML = `<span class="floating-help-icon">💬</span><span class="floating-help-text">Need Help Choosing?</span>`;
+  document.body.appendChild(btn);
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   updateAllBadges();
@@ -411,6 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCartSidebar();
   initHeroSlider();
   initReveal();
+  initFloatingHelp();
 
   // Mark active nav link
   const path = window.location.pathname.split('/').pop() || 'index.html';
