@@ -413,6 +413,27 @@ function initFloatingHelp() {
   document.body.appendChild(btn);
 }
 
+// ===== TESTIMONIALS AUTO-SLIDE =====
+// Automatically advances any review carousel so visitors don't have to swipe manually
+function initTestiAutoSlide() {
+  document.querySelectorAll('.testi-scroll').forEach(track => {
+    const cards = track.querySelectorAll('.testi-card');
+    if (cards.length < 2) return;
+    let paused = false;
+    track.addEventListener('mouseenter', () => paused = true);
+    track.addEventListener('mouseleave', () => paused = false);
+    track.addEventListener('touchstart', () => paused = true, { passive: true });
+    track.addEventListener('touchend', () => setTimeout(() => paused = false, 3000), { passive: true });
+
+    setInterval(() => {
+      if (paused) return;
+      const cardWidth = cards[0].getBoundingClientRect().width + 32;
+      const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 5;
+      track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + cardWidth, behavior: 'smooth' });
+    }, 3500);
+  });
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   updateAllBadges();
@@ -425,6 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroSlider();
   initReveal();
   initFloatingHelp();
+  initTestiAutoSlide();
 
   // Mark active nav link
   const path = window.location.pathname.split('/').pop() || 'index.html';
