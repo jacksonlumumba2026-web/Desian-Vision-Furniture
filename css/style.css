@@ -2519,6 +2519,10 @@ button.page-btn[disabled] { opacity: 0.35; cursor: not-allowed; }
   margin-top: 0;
   border-radius: 0;
   padding: 0.5rem 0;
+  background: var(--green-dark);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 2;
 }
 .marquee-topbar .marquee-item { font-size: 0.82rem; }
 

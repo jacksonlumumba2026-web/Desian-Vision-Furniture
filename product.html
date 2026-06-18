@@ -246,13 +246,13 @@ function switchTab(id, btn) {
 
 function selectThumb(idx) {
   lbIdx = idx;
-  document.getElementById('mainImg').src = lbImages[idx];
+  document.getElementById('mainImg').src = resolveImg(lbImages[idx]);
   document.querySelectorAll('.prod-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
 }
 
 function openLightbox(idx) {
   lbIdx = idx;
-  document.getElementById('lbImg').src = lbImages[lbIdx];
+  document.getElementById('lbImg').src = resolveImg(lbImages[lbIdx]);
   document.getElementById('lightbox').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -264,7 +264,7 @@ function closeLightbox() {
 
 function lbMove(d) {
   lbIdx = (lbIdx + d + lbImages.length) % lbImages.length;
-  document.getElementById('lbImg').src = lbImages[lbIdx];
+  document.getElementById('lbImg').src = resolveImg(lbImages[lbIdx]);
 }
 
 document.addEventListener('keydown', e => {
@@ -308,11 +308,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Images
-  document.getElementById('mainImg').src = p.imgs[0];
+  document.getElementById('mainImg').src = resolveImg(p.imgs[0]);
   document.getElementById('mainImg').alt = p.name;
+  document.getElementById('mainImg').onerror = function(){ this.onerror=null; this.src='sofa.jpg'; };
   if (p.imgs.length > 1) {
     document.getElementById('thumbsWrap').innerHTML = p.imgs.map((img, i) =>
-      `<div class="prod-thumb ${i === 0 ? 'active' : ''}" onclick="selectThumb(${i})"><img src="${img}" alt="${p.name}" onerror="this.src='sofa.jpg'"></div>`
+      `<div class="prod-thumb ${i === 0 ? 'active' : ''}" onclick="selectThumb(${i})"><img src="${resolveImg(img)}" alt="${p.name}" onerror="this.src='sofa.jpg'"></div>`
     ).join('');
   }
 
