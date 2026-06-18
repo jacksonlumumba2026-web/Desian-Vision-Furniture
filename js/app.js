@@ -297,11 +297,14 @@ function renderProductCard(p) {
     ? `<span class="prod-price">${fmt(p.price)}</span>${p.oldPrice > 0 ? `<span class="prod-old-price">${fmt(p.oldPrice)}</span>` : ''}`
     : `<span class="prod-price-custom">Call for Price</span>`;
   const wished = isWishlisted(p.id);
+  const imgsHtml = p.imgs.length > 1
+    ? p.imgs.map((img, i) => `<img src="${resolveImg(img)}" alt="${p.name}" class="prod-card-img${i === 0 ? ' active' : ''}" loading="lazy" onerror="this.src='sofa.jpg'">`).join('')
+    : `<img src="${resolveImg(p.imgs[0])}" alt="${p.name}" loading="lazy" onerror="this.src='sofa.jpg'">`;
   return `<div class="prod-card reveal">
     <div class="prod-img-wrap">
       ${badgeHtml}
       <button class="prod-wish ${wished ? 'active' : ''}" data-wish="${p.id}" onclick="toggleWishlist(${p.id})" aria-label="Wishlist">♥</button>
-      <a href="product.html?id=${p.id}"><img src="${resolveImg(p.imgs[0])}" alt="${p.name}" loading="lazy" onerror="this.src='sofa.jpg'"></a>
+      <a href="product.html?id=${p.id}">${imgsHtml}</a>
     </div>
     <div class="prod-body">
       <div class="prod-name">${p.name}</div>
@@ -455,6 +458,23 @@ function initTestiAutoSlide() {
     }, 3500);
   });
 }
+
+// ===== PRODUCT CARD PHOTO AUTO-SLIDE =====
+// Cards for products with multiple uploaded photos cycle through them on
+// their own, so shoppers see every angle without opening the product page.
+// Runs as a single global ticker (rather than per-render init) so it works
+// automatically for cards re-rendered anywhere — shop grid, home page,
+// search results, wishlist, related products — without extra hookup.
+setInterval(() => {
+  document.querySelectorAll('.prod-img-wrap').forEach(wrap => {
+    const imgs = wrap.querySelectorAll('.prod-card-img');
+    if (imgs.length < 2) return;
+    let activeIdx = [...imgs].findIndex(img => img.classList.contains('active'));
+    if (activeIdx === -1) activeIdx = 0;
+    imgs[activeIdx].classList.remove('active');
+    imgs[(activeIdx + 1) % imgs.length].classList.add('active');
+  });
+}, 2500);
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
