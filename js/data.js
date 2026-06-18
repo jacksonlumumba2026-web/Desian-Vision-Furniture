@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 18/06/2026, 16:13:18
+   Updated: 18/06/2026, 16:17:51
    ===================================================== */
 
 const PRODUCTS = [
@@ -554,7 +554,7 @@ const PRODUCTS = [
   {
     "name": "Premium L-Shaped Sectional Sofa",
     "cat": "sofas",
-    "price": 65000,
+    "price": 45000,
     "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
