@@ -1372,7 +1372,7 @@ function utf8ToBase64(str){
 }
 
 async function syncDataJSToGitHub(){
-  if (!isGHReady()) return false;
+  if (!isGHReady()) return {ok:false, error:'GitHub not connected'};
   const s=getGHSettings();
   const branch=s.branch||'main';
   const path='js/data.js';
@@ -1384,6 +1384,10 @@ async function syncDataJSToGitHub(){
       { headers:{ 'Authorization':`Bearer ${s.token}`, 'Accept':'application/vnd.github+json' } }
     );
     if (check.ok) { const existing=await check.json(); sha=existing.sha; }
+    else if (check.status !== 404) {
+      const err = await check.json().catch(()=>({}));
+      return {ok:false, error:`${check.status} ${err.message||check.statusText} (checking ${path})`};
+    }
     const body={ message:'Update product data via admin panel', content, branch };
     if (sha) body.sha=sha;
     const res=await fetch(`https://api.github.com/repos/${s.repo}/contents/${path}`, {
@@ -1391,10 +1395,12 @@ async function syncDataJSToGitHub(){
       headers:{ 'Authorization':`Bearer ${s.token}`, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
       body:JSON.stringify(body)
     });
-    return res.ok;
+    if (res.ok) return {ok:true};
+    const err = await res.json().catch(()=>({}));
+    return {ok:false, error:`${res.status} ${err.message||res.statusText}`};
   } catch(e) {
     console.error('data.js sync exception:', e);
-    return false;
+    return {ok:false, error: e.message || 'network error'};
   }
 }
 
@@ -1430,13 +1436,13 @@ async function publishNow(){
     return;
   }
   resultEl.innerHTML = '⏳ Publishing…';
-  const ok = await syncDataJSToGitHub();
-  if (ok) {
+  const r = await syncDataJSToGitHub();
+  if (r.ok) {
     bakeLocalOverridesIntoMemory();
     renderDash(); renderProdTable();
     resultEl.innerHTML = '<span style="color:#059669">✅ Published! Your products are now live for all visitors.</span>';
   } else {
-    resultEl.innerHTML = '<span style="color:var(--red)">❌ Publish failed — check your token/repo/branch and try again.</span>';
+    resultEl.innerHTML = `<span style="color:var(--red)">❌ Publish failed — ${r.error}</span>`;
   }
 }
 
@@ -1447,13 +1453,13 @@ async function syncAndNotify(successMsg){
     toast(successMsg+' — ⚠️ set up GitHub in Settings to make it live for all customers','info');
     return;
   }
-  const ok=await syncDataJSToGitHub();
-  if (ok) {
+  const r=await syncDataJSToGitHub();
+  if (r.ok) {
     bakeLocalOverridesIntoMemory();
     renderDash(); renderProdTable();
     toast(successMsg+' — ✅ live on the website now!','ok');
   } else {
-    toast(successMsg+' — ⚠️ GitHub sync failed, saved on this device only','err');
+    toast(successMsg+` — ⚠️ GitHub sync failed (${r.error}), saved on this device only`,'err');
   }
 }
 
