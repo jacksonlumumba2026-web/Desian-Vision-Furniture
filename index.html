@@ -6,7 +6,7 @@
   <title>Desian Vision Furniture – Premium Custom Furniture in Nairobi</title>
   <meta name="description" content="Premium custom furniture in Nairobi. Sofas, beds, dining sets, wardrobes. Free delivery in Nairobi. Order via WhatsApp 0702 894 439.">
   <meta name="google-site-verification" content="QsJ_UcdWZDWNjEaTpsBHc4xrj1HigEN599lYmNbTr9w">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
@@ -168,6 +168,18 @@
     </div>
     <div id="bsMain"></div>
     <div class="bestseller-mini-grid" id="bsGrid"></div>
+  </div>
+</section>
+
+<!-- LATEST OFFERS -->
+<section class="section section-alt">
+  <div class="wrap">
+    <div class="section-header">
+      <span class="section-eyebrow">Don't Miss Out</span>
+      <h2 class="section-title">🔥 Latest Offers</h2>
+      <p class="section-subtitle">Fresh deals straight from our showroom — tap any offer to view it full-size</p>
+    </div>
+    <div class="promo-scroll" id="promoScroll"></div>
   </div>
 </section>
 
@@ -363,7 +375,57 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initReveal();
+  renderPromoStrip();
+});
+
+const PROMO_IMGS = [
+  'IMG-20260615-WA0004.jpg','IMG-20260615-WA0005.jpg','IMG-20260615-WA0006.jpg',
+  'IMG-20260614-WA0106.jpg','IMG-20260614-WA0107.jpg',
+  'IMG-20260611-WA0029.jpg',
+  'IMG-20260610-WA0224.jpg','IMG-20260610-WA0226.jpg','IMG-20260610-WA0227.jpg','IMG-20260610-WA0228.jpg',
+  'IMG-20260610-WA0229.jpg','IMG-20260610-WA0231.jpg','IMG-20260610-WA0232.jpg','IMG-20260610-WA0233.jpg','IMG-20260610-WA0234.jpg',
+  'IMG-20260608-WA0018.jpg'
+];
+let promoIdx = 0;
+
+function renderPromoStrip() {
+  const wrap = document.getElementById('promoScroll');
+  if (!wrap) return;
+  wrap.innerHTML = PROMO_IMGS.map((img, i) => `
+    <div class="gallery-item promo-item" onclick="openPromoLb(${i})">
+      <img src="${img}" alt="DVF Latest Offer" loading="lazy" onerror="this.closest('.promo-item').style.display='none'">
+      <div class="gallery-item-overlay"><span class="gallery-zoom-icon">🔍</span></div>
+    </div>
+  `).join('');
+}
+
+function openPromoLb(i) {
+  promoIdx = i;
+  document.getElementById('promoLbImg').src = PROMO_IMGS[promoIdx];
+  document.getElementById('promoLightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePromoLb() {
+  document.getElementById('promoLightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function promoLbMove(d) {
+  promoIdx = (promoIdx + d + PROMO_IMGS.length) % PROMO_IMGS.length;
+  document.getElementById('promoLbImg').src = PROMO_IMGS[promoIdx];
+}
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('promoLightbox').classList.contains('open')) return;
+  if (e.key === 'Escape') closePromoLb();
+  if (e.key === 'ArrowLeft') promoLbMove(-1);
+  if (e.key === 'ArrowRight') promoLbMove(1);
 });
 </script>
+
+<div class="lightbox" id="promoLightbox">
+  <button class="lightbox-close" onclick="closePromoLb()">×</button>
+  <button class="lightbox-prev" onclick="promoLbMove(-1)">‹</button>
+  <img class="lightbox-img" id="promoLbImg" src="" alt="DVF Latest Offer">
+  <button class="lightbox-next" onclick="promoLbMove(1)">›</button>
+</div>
 </body>
 </html>
