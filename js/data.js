@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 18/06/2026, 13:56:29
+   Updated: 18/06/2026, 14:00:36
    ===================================================== */
 
 const PRODUCTS = [
@@ -481,7 +481,231 @@ const PRODUCTS = [
     "stock": true
   },
   {
-    "name": "Premium 5×6 Recliner Sectional Sofa",
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 85000,
+    "oldPrice": 95000,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Today's Special",
+    "imgs": [
+      "sofa-dvf-101862.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 20
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-271721.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 21
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-314206.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 22
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-347669.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 23
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-722719.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 24
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 75000,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-761521.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 25
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Today's Special",
+    "imgs": [
+      "sofa-dvf-803086.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 26
+  },
+  {
+    "name": "Premium 5*6 recliner Sectional Sofa",
     "cat": "sofas",
     "price": 90000,
     "oldPrice": 100000,
@@ -513,7 +737,7 @@ const PRODUCTS = [
     "id": 27
   },
   {
-    "name": "Premium 5×6 L-Shaped Sectional Sofa",
+    "name": "Premium5*6 L-,Shaped Sectional Sofa",
     "cat": "sofas",
     "price": 45000,
     "oldPrice": 50000,
@@ -543,6 +767,102 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 28
+  },
+  {
+    "name": "Premium L-Shaped 5*6 recliner Sectional Sofa",
+    "cat": "sofas",
+    "price": 90000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-044732.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 29
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Best Seller",
+    "imgs": [
+      "sofa-dvf-120660.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 30
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Best Seller",
+    "imgs": [
+      "sofa-dvf-169111.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 31
   }
 ];
 
