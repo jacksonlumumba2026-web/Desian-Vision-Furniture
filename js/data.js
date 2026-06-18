@@ -547,11 +547,11 @@ const PRODUCTS = [
 ];
 
 const CATEGORIES = [
-  { id: 'sofas',   name: 'Sofas & Sectionals',  icon: '🛋️' },
-  { id: 'beds',    name: 'Beds & Headboards',    icon: '🛏️' },
-  { id: 'dining',  name: 'Dining Sets',          icon: '🍽️' },
-  { id: 'storage', name: 'Wardrobes & Storage',  icon: '🗄️' },
-  { id: 'bedroom', name: 'Bedroom Accessories',  icon: '🪞' }
+  { id: 'sofas',   name: 'Sofas & Sectionals',  icon: '🛋️', img: 'IMG-20260610-WA0009.jpg' },
+  { id: 'beds',    name: 'Beds & Headboards',    icon: '🛏️', img: 'bed.jpg' },
+  { id: 'dining',  name: 'Dining Sets',          icon: '🍽️', img: 'Screenshot_20260609_123144_Chrome.jpg' },
+  { id: 'storage', name: 'Wardrobes & Storage',  icon: '🗄️', img: '1780923972950.jpg' },
+  { id: 'bedroom', name: 'Bedroom Accessories',  icon: '🪞', img: 'Screenshot_20260609_113755_Chrome.jpg' }
 ];
 
 const TESTIMONIALS = [
