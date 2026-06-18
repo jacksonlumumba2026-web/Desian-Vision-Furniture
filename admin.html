@@ -1369,36 +1369,52 @@ function utf8ToBase64(str){
   return btoa(bin);
 }
 
-async function syncDataJSToGitHub(){
+// Clicking Delete/Save on several rows in quick succession used to fire
+// independent GET-sha-then-PUT round trips that could overlap: both read
+// the same starting sha, the first PUT wins and bumps it, and the second
+// PUT is rejected by GitHub with a 409 "sha doesn't match" conflict. Queue
+// every sync through this chain so only one read+write pair is in flight
+// against data.js at a time.
+let _ghSyncChain = Promise.resolve();
+function syncDataJSToGitHub(){
+  const run = _ghSyncChain.then(()=>_doSyncDataJSToGitHub());
+  _ghSyncChain = run.catch(()=>{});
+  return run;
+}
+
+async function _doSyncDataJSToGitHub(){
   if (!isGHReady()) return {ok:false, error:'GitHub not connected'};
   const s=getGHSettings();
   const branch=s.branch||'main';
   const path='js/data.js';
-  const content=utf8ToBase64(buildDataJS());
-  try {
-    let sha;
-    const check=await fetch(
-      `https://api.github.com/repos/${s.repo}/contents/${path}?ref=${branch}`,
-      { headers:{ 'Authorization':`Bearer ${s.token}`, 'Accept':'application/vnd.github+json' } }
-    );
-    if (check.ok) { const existing=await check.json(); sha=existing.sha; }
-    else if (check.status !== 404) {
-      const err = await check.json().catch(()=>({}));
-      return {ok:false, error:`${check.status} ${err.message||check.statusText} (checking ${path})`};
+  for (let attempt=0; attempt<2; attempt++){
+    const content=utf8ToBase64(buildDataJS());
+    try {
+      let sha;
+      const check=await fetch(
+        `https://api.github.com/repos/${s.repo}/contents/${path}?ref=${branch}`,
+        { headers:{ 'Authorization':`Bearer ${s.token}`, 'Accept':'application/vnd.github+json' } }
+      );
+      if (check.ok) { const existing=await check.json(); sha=existing.sha; }
+      else if (check.status !== 404) {
+        const err = await check.json().catch(()=>({}));
+        return {ok:false, error:`${check.status} ${err.message||check.statusText} (checking ${path})`};
+      }
+      const body={ message:'Update product data via admin panel', content, branch };
+      if (sha) body.sha=sha;
+      const res=await fetch(`https://api.github.com/repos/${s.repo}/contents/${path}`, {
+        method:'PUT',
+        headers:{ 'Authorization':`Bearer ${s.token}`, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
+        body:JSON.stringify(body)
+      });
+      if (res.ok) return {ok:true};
+      const err = await res.json().catch(()=>({}));
+      if (res.status===409 && attempt===0) continue; // sha moved since we read it — retry once with a fresh one
+      return {ok:false, error:`${res.status} ${err.message||res.statusText}`};
+    } catch(e) {
+      console.error('data.js sync exception:', e);
+      return {ok:false, error: e.message || 'network error'};
     }
-    const body={ message:'Update product data via admin panel', content, branch };
-    if (sha) body.sha=sha;
-    const res=await fetch(`https://api.github.com/repos/${s.repo}/contents/${path}`, {
-      method:'PUT',
-      headers:{ 'Authorization':`Bearer ${s.token}`, 'Content-Type':'application/json', 'Accept':'application/vnd.github+json' },
-      body:JSON.stringify(body)
-    });
-    if (res.ok) return {ok:true};
-    const err = await res.json().catch(()=>({}));
-    return {ok:false, error:`${res.status} ${err.message||res.statusText}`};
-  } catch(e) {
-    console.error('data.js sync exception:', e);
-    return {ok:false, error: e.message || 'network error'};
   }
 }
 
