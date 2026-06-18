@@ -1429,6 +1429,23 @@ function bakeLocalOverridesIntoMemory(){
 // Lets the admin force-push everything already saved on this device the
 // moment GitHub gets connected, instead of needing to re-save each product
 // individually just to trigger the existing per-save sync.
+// Any photo that failed to upload at the time (e.g. GitHub wasn't
+// connected yet, or the token was bad) is sitting here as base64 only —
+// publishing data.js alone would leave those products with broken images,
+// so push the actual image files too before reporting success.
+async function publishStuckImages(){
+  const keys = Object.keys(localStorage).filter(k => k.startsWith(IMG_PFX));
+  let uploaded = 0, failed = 0;
+  for (const key of keys) {
+    const fname = key.slice(IMG_PFX.length);
+    const b64 = localStorage.getItem(key);
+    const result = await uploadToGitHub(b64, fname);
+    if (result) { localStorage.removeItem(key); uploaded++; }
+    else failed++;
+  }
+  return {uploaded, failed};
+}
+
 async function publishNow(){
   const resultEl = document.getElementById('publishNowResult');
   if (!isGHReady()) {
@@ -1436,11 +1453,14 @@ async function publishNow(){
     return;
   }
   resultEl.innerHTML = '⏳ Publishing…';
+  const imgResult = await publishStuckImages();
   const r = await syncDataJSToGitHub();
   if (r.ok) {
     bakeLocalOverridesIntoMemory();
     renderDash(); renderProdTable();
-    resultEl.innerHTML = '<span style="color:#059669">✅ Published! Your products are now live for all visitors.</span>';
+    const imgNote = imgResult.uploaded ? ` (${imgResult.uploaded} photo${imgResult.uploaded>1?'s':''} pushed too)` : '';
+    const failNote = imgResult.failed ? ` — ⚠️ ${imgResult.failed} photo(s) still failed to upload, try again` : '';
+    resultEl.innerHTML = `<span style="color:#059669">✅ Published! Your products are now live for all visitors${imgNote}.</span>${failNote ? `<br><span style="color:var(--red)">${failNote}</span>` : ''}`;
   } else {
     resultEl.innerHTML = `<span style="color:var(--red)">❌ Publish failed — ${r.error}</span>`;
   }
