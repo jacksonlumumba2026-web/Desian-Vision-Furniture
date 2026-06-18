@@ -1452,7 +1452,7 @@ h4 { font-size: 1.25rem; }
    ===================================================== */
 .shop-layout {
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 2.5rem;
   align-items: start;
 }
@@ -2150,7 +2150,7 @@ input[type="range"]::-webkit-slider-thumb {
   .prod-gallery { position: static; }
   .cart-page-layout, .checkout-layout { grid-template-columns: 1fr; }
   .order-summary, .checkout-sidebar { position: static; }
-  .shop-layout { grid-template-columns: 1fr; }
+  .shop-layout { grid-template-columns: minmax(0, 1fr); }
   .filter-sidebar { position: static; display: none; }
   .filter-sidebar.mob-open { display: block; }
   .account-layout { grid-template-columns: 1fr; }
