@@ -590,6 +590,7 @@ const PIN_KEY   = 'dvf_admin_pin';
 const AUTH_KEY  = 'dvf_admin_auth';
 const PRODS_KEY = 'dvf_admin_products';
 const PRICE_KEY = 'dvf_price_overrides';
+const DELETED_KEY = 'dvf_deleted_static_ids';
 const ORDERS_KEY= 'dvf_orders';
 const IMG_PFX   = 'dvf_img_';
 const GH_KEY    = 'dvf_gh_settings';
@@ -1005,10 +1006,13 @@ function getCustomProds(){ try{return JSON.parse(localStorage.getItem(PRODS_KEY)
 function setCustomProds(a){ localStorage.setItem(PRODS_KEY,JSON.stringify(a)); }
 function getPriceOvr(){ try{return JSON.parse(localStorage.getItem(PRICE_KEY)||'{}');}catch(e){return{};} }
 function setPriceOvr(o){ localStorage.setItem(PRICE_KEY,JSON.stringify(o)); }
+function getDeletedIds(){ try{return JSON.parse(localStorage.getItem(DELETED_KEY)||'[]');}catch(e){return[];} }
+function setDeletedIds(a){ localStorage.setItem(DELETED_KEY,JSON.stringify(a)); }
 
 function getAllProds(){
   const ov=getPriceOvr();
-  const base=(typeof PRODUCTS!=='undefined')?PRODUCTS.map(p=>{
+  const deleted=getDeletedIds();
+  const base=(typeof PRODUCTS!=='undefined')?PRODUCTS.filter(p=>!deleted.includes(p.id)).map(p=>{
     const r={...p,_type:'static'};
     const o=ov[p.id];
     if(o){
@@ -1074,7 +1078,7 @@ function renderProdTable(){
     <td class="tbl-hide"><span class="${p._type==='custom'?'type-pill-custom':'type-pill-static'}">${p._type}</span></td>
     <td>
       <button class="btn btn-out btn-sm" style="margin-right:4px" onclick="openEditModal(${p.id},'${p._type}')">Edit</button>
-      ${p._type==='custom'?`<button class="btn btn-red btn-sm" onclick="delCustomProd(${p.id})">Delete</button>`:''}
+      <button class="btn btn-red btn-sm" onclick="${p._type==='custom'?`delCustomProd(${p.id})`:`delStaticProd(${p.id})`}">Delete</button>
     </td>
   </tr>`).join('');
 }
@@ -1177,6 +1181,15 @@ function saveProd(){
 function delCustomProd(id){
   if(!confirm('Delete this product?'))return;
   setCustomProds(getCustomProds().filter(p=>p.id!==id));
+  renderProdTable(); renderDash();
+  syncAndNotify('Product deleted');
+}
+
+function delStaticProd(id){
+  if(!confirm('Delete this product? This removes it from the live site for everyone.'))return;
+  const deleted=getDeletedIds();
+  if(!deleted.includes(id)) deleted.push(id);
+  setDeletedIds(deleted);
   renderProdTable(); renderDash();
   syncAndNotify('Product deleted');
 }
@@ -1305,8 +1318,19 @@ function nukePriceOverrides(){ if(!confirm('Reset ALL price changes?'))return; l
 function nukeImages(){ if(!confirm('Delete ALL cached images?'))return; Object.keys(localStorage).filter(k=>k.startsWith(IMG_PFX)).forEach(k=>localStorage.removeItem(k)); toast('Cached images cleared'); }
 
 // ===== EXPORT =====
+// Re-emits whatever CATEGORIES/TESTIMONIALS/GALLERY_IMGS/BUSINESS/WA_NUMBER
+// are currently loaded from js/data.js (via the <script> tag in <head>),
+// instead of a fixed snapshot — otherwise every publish from here would
+// silently overwrite those arrays back to whatever they looked like when
+// this function was last edited, undoing any later changes made directly
+// in data.js (e.g. adding category photos).
 function buildDataJS(){
   const prods=getAllProds().map(({_type,...p})=>p);
+  const cats = typeof CATEGORIES!=='undefined' ? CATEGORIES : [];
+  const testimonials = typeof TESTIMONIALS!=='undefined' ? TESTIMONIALS : [];
+  const galleryImgs = typeof GALLERY_IMGS!=='undefined' ? GALLERY_IMGS : [];
+  const waNumber = typeof WA_NUMBER!=='undefined' ? WA_NUMBER : '254702894439';
+  const business = typeof BUSINESS!=='undefined' ? BUSINESS : {};
   return `/* =====================================================
    Desian Vision Furniture (DVF) — Product Data
    Updated: ${new Date().toLocaleString('en-KE')}
@@ -1314,40 +1338,14 @@ function buildDataJS(){
 
 const PRODUCTS = ${JSON.stringify(prods,null,2)};
 
-const CATEGORIES = [
-  { id: 'sofas',   name: 'Sofas & Sectionals',  icon: '🛋️' },
-  { id: 'beds',    name: 'Beds & Headboards',    icon: '🛏️' },
-  { id: 'dining',  name: 'Dining Sets',          icon: '🍽️' },
-  { id: 'storage', name: 'Wardrobes & Storage',  icon: '🗄️' },
-  { id: 'bedroom', name: 'Bedroom Accessories',  icon: '🪞' }
-];
+const CATEGORIES = ${JSON.stringify(cats,null,2)};
 
-const TESTIMONIALS = [
-  { name: 'Ben Kisilu',                text: 'I highly recommend their services. They understood my vision and executed the design perfectly. The quality exceeded my expectations!', stars: 5 },
-  { name: 'Inrafted Enterprises',      text: 'Durable dining sets that bring elegance to the home. True Kenyan craftsmanship at its finest. Worth every shilling.', stars: 5 },
-  { name: 'The Turn Business Complex', text: 'Best place for modern home furnishings in Githurai 45. Diverse fabrics and designs for all tastes and budgets.', stars: 5 },
-  { name: 'SILVA Packers and Movers',  text: 'Exceptional customer care and high quality products. The dressing table is both functional and stylish — love it!', stars: 5 }
-];
+const TESTIMONIALS = ${JSON.stringify(testimonials,null,2)};
 
-const GALLERY_IMGS = [
-  'sofa.jpg','IMG-20260608-WA0019.jpg','IMG-20260608-WA0020.jpg','IMG-20260608-WA0021.jpg',
-  'IMG-20260608-WA0024.jpg','IMG-20260608-WA0025.jpg','IMG-20260608-WA0026.jpg','IMG-20260608-WA0027.jpg',
-  'IMG-20260608-WA0028.jpg','IMG-20260608-WA0030.jpg','IMG-20260608-WA0031.jpg','IMG-20260608-WA0032.jpg',
-  'IMG-20260608-WA0033.jpg','IMG-20260609-WA0024.jpg','IMG-20260609-WA0025.jpg','IMG-20260609-WA0033.jpg',
-  'IMG-20260609-WA0037.jpg','IMG-20260610-WA0002.jpg','IMG-20260610-WA0009.jpg','1780923820434.jpg',
-  '1780923972950.jpg','1780924052578.jpg','1780924105500.jpg','IMG-20260613-WA0009.jpg',
-  'bed.jpg','bed2.jpg','cabinet.jpg'
-];
+const GALLERY_IMGS = ${JSON.stringify(galleryImgs,null,2)};
 
-const WA_NUMBER = '254702894439';
-const BUSINESS = {
-  name:'Desian Vision Furniture', phone:'0702 894 439', wa:'254702894439',
-  address:'Githurai 45 – Mwihoko Road, Near Fountain Jouner Academy, Nairobi, Kenya',
-  hours:'Mon–Sat: 8AM–7PM | Sun: 10AM–5PM',
-  facebook:'https://www.facebook.com/profile.php?id=61550647002330',
-  instagram:'https://www.instagram.com/desian_visionfurnitures',
-  tiktok:'https://www.tiktok.com/@desianvis0702894439davis'
-};`;
+const WA_NUMBER = ${JSON.stringify(waNumber)};
+const BUSINESS = ${JSON.stringify(business,null,2)};`;
 }
 
 function doExport(){
@@ -1422,8 +1420,13 @@ function bakeLocalOverridesIntoMemory(){
     }
   });
   getCustomProds().forEach(c=>{ if(!PRODUCTS.find(p=>p.id===c.id)) PRODUCTS.push(c); });
+  const deleted=getDeletedIds();
+  if(deleted.length){
+    for(let i=PRODUCTS.length-1;i>=0;i--){ if(deleted.includes(PRODUCTS[i].id)) PRODUCTS.splice(i,1); }
+  }
   localStorage.removeItem(PRICE_KEY);
   localStorage.removeItem(PRODS_KEY);
+  localStorage.removeItem(DELETED_KEY);
 }
 
 // Lets the admin force-push everything already saved on this device the
