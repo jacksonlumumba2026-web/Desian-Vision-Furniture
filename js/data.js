@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 19/06/2026, 14:57:09
+   Updated: 19/06/2026, 14:58:29
    ===================================================== */
 
 const PRODUCTS = [
@@ -742,6 +742,70 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 28
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Best Seller",
+    "imgs": [
+      "sofa-dvf-270963.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 29
+  },
+  {
+    "name": "Premium L-Shaped Sectional Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Hot",
+    "imgs": [
+      "sofa-dvf-299042.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 30
   }
 ];
 
