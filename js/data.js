@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 18/06/2026, 12:24:43
+   Updated: 19/06/2026, 15:06:33
    ===================================================== */
 
 const PRODUCTS = [
@@ -481,17 +481,241 @@ const PRODUCTS = [
     "stock": true
   },
   {
-    "name": "Premium 5×6 Recliner Sectional Sofa",
+    "name": "Cream White L-Shaped Sectional Sofa",
     "cat": "sofas",
-    "price": 90000,
-    "oldPrice": 100000,
+    "price": 45000,
+    "oldPrice": 47000,
     "rating": 5,
     "reviews": 12,
-    "badge": "Today's Special",
+    "badge": "Hot",
     "imgs": [
-      "sofa-dvf-856575.jpg"
+      "sofa-dvf-299205.jpg"
     ],
     "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 20
+  },
+  {
+    "name": "Emerald Green Velvet Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-992818.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 21
+  },
+  {
+    "name": "Navy Blue Velvet Sectional Sofa",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Sale",
+    "imgs": [
+      "sofa-dvf-020368.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 22
+  },
+  {
+    "name": "Light Grey Textured L-Shaped Sofa",
+    "cat": "sofas",
+    "price": 45000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Best Seller",
+    "imgs": [
+      "sofa-dvf-378745.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 23
+  },
+  {
+    "name": "Brown Reclining Sofa with Cupholders",
+    "cat": "sofas",
+    "price": 90000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Hot",
+    "imgs": [
+      "sofa-dvf-691810.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 24
+  },
+  {
+    "name": "Grey Suede Reclining Sectional Sofa",
+    "cat": "sofas",
+    "price": 90000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-214256.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 25
+  },
+  {
+    "name": "Grey Tufted Sectional Sofa with Navy Trim",
+    "cat": "sofas",
+    "price": 65000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Hot",
+    "imgs": [
+      "sofa-dvf-278725.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 26
+  },
+  {
+    "name": "Mustard Yellow L-Shaped Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-767625.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
     "colors": [
       "Cream Beige",
       "Charcoal Grey",
@@ -513,15 +737,15 @@ const PRODUCTS = [
     "id": 27
   },
   {
-    "name": "Premium 5×6 L-Shaped Sectional Sofa",
+    "name": "Tan & Cream Carved Wood Loveseat",
     "cat": "sofas",
-    "price": 45000,
-    "oldPrice": 50000,
+    "price": 85000,
+    "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
     "badge": "Best Seller",
     "imgs": [
-      "sofa-dvf-978938.jpg"
+      "sofa-dvf-935146.jpg"
     ],
     "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
     "colors": [
@@ -543,40 +767,168 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 28
+  },
+  {
+    "name": "Slate Blue Tufted Sectional Sofa",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Best Seller",
+    "imgs": [
+      "sofa-dvf-270963.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 29
+  },
+  {
+    "name": "Grey Sectional Sofa & Armchair Set",
+    "cat": "sofas",
+    "price": 47000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Hot",
+    "imgs": [
+      "sofa-dvf-299042.jpg"
+    ],
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 30
   }
 ];
 
 const CATEGORIES = [
-  { id: 'sofas',   name: 'Sofas & Sectionals',  icon: '🛋️', img: 'IMG-20260610-WA0009.jpg' },
-  { id: 'beds',    name: 'Beds & Headboards',    icon: '🛏️', img: 'bed.jpg' },
-  { id: 'dining',  name: 'Dining Sets',          icon: '🍽️', img: 'Screenshot_20260609_123144_Chrome.jpg' },
-  { id: 'storage', name: 'Wardrobes & Storage',  icon: '🗄️', img: '1780923972950.jpg' },
-  { id: 'bedroom', name: 'Bedroom Accessories',  icon: '🪞', img: 'Screenshot_20260609_113755_Chrome.jpg' }
+  {
+    "id": "sofas",
+    "name": "Sofas & Sectionals",
+    "icon": "🛋️",
+    "img": "IMG-20260610-WA0009.jpg"
+  },
+  {
+    "id": "beds",
+    "name": "Beds & Headboards",
+    "icon": "🛏️",
+    "img": "bed.jpg"
+  },
+  {
+    "id": "dining",
+    "name": "Dining Sets",
+    "icon": "🍽️",
+    "img": "Screenshot_20260609_123144_Chrome.jpg"
+  },
+  {
+    "id": "storage",
+    "name": "Wardrobes & Storage",
+    "icon": "🗄️",
+    "img": "1780923972950.jpg"
+  },
+  {
+    "id": "bedroom",
+    "name": "Bedroom Accessories",
+    "icon": "🪞",
+    "img": "Screenshot_20260609_113755_Chrome.jpg"
+  }
 ];
 
 const TESTIMONIALS = [
-  { name: 'Ben Kisilu',                text: 'I highly recommend their services. They understood my vision and executed the design perfectly. The quality exceeded my expectations!', stars: 5 },
-  { name: 'Inrafted Enterprises',      text: 'Durable dining sets that bring elegance to the home. True Kenyan craftsmanship at its finest. Worth every shilling.', stars: 5 },
-  { name: 'The Turn Business Complex', text: 'Best place for modern home furnishings in Githurai 45. Diverse fabrics and designs for all tastes and budgets.', stars: 5 },
-  { name: 'SILVA Packers and Movers',  text: 'Exceptional customer care and high quality products. The dressing table is both functional and stylish — love it!', stars: 5 }
+  {
+    "name": "Ben Kisilu",
+    "text": "I highly recommend their services. They understood my vision and executed the design perfectly. The quality exceeded my expectations!",
+    "stars": 5
+  },
+  {
+    "name": "Inrafted Enterprises",
+    "text": "Durable dining sets that bring elegance to the home. True Kenyan craftsmanship at its finest. Worth every shilling.",
+    "stars": 5
+  },
+  {
+    "name": "The Turn Business Complex",
+    "text": "Best place for modern home furnishings in Githurai 45. Diverse fabrics and designs for all tastes and budgets.",
+    "stars": 5
+  },
+  {
+    "name": "SILVA Packers and Movers",
+    "text": "Exceptional customer care and high quality products. The dressing table is both functional and stylish — love it!",
+    "stars": 5
+  }
 ];
 
 const GALLERY_IMGS = [
-  'sofa.jpg','IMG-20260608-WA0019.jpg','IMG-20260608-WA0020.jpg','IMG-20260608-WA0021.jpg',
-  'IMG-20260608-WA0024.jpg','IMG-20260608-WA0025.jpg','IMG-20260608-WA0026.jpg','IMG-20260608-WA0027.jpg',
-  'IMG-20260608-WA0028.jpg','IMG-20260608-WA0030.jpg','IMG-20260608-WA0031.jpg','IMG-20260608-WA0032.jpg',
-  'IMG-20260608-WA0033.jpg','IMG-20260609-WA0024.jpg','IMG-20260609-WA0025.jpg','IMG-20260609-WA0033.jpg',
-  'IMG-20260609-WA0037.jpg','IMG-20260610-WA0002.jpg','IMG-20260610-WA0009.jpg','1780923820434.jpg',
-  '1780923972950.jpg','1780924052578.jpg','1780924105500.jpg','IMG-20260613-WA0009.jpg',
-  'bed.jpg','bed2.jpg','cabinet.jpg'
+  "sofa.jpg",
+  "IMG-20260608-WA0019.jpg",
+  "IMG-20260608-WA0020.jpg",
+  "IMG-20260608-WA0021.jpg",
+  "IMG-20260608-WA0024.jpg",
+  "IMG-20260608-WA0025.jpg",
+  "IMG-20260608-WA0026.jpg",
+  "IMG-20260608-WA0027.jpg",
+  "IMG-20260608-WA0028.jpg",
+  "IMG-20260608-WA0030.jpg",
+  "IMG-20260608-WA0031.jpg",
+  "IMG-20260608-WA0032.jpg",
+  "IMG-20260608-WA0033.jpg",
+  "IMG-20260609-WA0024.jpg",
+  "IMG-20260609-WA0025.jpg",
+  "IMG-20260609-WA0033.jpg",
+  "IMG-20260609-WA0037.jpg",
+  "IMG-20260610-WA0002.jpg",
+  "IMG-20260610-WA0009.jpg",
+  "1780923820434.jpg",
+  "1780923972950.jpg",
+  "1780924052578.jpg",
+  "1780924105500.jpg",
+  "IMG-20260613-WA0009.jpg",
+  "bed.jpg",
+  "bed2.jpg",
+  "cabinet.jpg"
 ];
 
-const WA_NUMBER = '254702894439';
+const WA_NUMBER = "254702894439";
+
 const BUSINESS = {
-  name:'Desian Vision Furniture', phone:'0702 894 439', wa:'254702894439',
-  address:'Githurai 45 – Mwihoko Road, Near Fountain Jouner Academy, Nairobi, Kenya',
-  hours:'Mon–Sat: 8AM–7PM | Sun: 10AM–5PM',
-  facebook:'https://www.facebook.com/profile.php?id=61550647002330',
-  instagram:'https://www.instagram.com/desian_visionfurnitures',
-  tiktok:'https://www.tiktok.com/@desianvis0702894439davis'
+  "name": "Desian Vision Furniture",
+  "phone": "0702 894 439",
+  "wa": "254702894439",
+  "address": "Githurai 45 – Mwihoko Road, Near Fountain Jouner Academy, Nairobi, Kenya",
+  "hours": "Mon–Sat: 8AM–7PM | Sun: 10AM–5PM",
+  "facebook": "https://www.facebook.com/profile.php?id=61550647002330",
+  "instagram": "https://www.instagram.com/desian_visionfurnitures",
+  "tiktok": "https://www.tiktok.com/@desianvis0702894439davis"
 };

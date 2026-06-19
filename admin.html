@@ -696,7 +696,13 @@ function detectCategory(filename) {
   return null;
 }
 
-let _autoIdx = {}; // tracks which name template to use per category
+const AUTOIDX_KEY = 'dvf_admin_autoidx';
+// Persisted (not just in-memory) so the suggested name actually rotates
+// between products — otherwise it resets to index 0 on every page reload
+// and every new upload in a category suggests the same first template name.
+let _autoIdx = {};
+try { _autoIdx = JSON.parse(localStorage.getItem(AUTOIDX_KEY) || '{}'); } catch(e) { _autoIdx = {}; }
+function saveAutoIdx() { localStorage.setItem(AUTOIDX_KEY, JSON.stringify(_autoIdx)); }
 
 function autoGenerate(cat) {
   const T = TEMPLATES[cat];
@@ -712,6 +718,9 @@ function autoGenerate(cat) {
   document.getElementById('fSpecs').value = T.specs;
   updateFilename(name);
 
+  _autoIdx[cat]++;
+  saveAutoIdx();
+
   const banner = document.getElementById('autogenBanner');
   banner.classList.add('show');
 }
@@ -719,8 +728,6 @@ function autoGenerate(cat) {
 function regenDetails() {
   const cat = document.getElementById('fCat').value;
   if (!cat || !TEMPLATES[cat]) return;
-  if (_autoIdx[cat] === undefined) _autoIdx[cat] = 0;
-  _autoIdx[cat]++;
   autoGenerate(cat);
   toast('Details regenerated — edit as needed', 'info');
 }
