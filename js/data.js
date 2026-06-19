@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 19/06/2026, 14:58:29
+   Updated: 19/06/2026, 15:06:33
    ===================================================== */
 
 const PRODUCTS = [
@@ -456,7 +456,32 @@ const PRODUCTS = [
     "stock": true
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "id": 19,
+    "name": "Custom Dressing Table",
+    "cat": "bedroom",
+    "price": 0,
+    "oldPrice": 0,
+    "imgs": [
+      "Screenshot_20260609_113755_Chrome.jpg"
+    ],
+    "badge": "custom",
+    "rating": 4.8,
+    "reviews": 7,
+    "desc": "Elegant custom dressing table with mirror. Your personal luxury sanctuary.",
+    "colors": [
+      "White",
+      "Brown",
+      "Grey"
+    ],
+    "specs": {
+      "material": "MDF + Mirror + Wood",
+      "size": "Custom",
+      "delivery": "10-14 days"
+    },
+    "stock": true
+  },
+  {
+    "name": "Cream White L-Shaped Sectional Sofa",
     "cat": "sofas",
     "price": 45000,
     "oldPrice": 47000,
@@ -488,7 +513,7 @@ const PRODUCTS = [
     "id": 20
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Emerald Green Velvet Sectional Sofa",
     "cat": "sofas",
     "price": 65000,
     "oldPrice": 0,
@@ -520,7 +545,7 @@ const PRODUCTS = [
     "id": 21
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Navy Blue Velvet Sectional Sofa",
     "cat": "sofas",
     "price": 65000,
     "oldPrice": 0,
@@ -552,7 +577,7 @@ const PRODUCTS = [
     "id": 22
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Light Grey Textured L-Shaped Sofa",
     "cat": "sofas",
     "price": 45000,
     "oldPrice": 0,
@@ -584,7 +609,7 @@ const PRODUCTS = [
     "id": 23
   },
   {
-    "name": "Premium reclainer 5*6 L-Shaped Sectional Sofa",
+    "name": "Brown Reclining Sofa with Cupholders",
     "cat": "sofas",
     "price": 90000,
     "oldPrice": 0,
@@ -616,7 +641,7 @@ const PRODUCTS = [
     "id": 24
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Grey Suede Reclining Sectional Sofa",
     "cat": "sofas",
     "price": 90000,
     "oldPrice": 0,
@@ -648,7 +673,7 @@ const PRODUCTS = [
     "id": 25
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Grey Tufted Sectional Sofa with Navy Trim",
     "cat": "sofas",
     "price": 65000,
     "oldPrice": 0,
@@ -680,7 +705,7 @@ const PRODUCTS = [
     "id": 26
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Mustard Yellow L-Shaped Sofa",
     "cat": "sofas",
     "price": 47000,
     "oldPrice": 0,
@@ -712,7 +737,7 @@ const PRODUCTS = [
     "id": 27
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Tan & Cream Carved Wood Loveseat",
     "cat": "sofas",
     "price": 85000,
     "oldPrice": 0,
@@ -744,7 +769,7 @@ const PRODUCTS = [
     "id": 28
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Slate Blue Tufted Sectional Sofa",
     "cat": "sofas",
     "price": 47000,
     "oldPrice": 0,
@@ -776,7 +801,7 @@ const PRODUCTS = [
     "id": 29
   },
   {
-    "name": "Premium L-Shaped Sectional Sofa",
+    "name": "Grey Sectional Sofa & Armchair Set",
     "cat": "sofas",
     "price": 47000,
     "oldPrice": 0,
@@ -813,27 +838,32 @@ const CATEGORIES = [
   {
     "id": "sofas",
     "name": "Sofas & Sectionals",
-    "icon": "🛋️"
+    "icon": "🛋️",
+    "img": "IMG-20260610-WA0009.jpg"
   },
   {
     "id": "beds",
     "name": "Beds & Headboards",
-    "icon": "🛏️"
+    "icon": "🛏️",
+    "img": "bed.jpg"
   },
   {
     "id": "dining",
     "name": "Dining Sets",
-    "icon": "🍽️"
+    "icon": "🍽️",
+    "img": "Screenshot_20260609_123144_Chrome.jpg"
   },
   {
     "id": "storage",
     "name": "Wardrobes & Storage",
-    "icon": "🗄️"
+    "icon": "🗄️",
+    "img": "1780923972950.jpg"
   },
   {
     "id": "bedroom",
     "name": "Bedroom Accessories",
-    "icon": "🪞"
+    "icon": "🪞",
+    "img": "Screenshot_20260609_113755_Chrome.jpg"
   }
 ];
 
@@ -891,6 +921,7 @@ const GALLERY_IMGS = [
 ];
 
 const WA_NUMBER = "254702894439";
+
 const BUSINESS = {
   "name": "Desian Vision Furniture",
   "phone": "0702 894 439",
