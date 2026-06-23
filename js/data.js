@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 23/06/2026, 13:14:48
+   Updated: 23/06/2026, 13:15:50
    ===================================================== */
 
 const PRODUCTS = [
@@ -865,15 +865,15 @@ const PRODUCTS = [
     "id": 31
   },
   {
-    "name": "Luxury Corner Sofa Set",
+    "name": "Contemporary U-Shaped Sofa",
     "cat": "sofas",
-    "price": 90000,
+    "price": 65000,
     "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
-    "badge": "Best Seller",
+    "badge": null,
     "imgs": [
-      "sofa-dvf-565820.jpg"
+      "sofa-dvf-699826.jpg"
     ],
     "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
     "colors": [
@@ -894,103 +894,7 @@ const PRODUCTS = [
       "frame": "Hardwood Reinforced",
       "delivery": "7–14 Working Days"
     },
-    "id": 32
-  },
-  {
-    "name": "5-Seater Family Sofa",
-    "cat": "sofas",
-    "price": 65000,
-    "oldPrice": 0,
-    "rating": 5,
-    "reviews": 12,
-    "badge": "New",
-    "imgs": [
-      "sofa-dvf-612357.jpg"
-    ],
-    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
-    "colors": [
-      "Cream Beige",
-      "Charcoal Grey",
-      "Forest Green",
-      "Chocolate Brown",
-      "Navy Blue",
-      "Burgundy Red",
-      "Stone Grey",
-      "Caramel"
-    ],
-    "specs": {
-      "material": "Premium Fabric / Leather Options",
-      "seating": "5–7 Persons",
-      "dimensions": "Custom to your space",
-      "foam": "High-Density (D35)",
-      "frame": "Hardwood Reinforced",
-      "delivery": "7–14 Working Days"
-    },
-    "id": 33
-  },
-  {
-    "name": "Modern 3+2 Sofa Combination",
-    "cat": "sofas",
-    "price": 65000,
-    "oldPrice": 0,
-    "rating": 5,
-    "reviews": 12,
-    "badge": "Today's Special",
-    "imgs": [
-      "sofa-dvf-645352.jpg"
-    ],
-    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
-    "colors": [
-      "Cream Beige",
-      "Charcoal Grey",
-      "Forest Green",
-      "Chocolate Brown",
-      "Navy Blue",
-      "Burgundy Red",
-      "Stone Grey",
-      "Caramel"
-    ],
-    "specs": {
-      "material": "Premium Fabric / Leather Options",
-      "seating": "5–7 Persons",
-      "dimensions": "Custom to your space",
-      "foam": "High-Density (D35)",
-      "frame": "Hardwood Reinforced",
-      "delivery": "7–14 Working Days"
-    },
-    "id": 34
-  },
-  {
-    "name": "Executive Lounge Sectional",
-    "cat": "sofas",
-    "price": 65000,
-    "oldPrice": 0,
-    "rating": 5,
-    "reviews": 12,
-    "badge": "Sale",
-    "imgs": [
-      "sofa-dvf-674075.jpg"
-    ],
-    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
-    "colors": [
-      "Cream Beige",
-      "Charcoal Grey",
-      "Forest Green",
-      "Chocolate Brown",
-      "Navy Blue",
-      "Burgundy Red",
-      "Stone Grey",
-      "Caramel"
-    ],
-    "specs": {
-      "material": "Premium Fabric / Leather Options",
-      "seating": "5–7 Persons",
-      "dimensions": "Custom to your space",
-      "foam": "High-Density (D35)",
-      "frame": "Hardwood Reinforced",
-      "delivery": "7–14 Working Days"
-    },
-    "id": 35
+    "id": 36
   }
 ];
 
