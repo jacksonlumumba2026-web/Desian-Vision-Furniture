@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 25/06/2026, 20:12:46
+   Updated: 25/06/2026, 20:14:55
    ===================================================== */
 
 const PRODUCTS = [
@@ -1301,17 +1301,17 @@ const PRODUCTS = [
     "id": 45
   },
   {
-    "name": "Luxury Corner Sofa Set",
+    "name": "5-Seater Family Sofa",
     "cat": "sofas",
     "price": 85000,
     "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
-    "badge": "New",
+    "badge": "Today's Special",
     "imgs": [
-      "sofa-dvf-547476.jpg"
+      "sofa-dvf-577742.jpg"
     ],
-    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
     "colors": [
       "Cream Beige",
       "Charcoal Grey",
@@ -1330,7 +1330,7 @@ const PRODUCTS = [
       "frame": "Hardwood Reinforced",
       "delivery": "7–14 Working Days"
     },
-    "id": 46
+    "id": 47
   }
 ];
 
