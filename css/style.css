@@ -2254,8 +2254,8 @@ input[type="range"]::-webkit-slider-thumb {
   }
   .related-scroll::-webkit-scrollbar { display: none; }
   .related-scroll .prod-card {
-    min-width: 220px;
-    flex-shrink: 0;
+    flex: 0 0 220px;
+    width: 220px;
     scroll-snap-align: start;
   }
 }
