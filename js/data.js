@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 25/06/2026, 20:49:03
+   Updated: 25/06/2026, 20:50:11
    ===================================================== */
 
 const PRODUCTS = [
@@ -1557,47 +1557,15 @@ const PRODUCTS = [
     "id": 55
   },
   {
-    "name": "Executive Lounge Sectional",
+    "name": "Custom L-Shape Sofa — Premium Fabric",
     "cat": "sofas",
-    "price": 85000,
+    "price": 0,
     "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
-    "badge": "New",
+    "badge": "Best Seller",
     "imgs": [
-      "sofa-dvf-646216.jpg"
-    ],
-    "desc": "Luxurious custom sofa crafted by DVF artisans. Features premium fabric upholstery, solid hardwood frame, and high-resilience foam cushions. Order in your chosen color and size — built exactly to your specifications. Free delivery to any Nairobi location.",
-    "colors": [
-      "Cream Beige",
-      "Charcoal Grey",
-      "Forest Green",
-      "Chocolate Brown",
-      "Navy Blue",
-      "Burgundy Red",
-      "Stone Grey",
-      "Caramel"
-    ],
-    "specs": {
-      "material": "Premium Fabric / Leather Options",
-      "seating": "5–7 Persons",
-      "dimensions": "Custom to your space",
-      "foam": "High-Density (D35)",
-      "frame": "Hardwood Reinforced",
-      "delivery": "7–14 Working Days"
-    },
-    "id": 56
-  },
-  {
-    "name": "Contemporary U-Shaped Sofa",
-    "cat": "sofas",
-    "price": 85000,
-    "oldPrice": 0,
-    "rating": 5,
-    "reviews": 12,
-    "badge": null,
-    "imgs": [
-      "sofa-dvf-694309.jpg"
+      "sofa-dvf-784341.jpg"
     ],
     "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
     "colors": [
@@ -1618,7 +1586,7 @@ const PRODUCTS = [
       "frame": "Hardwood Reinforced",
       "delivery": "7–14 Working Days"
     },
-    "id": 57
+    "id": 56
   }
 ];
 
