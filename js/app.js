@@ -293,6 +293,8 @@ function badgeClass(badge) {
 
 function renderProductCard(p) {
   const badgeHtml = p.badge ? `<span class="prod-badge ${badgeClass(p.badge)}">${p.badge}</span>` : '';
+  const pct = p.oldPrice > 0 && p.price > 0 ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+  const pctHtml = pct > 0 ? `<span class="prod-discount-pct">-${pct}%</span>` : '';
   const priceHtml = p.price > 0
     ? `<span class="prod-price">${fmt(p.price)}</span>${p.oldPrice > 0 ? `<span class="prod-old-price">${fmt(p.oldPrice)}</span>` : ''}`
     : `<span class="prod-price-custom">Call for Price</span>`;
@@ -307,7 +309,7 @@ function renderProductCard(p) {
       <a href="product.html?id=${p.id}">${imgsHtml}</a>
     </div>
     <div class="prod-body">
-      <div class="prod-name">${p.name}</div>
+      <div class="prod-name"><span>${p.name}</span>${pctHtml}</div>
       <div class="prod-meta">
         <span class="prod-stars">${renderStars(p.rating)}</span>
         <span class="prod-reviews">(${p.reviews})</span>
