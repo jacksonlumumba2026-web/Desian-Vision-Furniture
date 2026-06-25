@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 25/06/2026, 19:41:28
+   Updated: 25/06/2026, 19:42:56
    ===================================================== */
 
 const PRODUCTS = [
@@ -995,7 +995,7 @@ const PRODUCTS = [
   {
     "name": "Custom L-Shape Sofa — Premium Fabric",
     "cat": "sofas",
-    "price": 0,
+    "price": 65000,
     "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
