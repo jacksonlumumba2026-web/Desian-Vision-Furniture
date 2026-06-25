@@ -214,7 +214,14 @@
     .upload-progress.show { display: block; }
 
     @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 640px) { .adm-body { padding: 1rem; } .fg { grid-template-columns: 1fr; } .fg-full { grid-column: auto; } .tbl-hide { display: none; } .price-inp { width: 90px; } }
+    @media (max-width: 640px) { .adm-body { padding: 1rem; } .fg { grid-template-columns: 1fr; } .fg-full { grid-column: auto; } .tbl-hide { display: none; } .price-inp { width: 90px; }
+      .adm-hd { height: auto; flex-wrap: wrap; padding: .6rem 1rem; gap: .5rem; }
+      .adm-hd-brand { font-size: .85rem; }
+      .adm-hd-right { flex-wrap: wrap; gap: .4rem; }
+      .adm-hd-link { padding: 5px 10px; font-size: .72rem; }
+      .gh-status { font-size: .68rem; padding: 3px 8px; }
+      .special-card-info { flex-basis: 100%; }
+    }
     @media (max-width: 400px) { .stats-row { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
@@ -1063,13 +1070,15 @@ function renderDash(){
     <div class="stat-card blue"><div class="stat-num">${rev>0?'KSh '+rev.toLocaleString():'-'}</div><div class="stat-label">Revenue</div></div>
   `;
   document.getElementById('dProdList').innerHTML=`
-    <table class="tbl"><thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Badge</th></tr></thead>
+    <div style="overflow-x:auto">
+    <table class="tbl"><thead><tr><th>Image</th><th>Name</th><th class="tbl-hide">Category</th><th>Price</th><th class="tbl-hide">Badge</th></tr></thead>
     <tbody>${prods.slice(0,10).map(p=>`<tr>
       <td><img src="${resolveAdminImg(p.imgs?.[0])}" class="tbl-img" onerror="this.src='sofa.jpg'"></td>
-      <td><strong>${p.name}</strong></td><td>${p.cat}</td>
+      <td><strong>${p.name}</strong></td><td class="tbl-hide">${p.cat}</td>
       <td>${p.price>0?'KSh '+p.price.toLocaleString():'<span style="color:#9CA3AF">Custom</span>'}</td>
-      <td>${p.badge?`<span class="badge-pill" style="background:#FEF3C7;color:#B45309">${p.badge}</span>`:'—'}</td>
+      <td class="tbl-hide">${p.badge?`<span class="badge-pill" style="background:#FEF3C7;color:#B45309">${p.badge}</span>`:'—'}</td>
     </tr>`).join('')}</tbody></table>
+    </div>
     ${prods.length>10?`<div style="text-align:center;margin-top:1rem"><button class="btn btn-out btn-sm" onclick="goTab('products',qTab('products'))">View All ${prods.length} →</button></div>`:''}
   `;
 }
