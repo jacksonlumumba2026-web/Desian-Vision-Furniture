@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 25/06/2026, 20:03:22
+   Updated: 25/06/2026, 20:04:22
    ===================================================== */
 
 const PRODUCTS = [
@@ -1212,6 +1212,35 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 42
+  },
+  {
+    "name": "King Size Upholstered Bed",
+    "cat": "beds",
+    "price": 35000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Sale",
+    "imgs": [
+      "sofa-dvf-041030.jpg"
+    ],
+    "desc": "Beautifully handcrafted bed frame made to order in Nairobi. Features a premium padded headboard, solid frame, and optional storage base. Available in 5×6 and 6×6 sizes. Choose your fabric color and we build it to perfection. Free delivery and assembly within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Chocolate Brown",
+      "Dark Grey",
+      "Walnut Brown",
+      "Ivory White",
+      "Dusty Rose"
+    ],
+    "specs": {
+      "material": "Premium Fabric Frame",
+      "sizes": "5×6 ft or 6×6 ft (custom)",
+      "headboard": "Upholstered Padded",
+      "base": "Solid Hardwood",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 43
   }
 ];
 
