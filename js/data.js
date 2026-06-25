@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 25/06/2026, 20:04:22
+   Updated: 25/06/2026, 20:05:27
    ===================================================== */
 
 const PRODUCTS = [
@@ -1241,6 +1241,64 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 43
+  },
+  {
+    "name": "Premium Platform Bed with Headboard",
+    "cat": "beds",
+    "price": 35000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-076363.jpg"
+    ],
+    "desc": "Custom luxury bed crafted with precision. Premium upholstered headboard, durable hardwood base, and your choice of fabric. Sizes available: 5×6 ft and 6×6 ft or to your specifications. Free delivery and installation in Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Chocolate Brown",
+      "Dark Grey",
+      "Walnut Brown",
+      "Ivory White",
+      "Dusty Rose"
+    ],
+    "specs": {
+      "material": "Premium Fabric Frame",
+      "sizes": "5×6 ft or 6×6 ft (custom)",
+      "headboard": "Upholstered Padded",
+      "base": "Solid Hardwood",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 44
+  },
+  {
+    "name": "Custom Storage Bed",
+    "cat": "beds",
+    "price": 35000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-112948.jpg"
+    ],
+    "desc": "Custom luxury bed crafted with precision. Premium upholstered headboard, durable hardwood base, and your choice of fabric. Sizes available: 5×6 ft and 6×6 ft or to your specifications. Free delivery and installation in Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Chocolate Brown",
+      "Dark Grey",
+      "Walnut Brown",
+      "Ivory White",
+      "Dusty Rose"
+    ],
+    "specs": {
+      "material": "Premium Fabric Frame",
+      "sizes": "5×6 ft or 6×6 ft (custom)",
+      "headboard": "Upholstered Padded",
+      "base": "Solid Hardwood",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 45
   }
 ];
 
