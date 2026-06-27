@@ -21,6 +21,16 @@
   } catch(e) {}
 })();
 
+// ===== CONVERSION TRACKING =====
+// Fires a GA4 lead event when a customer reaches out to order — lets Google
+// Ads/Analytics measure WhatsApp orders, not just clicks.
+function trackLead(method, value, extra) {
+  if (typeof gtag !== 'function') return;
+  gtag('event', 'generate_lead', Object.assign({
+    method, currency: 'KES', value: value > 0 ? value : 0
+  }, extra || {}));
+}
+
 // Resolve image src: checks localStorage for admin-uploaded base64 image first
 function resolveImg(filename) {
   if (!filename) return 'sofa.jpg';
@@ -128,6 +138,7 @@ function cartCheckout() {
   const total = getCartTotal();
   if (total > 0) msg += `\n*Total: KSh ${total.toLocaleString()}*`;
   msg += '\n\nPlease confirm availability and delivery. Thank you!';
+  trackLead('whatsapp_cart', total, { num_items: cart.length });
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -328,6 +339,7 @@ function orderViaWA(id) {
   const p = PRODUCTS.find(x => x.id === id);
   if (!p) return;
   const msg = `Hello DVF! 🛒\n\nI'm interested in:\n*${p.name}*\n${p.price > 0 ? 'Price: KSh ' + p.price.toLocaleString() : 'Please quote price'}\n\nPlease confirm availability and delivery. Thank you!`;
+  trackLead('whatsapp_product', p.price, { item_id: p.id, item_name: p.name });
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 

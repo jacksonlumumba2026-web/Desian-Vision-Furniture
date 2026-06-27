@@ -257,6 +257,7 @@ function placeOrder() {
     total, status: 'Confirmed', payment: selectedPay
   });
   localStorage.setItem('dvf_orders', JSON.stringify(orders));
+  trackLead('checkout', total, { order_ref: ref, payment: selectedPay });
 
   if (selectedPay === 'wa') {
     let msg = `Hello DVF! 🛒 *New Order — ${ref}*\n\n`;
