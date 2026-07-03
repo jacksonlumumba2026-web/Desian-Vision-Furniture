@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 03/07/2026, 18:39:15
+   Updated: 03/07/2026, 18:41:24
    ===================================================== */
 
 const PRODUCTS = [
@@ -1811,6 +1811,38 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 65
+  },
+  {
+    "name": "Custom L-Shape Sofa — Premium Fabric",
+    "cat": "sofas",
+    "price": 80000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-268524.jpg"
+    ],
+    "desc": "Handcrafted premium sectional sofa made to order in Nairobi. Built with high-density foam for lasting comfort. Available in a wide range of fabric colors and custom sizes. Perfect for modern living rooms and lounge spaces. Free delivery and full assembly included within Nairobi.",
+    "colors": [
+      "Cream Beige",
+      "Charcoal Grey",
+      "Forest Green",
+      "Chocolate Brown",
+      "Navy Blue",
+      "Burgundy Red",
+      "Stone Grey",
+      "Caramel"
+    ],
+    "specs": {
+      "material": "Premium Fabric / Leather Options",
+      "seating": "5–7 Persons",
+      "dimensions": "Custom to your space",
+      "foam": "High-Density (D35)",
+      "frame": "Hardwood Reinforced",
+      "delivery": "7–14 Working Days"
+    },
+    "id": 66
   }
 ];
 
