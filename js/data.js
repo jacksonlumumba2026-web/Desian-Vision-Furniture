@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 04/07/2026, 19:38:18
+   Updated: 04/07/2026, 21:57:19
    ===================================================== */
 
 const PRODUCTS = [
@@ -2071,7 +2071,7 @@ const PRODUCTS = [
   {
     "name": "Modern 3+2 Sofa Combination",
     "cat": "sofas",
-    "price": 80,
+    "price": 80000,
     "oldPrice": 0,
     "rating": 5,
     "reviews": 12,
