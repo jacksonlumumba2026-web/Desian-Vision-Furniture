@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 04/07/2026, 21:57:19
+   Updated: 05/07/2026, 19:54:02
    ===================================================== */
 
 const PRODUCTS = [
@@ -2099,6 +2099,34 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 74
+  },
+  {
+    "name": "6-Seater Dining Table Set",
+    "cat": "dining",
+    "price": 95000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "New",
+    "imgs": [
+      "sofa-dvf-409523.jpg"
+    ],
+    "desc": "Elegant custom dining set handcrafted in Nairobi. Solid wood table with premium upholstered chairs. Perfect for family dining rooms and entertainment spaces. Available in 4, 6, and 8-seater configurations. Free delivery and assembly within Nairobi.",
+    "colors": [
+      "Walnut Brown",
+      "Mahogany",
+      "Natural Wood",
+      "White & Wood",
+      "Ebony Black"
+    ],
+    "specs": {
+      "material": "Solid Wood + Fabric Chairs",
+      "seating": "4–8 Persons (custom)",
+      "table": "Solid Hardwood Top",
+      "chairs": "Cushioned & Upholstered",
+      "delivery": "10–21 Working Days"
+    },
+    "id": 75
   }
 ];
 
