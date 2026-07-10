@@ -22,13 +22,19 @@
 })();
 
 // ===== CONVERSION TRACKING =====
-// Fires a GA4 lead event when a customer reaches out to order — lets Google
-// Ads/Analytics measure WhatsApp orders, not just clicks.
+// Fires both a GA4 lead event and a Google Ads conversion when a customer
+// reaches out to order, so ad spend is tied to real order intent.
 function trackLead(method, value, extra) {
   if (typeof gtag !== 'function') return;
+  const v = value > 0 ? value : 0;
   gtag('event', 'generate_lead', Object.assign({
-    method, currency: 'KES', value: value > 0 ? value : 0
+    method, currency: 'KES', value: v
   }, extra || {}));
+  gtag('event', 'conversion', {
+    send_to: 'AW-18234599579/ulWjCLjBs8wcEJvR9_ZD',
+    value: v,
+    currency: 'KES'
+  });
 }
 
 // Resolve image src: checks localStorage for admin-uploaded base64 image first
