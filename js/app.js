@@ -433,6 +433,7 @@ function initFloatingHelp() {
   btn.href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hello DVF! I'm not sure what I'm looking for — can you help me choose? 🙂")}`;
   btn.target = '_blank';
   btn.innerHTML = `<span class="floating-help-icon">💬</span><span class="floating-help-text">Need Help Choosing?</span>`;
+  btn.addEventListener('click', () => trackLead('whatsapp_help', 0, {}));
   document.body.appendChild(btn);
 }
 
