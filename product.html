@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product – Desian Vision Furniture</title>
+  <title>Custom Furniture Nairobi – Desian Vision Furniture</title>
+  <meta name="description" content="View custom furniture details — premium sofas, beds, dining sets and wardrobes handcrafted in Nairobi, Kenya.">
+  <link rel="canonical" href="https://desianvisionfurniture.co.ke/product.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Desian Vision Furniture">
+  <meta property="og:title" content="Custom Furniture Nairobi – Desian Vision Furniture">
+  <meta property="og:description" content="View custom furniture details — premium sofas, beds, dining sets and wardrobes handcrafted in Nairobi, Kenya.">
+  <meta property="og:url" content="https://desianvisionfurniture.co.ke/product.html">
+  <meta property="og:image" content="https://desianvisionfurniture.co.ke/logo.png">
+  <meta name="twitter:card" content="summary_large_image">
   <script>document.write('<link rel="stylesheet" href="css/style.css?t='+Date.now()+'">');</script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18234599579"></script>
@@ -294,7 +303,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   currentProd = p;
   lbImages = p.imgs;
-  document.title = p.name + ' – Desian Vision Furniture';
+  document.title = p.name + ' | Buy in Nairobi – Desian Vision Furniture';
+  const pdDesc = (p.desc || '').substring(0, 155) || 'Premium custom ' + p.name + ' handcrafted in Nairobi. Free delivery. Order via WhatsApp.';
+  const pdImg = p.imgs && p.imgs[0] ? 'https://desianvisionfurniture.co.ke/' + p.imgs[0] : 'https://desianvisionfurniture.co.ke/logo.png';
+  const setMeta = (sel, attr, val) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, val); };
+  setMeta('meta[name="description"]', 'content', pdDesc);
+  setMeta('meta[property="og:title"]', 'content', document.title);
+  setMeta('meta[property="og:description"]', 'content', pdDesc);
+  setMeta('meta[property="og:image"]', 'content', pdImg);
+  setMeta('link[rel="canonical"]', 'href', 'https://desianvisionfurniture.co.ke/product.html?id=' + p.id);
 
   document.getElementById('bcName').textContent = p.name;
   document.getElementById('pdCatName').textContent = (CATEGORIES.find(c => c.id === p.cat) || {name: p.cat}).name;
