@@ -1,6 +1,6 @@
 /* =====================================================
    Desian Vision Furniture (DVF) — Product Data
-   Updated: 17/07/2026, 17:27:54
+   Updated: 17/07/2026, 17:29:27
    ===================================================== */
 
 const PRODUCTS = [
@@ -2315,6 +2315,64 @@ const PRODUCTS = [
       "delivery": "7–14 Working Days"
     },
     "id": 81
+  },
+  {
+    "name": "Premium 3-Door Wardrobe",
+    "cat": "storage",
+    "price": 16500,
+    "oldPrice": 20000,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Today's Special",
+    "imgs": [
+      "sofa-dvf-483084.jpg"
+    ],
+    "desc": "Stylish and spacious wardrobe custom-built to fit your room. Features hanging space, shelves, and optional drawers. Multiple sizes and finishes available. Premium board materials for long-lasting durability. Free delivery and installation within Nairobi.",
+    "colors": [
+      "Walnut Brown",
+      "White",
+      "Grey & White",
+      "Natural Oak",
+      "Mahogany",
+      "Matte Black"
+    ],
+    "specs": {
+      "material": "Premium MDF / Melamine Board",
+      "doors": "Sliding or Hinged (custom)",
+      "interior": "Hanging Rail + Shelves + Drawers",
+      "finish": "High Gloss or Matte",
+      "delivery": "10–21 Working Days"
+    },
+    "id": 82
+  },
+  {
+    "name": "Built-In Sliding Door Wardrobe",
+    "cat": "storage",
+    "price": 12000,
+    "oldPrice": 0,
+    "rating": 5,
+    "reviews": 12,
+    "badge": "Limited",
+    "imgs": [
+      "sofa-dvf-536679.jpg"
+    ],
+    "desc": "Stylish and spacious wardrobe custom-built to fit your room. Features hanging space, shelves, and optional drawers. Multiple sizes and finishes available. Premium board materials for long-lasting durability. Free delivery and installation within Nairobi.",
+    "colors": [
+      "Walnut Brown",
+      "White",
+      "Grey & White",
+      "Natural Oak",
+      "Mahogany",
+      "Matte Black"
+    ],
+    "specs": {
+      "material": "Premium MDF / Melamine Board",
+      "doors": "Sliding or Hinged (custom)",
+      "interior": "Hanging Rail + Shelves + Drawers",
+      "finish": "High Gloss or Matte",
+      "delivery": "10–21 Working Days"
+    },
+    "id": 83
   }
 ];
 
